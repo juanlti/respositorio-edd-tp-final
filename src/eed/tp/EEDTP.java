@@ -20,6 +20,9 @@ public class EEDTP {
 
         app.cargarInicialDesdeArchivo("file.txt");
         System.out.println("nueva rama ");
+        System.out.println("nuevo codigo");
+        
+        System.out.println("otro codigo mas");
         app.comenzar();
     }
 
