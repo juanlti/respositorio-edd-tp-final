@@ -696,4 +696,34 @@ public class Grafo {
         return null; // Llegamos al origen (no tiene padre)
     }
 
+    public String obtenerCaminosConMenosKm(Estacion origen, Estacion destino) {
+        String resultado = "";
+        Lista caminoFinal = new Lista();
+        Cola cola = new Cola();
+        Lista visitados = new Lista();
+        Lista tablaPadres = new Lista(); // Guardará objetos Parentesco
+        NodoVert nodoOrigen = ubicarVertice(origen); // Método que ya debes tener
+        resultado = resultado + origen.getNombre();
+        // cola.poner(nodoOrigen);
+        //  visitados.insertar(origen.getNombre(), visitados.longitud() + 1);
+
+        while (nodoOrigen != null) {
+            Estacion auxEstacion = (Estacion) nodoOrigen.getEstacion();
+            if (auxEstacion.getNombre().equalsIgnoreCase(destino.getNombre())) {
+                resultado = resultado + destino.getNombre();
+            } else {
+                NodoAdy primerAdy = nodoOrigen.getPrimerRiel();
+                System.out.println(" ady " + primerAdy.getEtiqueta());
+
+                nodoOrigen = primerAdy.getVertice();
+
+            }
+
+            resultado = resultado + auxEstacion;
+
+        }
+        return resultado;
+
+    }
+
 }

@@ -19,10 +19,7 @@ public class EEDTP {
         Scanner sc = new Scanner(System.in);
 
         app.cargarInicialDesdeArchivo("file.txt");
-        System.out.println("nueva rama ");
-        System.out.println("nuevo codigo");
-        
-        System.out.println("otro codigo mas");
+
         app.comenzar();
     }
 
