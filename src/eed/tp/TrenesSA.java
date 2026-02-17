@@ -171,7 +171,7 @@ public class TrenesSA {
         // System.out.println("fin");
         // red.caminoConMenosEstaciones((Object) responseOrigen[1],(Object) responseDestino[1]);
         System.out.println("Camino con menos km de  Tierra del Fuego a Retiro");
-        System.out.println(red.obtenerCaminosConMenosKm((Estacion) responseOrigen[1], (Estacion) responseDestino[1]));
+        System.out.println("Lista resultante " + red.obtenerCaminoMasCorto((Estacion) responseOrigen[1], (Estacion) responseDestino[1]));
 
     }
 
