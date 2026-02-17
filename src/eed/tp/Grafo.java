@@ -15,6 +15,8 @@ public class Grafo {
 
     private NodoVert inicio;
     private int cantidadVertices;
+    private double minimoKmsGlobal;  // Guardará la distancia del mejor camino encontrado
+    private Lista caminoMasCorto;
 
     public Grafo() {
         this.inicio = null;
@@ -695,5 +697,104 @@ public class Grafo {
         }
         return null; // Llegamos al origen (no tiene padre)
     }
+
+    public String obtenerCaminosConMenosKm(Estacion origen, Estacion destino) {
+        String resultado = "";
+        Lista caminoFinal = new Lista();
+        Cola cola = new Cola();
+        Lista visitados = new Lista();
+        Lista tablaPadres = new Lista(); // Guardará objetos Parentesco
+        NodoVert nodoOrigen = ubicarVertice(origen); // Método que ya debes tener
+        resultado = resultado + origen.getNombre();
+        // cola.poner(nodoOrigen);
+        //  visitados.insertar(origen.getNombre(), visitados.longitud() + 1);
+
+        while (nodoOrigen != null) {
+            Estacion auxEstacion = (Estacion) nodoOrigen.getEstacion();
+            if (auxEstacion.getNombre().equalsIgnoreCase(destino.getNombre())) {
+                resultado = resultado + destino.getNombre();
+            } else {
+                NodoAdy primerAdy = nodoOrigen.getPrimerRiel();
+                System.out.println(" ady " + primerAdy.getEtiqueta());
+
+                nodoOrigen = primerAdy.getVertice();
+
+            }
+
+            resultado = resultado + auxEstacion;
+
+        }
+        return resultado;
+
+    }
+
+    public Lista obtenerCaminoMasCorto(Estacion origen, Estacion destino) {
+        NodoVert verificamosEstacionPartida = ubicarVertice(origen);
+
+        if (verificamosEstacionPartida != null) {
+            // CORRECCIÓN 1: Reiniciar el mínimo a "Infinito"
+            this.minimoKmsGlobal = Double.MAX_VALUE;
+
+            // CORRECCIÓN 2: Crear una lista NUEVA para los visitados
+            // No pases 'this.caminoMasCorto' aquí, porque se borrará al final.
+            Lista visitadosAux = new Lista();
+
+            buscarCaminoMinimoAux(verificamosEstacionPartida, destino, 0, visitadosAux);
+        }
+
+        // Devolvemos la variable global que se actualizó adentro
+        return this.caminoMasCorto;
+    }
+
+    private void buscarCaminoMinimoAux(NodoVert partida, Estacion destino, double kmAcumulados, Lista visitados) {
+
+   
+        if (kmAcumulados > this.minimoKmsGlobal) {
+            return;
+        }
+
+        Estacion estacionActual = (Estacion) partida.getEstacion();
+
+
+        visitados.insertar(estacionActual.getNombre(), visitados.longitud() + 1);
+
+        // 2. CASO BASE: ÉXITO
+        if (estacionActual.getNombre().equalsIgnoreCase(destino.getNombre())) {
+
+            if (kmAcumulados < this.minimoKmsGlobal) {
+                this.minimoKmsGlobal = kmAcumulados;
+
+                // CLONAMOS la lista actual que ya incluye el destino
+                this.caminoMasCorto = visitados.clone();
+
+                System.out.println("Nuevo récord: " + kmAcumulados + " km");
+            }
+
+            // !!! IMPORTANTE: Antes de volver del éxito, hay que desmarcar (Backtracking)
+            // Si no hacemos esto, este nodo queda bloqueado para otros caminos.
+            visitados.eliminar(visitados.longitud());
+            return;
+        }
+
+        // 3. RECORRER VECINOS
+        NodoAdy vecinoRiel = partida.getPrimerRiel();
+
+        while (vecinoRiel != null) {
+            NodoVert nodoVecino = vecinoRiel.getVertice();
+            Riel objRiel = (Riel) vecinoRiel.getEtiqueta();
+            double distanciaRiel = objRiel.getDistanciaKm();
+            Estacion estVecina = (Estacion) nodoVecino.getEstacion();
+
+            if (visitados.localizar(estVecina.getNombre()) < 0) {
+                buscarCaminoMinimoAux(nodoVecino, destino, kmAcumulados + distanciaRiel, visitados);
+            }
+
+            vecinoRiel = vecinoRiel.getSigRiel(); // Avanzar
+        }
+
+        // 4. BACKTRACKING (Desmarcar al salir)
+        visitados.eliminar(visitados.longitud());
+    }
+
 
 }

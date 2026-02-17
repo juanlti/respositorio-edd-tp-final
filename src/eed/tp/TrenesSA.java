@@ -114,7 +114,7 @@ public class TrenesSA {
                     + "2) OBTENER TODOS LOS ADYACENTES \n"
                     + "3) OBTENER EL CAMINO MAS CORTO \n"
                     + "4)OBTENER EL CAMINO MAS CORTO ENTRE DOS ESTACIONES\n"
-                    + "5) Buscar por código\n"
+                    + "5) OBTENER EL CAMINO CON MENOS KM ENTRE DOS ESTACIONES\n"
                     + "6) Buscar destino del tren\n"
                     + "0) Volver\n"
                     + "Opción: "
@@ -135,7 +135,7 @@ public class TrenesSA {
                     caminoConMenosEstaciones();
                     break;
                 case "5":
-                    buscarTren(in);
+                    obtenerCaminosConMenosKm();
                     break;
                 case "6":
                     buscarDestino(in);
@@ -147,6 +147,32 @@ public class TrenesSA {
                     System.out.println("Opción inválida.");
             }
         }
+    }
+
+    private void obtenerCaminosConMenosKm() {
+
+        Object[] responseOrigen = estaciones.buscar(8);
+        if (responseOrigen[0] instanceof Boolean) {
+            if (!(Boolean) responseOrigen[0]) {
+                System.out.println("✗ Ya existe una estacion con código " + "Tierra del Fuego");
+                return;
+            }
+        }
+
+        Object[] responseDestino = estaciones.buscar(2);
+
+        if (responseDestino[0] instanceof Boolean) {
+            if (!(Boolean) responseDestino[0]) {
+                System.out.println("✗ Ya existe una estacion con código " + "Retiro");
+                return;
+            }
+        }
+        // System.out.println("estacion partida " + responseOrigen[1]);
+        // System.out.println("fin");
+        // red.caminoConMenosEstaciones((Object) responseOrigen[1],(Object) responseDestino[1]);
+        System.out.println("Camino con menos km de  Tierra del Fuego a Retiro");
+        System.out.println("Lista resultante " + red.obtenerCaminoMasCorto((Estacion) responseOrigen[1], (Estacion) responseDestino[1]));
+
     }
 
     private void caminoConMenosEstaciones() {
