@@ -4,6 +4,7 @@ import eed.tp.Cola;
 import eed.tp.Lista;
 import eed.tp.NodoAdy;
 import eed.tp.NodoVert;
+import java.util.ArrayList;
 
 /**
  * ↑: Alt+24 para flecha arriba. ↓: Alt+25 para flecha abajo. →: Alt+26 para
@@ -17,10 +18,13 @@ public class Grafo {
     private int cantidadVertices;
     private double minimoKmsGlobal;  // Guardará la distancia del mejor camino encontrado
     private Lista caminoMasCorto;
+    private final ArrayList<Lista> todosLosCaminos;
 
     public Grafo() {
         this.inicio = null;
         this.cantidadVertices = 0;
+        this.todosLosCaminos = new ArrayList<>();
+
     }
 
     public boolean insertarVertice(Estacion x) {
@@ -738,63 +742,108 @@ public class Grafo {
             // CORRECCIÓN 2: Crear una lista NUEVA para los visitados
             // No pases 'this.caminoMasCorto' aquí, porque se borrará al final.
             Lista visitadosAux = new Lista();
-
-            buscarCaminoMinimoAux(verificamosEstacionPartida, destino, 0, visitadosAux);
+            System.out.println("los adyacentes de " + verificamosEstacionPartida);
+            buscarCaminoMinimoAuxv(verificamosEstacionPartida, destino, 0, visitadosAux);
         }
 
         // Devolvemos la variable global que se actualizó adentro
         return this.caminoMasCorto;
     }
 
-    private void buscarCaminoMinimoAux(NodoVert partida, Estacion destino, double kmAcumulados, Lista visitados) {
+    private void buscarCaminoMinimoAuxv(NodoVert partida, Estacion destino, double kmAcumulados, Lista visitados) {
 
-   
-        if (kmAcumulados > this.minimoKmsGlobal) {
+        Estacion estacionEntrante = (Estacion) partida.getEstacion();
+        System.out.println("son: " + estacionEntrante.getNombre());
+        visitados.insertar(estacionEntrante.getNombre(), visitados.longitud() + 1);
+
+        if (estacionEntrante.getNombre().equalsIgnoreCase(destino.getNombre())) {
+            // camino encontrado
+            this.caminoMasCorto = visitados.clone();
+            this.minimoKmsGlobal = kmAcumulados;
+
             return;
         }
 
-        Estacion estacionActual = (Estacion) partida.getEstacion();
+        NodoAdy rielVecino = partida.getPrimerRiel();
 
+        while (rielVecino != null) {
+            Riel riel = (Riel) rielVecino.getEtiqueta();
+            NodoVert vecino = rielVecino.getVertice();
+            Estacion vecinoEstacion = (Estacion) vecino.getEstacion();
 
-        visitados.insertar(estacionActual.getNombre(), visitados.longitud() + 1);
+            if (visitados.localizar(vecinoEstacion.getNombre()) < 0) {
+                buscarCaminoMinimoAuxv(vecino, destino, kmAcumulados + riel.getDistanciaKm(), visitados);
 
-        // 2. CASO BASE: ÉXITO
-        if (estacionActual.getNombre().equalsIgnoreCase(destino.getNombre())) {
-
-            if (kmAcumulados < this.minimoKmsGlobal) {
-                this.minimoKmsGlobal = kmAcumulados;
-
-                // CLONAMOS la lista actual que ya incluye el destino
-                this.caminoMasCorto = visitados.clone();
-
-                System.out.println("Nuevo récord: " + kmAcumulados + " km");
             }
-
-            // !!! IMPORTANTE: Antes de volver del éxito, hay que desmarcar (Backtracking)
-            // Si no hacemos esto, este nodo queda bloqueado para otros caminos.
-            visitados.eliminar(visitados.longitud());
-            return;
         }
 
-        // 3. RECORRER VECINOS
-        NodoAdy vecinoRiel = partida.getPrimerRiel();
-
-        while (vecinoRiel != null) {
-            NodoVert nodoVecino = vecinoRiel.getVertice();
-            Riel objRiel = (Riel) vecinoRiel.getEtiqueta();
-            double distanciaRiel = objRiel.getDistanciaKm();
-            Estacion estVecina = (Estacion) nodoVecino.getEstacion();
-
-            if (visitados.localizar(estVecina.getNombre()) < 0) {
-                buscarCaminoMinimoAux(nodoVecino, destino, kmAcumulados + distanciaRiel, visitados);
-            }
-
-            vecinoRiel = vecinoRiel.getSigRiel(); // Avanzar
-        }
-
-        // 4. BACKTRACKING (Desmarcar al salir)
-        visitados.eliminar(visitados.longitud());
     }
 
+    public void obtenerTodosLosCaminosIgnorandoUnaEstacion(Estacion origen, Estacion destino, Estacion ignorarEstacion) {
 
+        Lista visitados = new Lista();
+        Lista caminoActual = new Lista(); // Guardará objetos Parentesco
+        //visitados.insertar(ignorarEstacion.getNombre(), visitados.longitud() + 1);
+
+        NodoVert nodoOrigen = ubicarVertice(origen); // Método que ya debes tener
+        boolean resultado = false;
+
+        resultado = obtenerTodosLosCaminosIgnorandoUnaEstacionAux(nodoOrigen, destino, visitados, caminoActual, ignorarEstacion, origen);
+
+        System.out.println("resultado " + resultado + " el camino encontrado es " + this.todosLosCaminos.toString());
+
+    }
+
+    private boolean obtenerTodosLosCaminosIgnorandoUnaEstacionAux(NodoVert actual, Estacion destino, Lista visitados, Lista caminoActual, Estacion ignorarEstacion, Estacion estacionInicial) {
+        boolean encontrado = false;
+        if (actual != null) {
+
+            Estacion estacion = (Estacion) actual.getEstacion();
+            if (estacion.getNombre().equalsIgnoreCase(ignorarEstacion.getNombre())) {
+                return encontrado;
+            }
+
+            if (visitados.localizar(estacion.getNombre()) > 0) {
+
+                return encontrado;
+
+            } else {
+
+                visitados.insertar(estacion.getNombre(), visitados.longitud() + 1);
+                caminoActual.insertar(estacion.getNombre(), caminoActual.longitud() + 1);
+
+                if (estacion.getNombre().equalsIgnoreCase(destino.getNombre())) {
+
+                    this.todosLosCaminos.add(caminoActual.clone());
+
+                    encontrado = true;
+
+                    visitados.eliminar(1);
+                    visitados.eliminar(visitados.longitud());
+
+                    caminoActual.vaciar();
+
+                } else {
+
+                    NodoAdy vecino = actual.getPrimerRiel();
+
+                    while (vecino != null) {
+                        encontrado = obtenerTodosLosCaminosIgnorandoUnaEstacionAux(vecino.getVertice(), destino, visitados, caminoActual, ignorarEstacion, estacionInicial);
+
+                        Estacion estacionVecino = (Estacion) vecino.getVertice().getEstacion();
+
+                        vecino = vecino.getSigRiel();
+                    }
+                    if (vecino == null) {
+                        caminoActual.eliminarApareciones(estacion.getNombre());
+
+                    }
+
+                }
+
+            }
+
+        }
+        return encontrado;
+    }
 }

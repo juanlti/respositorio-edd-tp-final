@@ -215,7 +215,6 @@ public class Lista {
     public void eliminarApareciones(Object x) {
         int i = 1;
         Nodo n = this.cabecera;
-
         while (n != null) {
 
             if (i == 1 && n.getElem().equals(x)) {
@@ -223,7 +222,7 @@ public class Lista {
                 this.longitud--;
 
             } else {
-                if (n.getEnlace().getElem().equals(x)) {
+                if (n.getEnlace()!=null && n.getEnlace().getElem().equals(x)) {
                     n.setEnlace(n.getEnlace().getEnlace());
                     this.longitud--;
                 }

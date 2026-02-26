@@ -115,7 +115,7 @@ public class TrenesSA {
                     + "3) OBTENER EL CAMINO MAS CORTO \n"
                     + "4)OBTENER EL CAMINO MAS CORTO ENTRE DOS ESTACIONES\n"
                     + "5) OBTENER EL CAMINO CON MENOS KM ENTRE DOS ESTACIONES\n"
-                    + "6) Buscar destino del tren\n"
+                    + "6) OBTENER TODOS LOS CAMNINOS ENTRE ESTACIONES MENOS UNA ESTACION DADA\n"
                     + "0) Volver\n"
                     + "Opción: "
             );
@@ -138,7 +138,7 @@ public class TrenesSA {
                     obtenerCaminosConMenosKm();
                     break;
                 case "6":
-                    buscarDestino(in);
+                    obtenerTodosLosCaminosMenosUnaEstacion();
                     break;
                 case "0":
                     volver = true;
@@ -147,6 +147,41 @@ public class TrenesSA {
                     System.out.println("Opción inválida.");
             }
         }
+    }
+
+    private void obtenerTodosLosCaminosMenosUnaEstacion() {
+
+        Object[] responseOrigen = estaciones.buscar(8);
+        if (responseOrigen[0] instanceof Boolean) {
+            if (!(Boolean) responseOrigen[0]) {
+                System.out.println("✗ Ya existe una estacion con código " + "Tierra del Fuego");
+                return;
+            }
+        }
+
+        Object[] responseDestino = estaciones.buscar(2);
+
+        if (responseDestino[0] instanceof Boolean) {
+            if (!(Boolean) responseDestino[0]) {
+                System.out.println("✗ Ya existe una estacion con código " + "Retiro");
+                return;
+            }
+        }
+        Object[] responseIgnorarEstacion = estaciones.buscar(4);
+
+        if (responseIgnorarEstacion[0] instanceof Boolean) {
+            if (!(Boolean) responseIgnorarEstacion[0]) {
+                System.out.println("✗ Ya existe una estacion con código " + "Canuelas");
+                return;
+            }
+        }
+        // System.out.println("estacion partida " + responseOrigen[1]);
+        // System.out.println("fin");
+        // red.caminoConMenosEstaciones((Object) responseOrigen[1],(Object) responseDestino[1]);
+        System.out.println("Camino Tierra del Fuego a Retiro menos la estacion Canuelas");
+        // System.out.println("Lista resultante " + red.obtenerTodosLosCaminosIgnorandoUnaEstacion((Estacion) responseOrigen[1], (Estacion) responseDestino[1],(Estacion) responseIgnorarEstacion[1]));
+        red.obtenerTodosLosCaminosIgnorandoUnaEstacion((Estacion) responseOrigen[1], (Estacion) responseDestino[1], (Estacion) responseIgnorarEstacion[1]);
+
     }
 
     private void obtenerCaminosConMenosKm() {
