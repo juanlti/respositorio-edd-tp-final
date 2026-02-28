@@ -908,4 +908,38 @@ public class Grafo {
 
         return encontrado;
     }
+
+    public void mostrarEstructura() {
+        NodoVert aux = this.inicio;
+
+        if (aux == null) {
+            System.out.println("El grafo está vacío.");
+            return;
+        }
+
+        // Recorremos la lista de vértices
+        while (aux != null) {
+            // Asumiendo que guardas un objeto con método toString o usas getEstacion()
+            System.out.print("Vértice [" + aux.getEstacion().toString() + "] conecta con: ");
+
+            NodoAdy ady = aux.getPrimerRiel();
+
+            if (ady == null) {
+                System.out.print("Ninguna estación (Sin salidas).");
+            } else {
+                // Recorremos la lista de adyacencia (rieles) del vértice actual
+                while (ady != null) {
+                    // Obtenemos el nombre del destino y el peso (kilómetros) del riel
+                    String destino = ady.getVertice().getEstacion().toString();
+                    Riel riel = (Riel) ady.getEtiqueta();
+
+                    System.out.print(" -> (" + riel.getDistanciaKm() + "km) [" + destino + "] ");
+
+                    ady = ady.getSigRiel();
+                }
+            }
+            System.out.println(); // Salto de línea para pasar al siguiente vértice principal
+            aux = aux.getSigEstacion();
+        }
+    }
 }
