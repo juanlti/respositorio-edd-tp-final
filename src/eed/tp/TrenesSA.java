@@ -102,6 +102,38 @@ public class TrenesSA {
         );
     }
 
+    public void mostrarSistema() {
+        System.out.println("=================================================");
+        System.out.println("          ESTADO ACTUAL DEL SISTEMA              ");
+        System.out.println("=================================================");
+
+        System.out.println("\n--- 1. ÁRBOL AVL DE TRENES ---");
+        // Llama al método que te pasé antes (asegúrate de haberlo creado dentro de tu clase AVL)
+        this.trenes.mostrarEstructura();
+
+        System.out.println("\n--- 2. ÁRBOL AVL DE ESTACIONES ---");
+        this.estaciones.mostrarEstructura();
+
+        System.out.println("\n--- 3. MAPEO DE LÍNEAS (HashMap) ---");
+        // Como es de java.util, mostramos sus "tripas" iterando sobre sus entradas (Entry)
+        if (this.lineas.isEmpty()) {
+            System.out.println("El mapeo de líneas está vacío.");
+        } else {
+            System.out.println("Capacidad actual (elementos): " + this.lineas.size());
+            for (java.util.Map.Entry<String, Linea> entrada : this.lineas.entrySet()) {
+                System.out.println("Clave (Key): [" + entrada.getKey() + "] -> Valor (Value): " + entrada.getValue().toString());
+                // Nota: Asegúrate de que tu clase Linea tenga un buen método toString() 
+                // para que se vea bien la información del valor.
+            }
+        }
+
+        System.out.println("\n--- 4. ESTRUCTURA DE LA RED (GRAFO) ---");
+        // Llama al método que te pasé antes (asegúrate de haberlo creado dentro de tu clase Grafo)
+        this.red.mostrarEstructura();
+
+        System.out.println("\n=================================================");
+    }
+
     // =========================
     // ===== TEST BORRAR ======
     // =========================
@@ -173,7 +205,7 @@ public class TrenesSA {
         }
 
         boolean resultado = red.verificarCaminoConUnaCantidadMaximaDeKm((Estacion) responseOrigen[1], (Estacion) responseDestino[1], 350);
-        System.out.println("Camino existente :" + resultado +" con una cantidad maxima de km "+1000);
+        System.out.println("Camino existente :" + resultado + " con una cantidad maxima de km " + 1000);
 
     }
 
@@ -986,10 +1018,6 @@ public class TrenesSA {
 
     private void consultasViajes(Scanner sc) {
         System.out.println("[TODO] Consultas de Viajes (acá va BFS/DFS/Dijkstra con rieles).");
-    }
-
-    private void mostrarSistema() {
-        System.out.println("[TODO] Mostrar sistema...");
     }
 
     private String leerNoVacio(Scanner in, String prompt) {
