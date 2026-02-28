@@ -414,5 +414,33 @@ public class AVL {
         return new Object[]{pertenece, elementoEncontrado};
 
     }
+    
+    // Método público que llamas desde afuera
+    public void mostrarEstructura() {
+        if (this.raiz == null) {
+            System.out.println("El árbol AVL está vacío.");
+        } else {
+            mostrarEstructuraAux(this.raiz, "");
+        }
+    }
+
+    // Método privado recursivo
+    private void mostrarEstructuraAux(NodoAVL nodo, String prefijo) {
+        if (nodo != null) {
+            // Obtenemos los valores de los hijos. Si es null, mostramos "-"
+            String valorIzq = (nodo.getIzquierdo() != null) ? nodo.getIzquierdo().getElemento().toString() : "-";
+            String valorDer = (nodo.getDerecho() != null) ? nodo.getDerecho().getElemento().toString() : "-";
+            
+            // Imprimimos la información estructural del nodo actual
+            System.out.println(prefijo + "Nodo: [" + nodo.getElemento().toString() + "] " + 
+                               "| Altura: " + nodo.getAltura() + 
+                               " | Hijo Izq: " + valorIzq + 
+                               " | Hijo Der: " + valorDer);
+            
+            // Llamadas recursivas aumentando el prefijo para simular los niveles del árbol
+            mostrarEstructuraAux(nodo.getIzquierdo(), prefijo + "    ");
+            mostrarEstructuraAux(nodo.getDerecho(), prefijo + "    ");
+        }
+    }
 
 }
