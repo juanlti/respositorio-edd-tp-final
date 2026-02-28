@@ -116,6 +116,7 @@ public class TrenesSA {
                     + "4)OBTENER EL CAMINO MAS CORTO ENTRE DOS ESTACIONES\n"
                     + "5) OBTENER EL CAMINO CON MENOS KM ENTRE DOS ESTACIONES\n"
                     + "6) OBTENER TODOS LOS CAMNINOS ENTRE ESTACIONES MENOS UNA ESTACION DADA\n"
+                    + "7) VERIFICAR LA EXISTENCIA DE UN CAMINO CON UNA CANTIDAD DE KM DADA\n"
                     + "0) Volver\n"
                     + "Opción: "
             );
@@ -140,6 +141,9 @@ public class TrenesSA {
                 case "6":
                     obtenerTodosLosCaminosMenosUnaEstacion();
                     break;
+                case "7":
+                    verificarLaExistenciaDeUnCaminoEntreDosEstacionesConUnLimiteMaximoEnKm();
+                    break;
                 case "0":
                     volver = true;
                     break;
@@ -147,6 +151,30 @@ public class TrenesSA {
                     System.out.println("Opción inválida.");
             }
         }
+    }
+
+    private void verificarLaExistenciaDeUnCaminoEntreDosEstacionesConUnLimiteMaximoEnKm() {
+
+        Object[] responseOrigen = estaciones.buscar(8);
+        if (responseOrigen[0] instanceof Boolean) {
+            if (!(Boolean) responseOrigen[0]) {
+                System.out.println("✗ Ya existe una estacion con código " + "Tierra del Fuego");
+                return;
+            }
+        }
+
+        Object[] responseDestino = estaciones.buscar(2);
+
+        if (responseDestino[0] instanceof Boolean) {
+            if (!(Boolean) responseDestino[0]) {
+                System.out.println("✗ Ya existe una estacion con código " + "Retiro");
+                return;
+            }
+        }
+
+        boolean resultado = red.verificarCaminoConUnaCantidadMaximaDeKm((Estacion) responseOrigen[1], (Estacion) responseDestino[1], 350);
+        System.out.println("Camino existente :" + resultado +" con una cantidad maxima de km "+1000);
+
     }
 
     private void obtenerTodosLosCaminosMenosUnaEstacion() {
