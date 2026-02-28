@@ -847,73 +847,65 @@ public class Grafo {
         return encontrado;
     }
 
-    public void verificarCaminoConUnaCantidadMaximaDeKm(Estacion origen, Estacion destino, int km) {
+    public boolean verificarCaminoConUnaCantidadMaximaDeKm(Estacion origen, Estacion destino, int km) {
 
         Lista visitados = new Lista();
         Lista caminoActual = new Lista(); // Guardará objetos Parentesco
         //visitados.insertar(ignorarEstacion.getNombre(), visitados.longitud() + 1);
 
         NodoVert nodoOrigen = ubicarVertice(origen); // Método que ya debes tener
-        int resultado =0;
 
-        resultado = verificarCaminoConUnaCantidadMaximaDeKmAux(nodoOrigen, destino, visitados, caminoActual, km, 0, origen);
-        System.out.println("Existe camino de la estacion :" + origen.getNombre() + " a la estacion " + destino.getNombre() + " con un limite de km " + km);
-        System.out.println("resultado " + resultado + " el camino encontrado es " + this.todosLosCaminos.toString());
+        boolean resultado = verificarCaminoConUnaCantidadMaximaDeKmAuxV(nodoOrigen, destino, visitados, caminoActual, km, 0);
+
+        return resultado;
 
     }
 
-    private int verificarCaminoConUnaCantidadMaximaDeKmAux(NodoVert actual, Estacion destino, Lista visitados, Lista caminoActual, int distanciaMaximaEnKm, int distanciaAcumulada, Estacion estacionInicial) {
-        int encontrado = 0;
+    private boolean verificarCaminoConUnaCantidadMaximaDeKmAuxV(NodoVert actual, Estacion destino, Lista visitados, Lista caminoActual, int distanciaMaximaEnKm, int distanciaAcumulada) {
+        if (actual == null) {
+            return false;
+        }
 
-        if (actual != null) {
+        Estacion estacion = (Estacion) actual.getEstacion();
 
-            Estacion estacion = (Estacion) actual.getEstacion();
-            System.out.println("visittante " + estacion.getNombre());
-            if (distanciaAcumulada > distanciaMaximaEnKm || visitados.localizar(estacion.getNombre()) > 0) {
-                return encontrado;
-
-            } else {
-                System.out.println("entrante " + estacion.getNombre());
-                visitados.insertar(estacion.getNombre(), visitados.longitud() + 1);
+        // 1. CASO BASE: ¿Llegamos al destino?
+        if (estacion.getNombre().equalsIgnoreCase(destino.getNombre())) {
+            if (distanciaAcumulada <= distanciaMaximaEnKm) {
                 caminoActual.insertar(estacion.getNombre(), caminoActual.longitud() + 1);
 
-                if (estacion.getNombre().equalsIgnoreCase(destino.getNombre())) {
-                    
-                    //  this.todosLosCaminos.add(caminoActual.clone());
-                    System.out.println("ultima estacion " + estacion.getNombre() + " cant km totales " + distanciaAcumulada);
-                    
-                    encontrado = distanciaAcumulada;
-
-                    //   visitados.eliminar(1);
-                    // visitados.eliminar(visitados.longitud());
-                    //caminoActual.vaciar();
-                } else {
-
-                    NodoAdy vecino = actual.getPrimerRiel();
-
-                    Riel vecinoRiel = (Riel) vecino.getSigRiel().getEtiqueta();
-
-                    while (vecino != null) {
-                        System.out.println("datos riel" + vecinoRiel.toString() +"valor total de " + distanciaAcumulada + " con el vecino " + actual + " km del vecino " + vecinoRiel.getDistanciaKm());
-                        encontrado = verificarCaminoConUnaCantidadMaximaDeKmAux(vecino.getVertice(), destino, visitados, caminoActual, distanciaMaximaEnKm,encontrado+vecinoRiel.getDistanciaKm(), estacionInicial);
-                        System.out.println("valor encontrado " + encontrado);
-                        Estacion estacionVecino = (Estacion) vecino.getVertice().getEstacion();
-
-                        vecino = vecino.getSigRiel();
-                    }
-                    if (vecino == null) {
-                       
-                        encontrado = encontrado - vecinoRiel.getDistanciaKm();
-                        caminoActual.eliminarApareciones(estacion.getNombre());
-
-                    }
-
-                }
-
+                return true;
             }
-
+            return false;
         }
-        return encontrado;
 
+        // 2. FILTROS: Si nos pasamos de km o ya lo visitamos, abortamos esta rama
+        if (distanciaAcumulada > distanciaMaximaEnKm || visitados.localizar(estacion.getNombre()) > 0) {
+            return false;
+        }
+
+        // 3. REGISTRO: Marcamos como visitado y agregamos al camino
+        visitados.insertar(estacion.getNombre(), visitados.longitud() + 1);
+        caminoActual.insertar(estacion.getNombre(), caminoActual.longitud() + 1);
+
+        // 4. RECURSIÓN: Explorar vecinos
+        boolean encontrado = false;
+        NodoAdy ady = actual.getPrimerRiel();
+
+        while (ady != null && !encontrado) {
+            Riel riel = (Riel) ady.getEtiqueta();
+
+            // IMPORTANTE: Pasamos la suma directamente en el argumento. 
+            encontrado = verificarCaminoConUnaCantidadMaximaDeKmAuxV(ady.getVertice(), destino, visitados, caminoActual, distanciaMaximaEnKm, distanciaAcumulada + riel.getDistanciaKm());
+
+            ady = ady.getSigRiel();
+        }
+
+        // 5. BACKTRACKING: Si no se encontró por este camino, limpiamos para probar otras rutas
+        if (!encontrado) {
+            visitados.eliminar(visitados.localizar(estacion.getNombre()));
+            caminoActual.eliminar(caminoActual.longitud());
+        }
+
+        return encontrado;
     }
 }
