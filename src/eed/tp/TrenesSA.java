@@ -12,20 +12,20 @@ import java.util.TreeMap;
 
 public class TrenesSA {
 
-    // ===== Estructuras =====
-    private final AVL trenes = new AVL(); // TERMINADO Y REVISADO
-    private final AVL estaciones = new AVL(); // TERMINADO Y REVISADO
+    // ===== INICIO GRUPO: ESTRUCTURAS =====
+    private final AVL trenes = new AVL();
+    private final AVL estaciones = new AVL();
     private final java.util.HashMap<String, Linea> lineas = new java.util.HashMap<>();
-    private final Grafo red = new Grafo(); // TERMINADO Y REVISADO
+    private final Grafo red = new Grafo();
+    // ===== FIN GRUPO: ESTRUCTURAS =====
 
-    // ===== Programa =====
+    // ===== INICIO GRUPO: SISTEMA Y MENÚ PRINCIPAL =====
     public void comenzar() {
         Scanner sc = new Scanner(System.in);
         boolean salir = false;
 
         while (!salir) {
             imprimirMenu();
-
             String linea = sc.nextLine().trim();
             int opc;
             try {
@@ -44,7 +44,8 @@ public class TrenesSA {
     public boolean procesarOpcion(int opc, Scanner sc) {
         switch (opc) {
             case 1:
-                cargarInicial(sc); // TODO (StringTokenizer)
+                cargarInicial(sc);
+                // TODO (StringTokenizer)
                 break;
             case 2:
                 abmTrenes(sc);
@@ -59,19 +60,16 @@ public class TrenesSA {
                 abmRieles(sc);
                 break;
             case 6:
-                menuConsultas(sc); // ✅ ahora sí se usa
+                consultaTrenes(sc);
                 break;
             case 7:
-                consultasEstaciones(sc); // TODO
+                consultasEstaciones(sc);
                 break;
             case 8:
-                consultasViajes(sc); // TODO
+                consultasViajes(sc);
                 break;
             case 9:
-                mostrarSistema(); // TODO
-                break;
-            case 10:
-                test(sc); // TODO
+                mostrarSistema();
                 break;
             case 0:
                 System.out.println("Saliendo...");
@@ -95,7 +93,6 @@ public class TrenesSA {
                 + "7) Consultas de Estaciones\n"
                 + "8) Consultas de Viajes\n"
                 + "9) Mostrar sistema\n"
-                + "10) Mostrar Test\n"
                 + "0) Salir\n"
                 + "------------------------------------------------\n"
                 + "Opción: "
@@ -108,73 +105,58 @@ public class TrenesSA {
         System.out.println("=================================================");
 
         System.out.println("\n--- 1. ÁRBOL AVL DE TRENES ---");
-        // Llama al método que te pasé antes (asegúrate de haberlo creado dentro de tu clase AVL)
+
         this.trenes.mostrarEstructura();
 
         System.out.println("\n--- 2. ÁRBOL AVL DE ESTACIONES ---");
         this.estaciones.mostrarEstructura();
-
         System.out.println("\n--- 3. MAPEO DE LÍNEAS (HashMap) ---");
-        // Como es de java.util, mostramos sus "tripas" iterando sobre sus entradas (Entry)
+
         if (this.lineas.isEmpty()) {
             System.out.println("El mapeo de líneas está vacío.");
         } else {
             System.out.println("Capacidad actual (elementos): " + this.lineas.size());
             for (java.util.Map.Entry<String, Linea> entrada : this.lineas.entrySet()) {
                 System.out.println("Clave (Key): [" + entrada.getKey() + "] -> Valor (Value): " + entrada.getValue().toString());
-                // Nota: Asegúrate de que tu clase Linea tenga un buen método toString() 
-                // para que se vea bien la información del valor.
             }
         }
 
         System.out.println("\n--- 4. ESTRUCTURA DE LA RED (GRAFO) ---");
-        // Llama al método que te pasé antes (asegúrate de haberlo creado dentro de tu clase Grafo)
         this.red.mostrarEstructura();
 
         System.out.println("\n=================================================");
     }
 
-    // =========================
-    // ===== TEST BORRAR ======
-    // =========================
-    private void test(Scanner in) {
+    private void cargarInicial(Scanner sc) {
+        System.out.println("[TODO] Carga inicial (StringTokenizer)...");
+    }
+
+    // ===== INICIO GRUPO: VIAJES Y GRAFOS =====
+    private void consultasViajes(Scanner in) {
         boolean volver = false;
         while (!volver) {
             System.out.print(
                     "---- ABM Trenes ----\n"
-                    + "1) OBTENER CAMINO MAS CORTO NODOS\n"
-                    + "2) OBTENER TODOS LOS ADYACENTES \n"
-                    + "3) OBTENER EL CAMINO MAS CORTO \n"
-                    + "4)OBTENER EL CAMINO MAS CORTO ENTRE DOS ESTACIONES\n"
-                    + "5) OBTENER EL CAMINO CON MENOS KM ENTRE DOS ESTACIONES\n"
-                    + "6) OBTENER TODOS LOS CAMNINOS ENTRE ESTACIONES MENOS UNA ESTACION DADA\n"
-                    + "7) VERIFICAR LA EXISTENCIA DE UN CAMINO CON UNA CANTIDAD DE KM DADA\n"
+                    + "1) Obtener el camino mas corto entre dos estaciones que pasen por menos estaciones\n"
+                    + "2) Obtener el camino con menos kilometros entre dos estaciones\n"
+                    + "3) Obtener todos los caminos posibles entre dos estaciones sin pasar por una estacion dada \n"
+                    + "4) Verificar la existencia de una camino entre dos estaciones con un limite maximo de km\n"
                     + "0) Volver\n"
                     + "Opción: "
             );
-
             String op = in.nextLine().trim();
             switch (op) {
                 case "1":
-                    obtenerCaminoMasCorto(in);
+                    caminoConMenosEstaciones(in);
                     break;
                 case "2":
-                    obtenerAdyacentes(in);
+                    obtenerCaminosConMenosKm(in);
                     break;
                 case "3":
-                    obtenerCaminoMasCortoEnNodos(in);
+                    obtenerTodosLosCaminosMenosUnaEstacion(in);
                     break;
                 case "4":
-                    caminoConMenosEstaciones();
-                    break;
-                case "5":
-                    obtenerCaminosConMenosKm();
-                    break;
-                case "6":
-                    obtenerTodosLosCaminosMenosUnaEstacion();
-                    break;
-                case "7":
-                    verificarLaExistenciaDeUnCaminoEntreDosEstacionesConUnLimiteMaximoEnKm();
+                    verificarLaExistenciaDeUnCaminoEntreDosEstacionesConUnLimiteMaximoEnKm(in);
                     break;
                 case "0":
                     volver = true;
@@ -185,166 +167,134 @@ public class TrenesSA {
         }
     }
 
-    private void verificarLaExistenciaDeUnCaminoEntreDosEstacionesConUnLimiteMaximoEnKm() {
+    private void verificarLaExistenciaDeUnCaminoEntreDosEstacionesConUnLimiteMaximoEnKm(Scanner in) {
 
-        Object[] responseOrigen = estaciones.buscar(8);
+        int codigo1 = leerInt(in, "Ingrese el codigo (entero positivo) de la primera estacion: ", 1);
+        Object[] responseOrigen = estaciones.buscar(codigo1);
         if (responseOrigen[0] instanceof Boolean) {
             if (!(Boolean) responseOrigen[0]) {
-                System.out.println("✗ Ya existe una estacion con código " + "Tierra del Fuego");
+                System.out.println("✗ Ya existe la estacion con el codigo " + codigo1);
+
                 return;
             }
         }
-
-        Object[] responseDestino = estaciones.buscar(2);
-
+        int codigo2 = leerInt(in, "Ingrese el codigo (entero positivo) de la primera estacion: ", 1);
+        Object[] responseDestino = estaciones.buscar(codigo2);
         if (responseDestino[0] instanceof Boolean) {
             if (!(Boolean) responseDestino[0]) {
-                System.out.println("✗ Ya existe una estacion con código " + "Retiro");
+                System.out.println("✗ Ya existe la estacion con el codigo " + codigo2);
+
                 return;
             }
         }
+        int km = leerInt(in, "Ingrese el limite de km entre estaciones (entero positivo): ", 1);
 
-        boolean resultado = red.verificarCaminoConUnaCantidadMaximaDeKm((Estacion) responseOrigen[1], (Estacion) responseDestino[1], 350);
-        System.out.println("Camino existente :" + resultado + " con una cantidad maxima de km " + 1000);
-
+        boolean resultado = red.verificarCaminoConUnaCantidadMaximaDeKm((Estacion) responseOrigen[1], (Estacion) responseDestino[1], km);
+        System.out.println("Camino existente :" + resultado + " con una distancia maxima de " + km);
     }
 
-    private void obtenerTodosLosCaminosMenosUnaEstacion() {
-
-        Object[] responseOrigen = estaciones.buscar(8);
+    private void obtenerTodosLosCaminosMenosUnaEstacion(Scanner in) {
+        int codigo1 = leerInt(in, "Ingrese el codigo (entero positivo) de la primera estacion: ", 1);
+        Object[] responseOrigen = estaciones.buscar(codigo1);
         if (responseOrigen[0] instanceof Boolean) {
             if (!(Boolean) responseOrigen[0]) {
-                System.out.println("✗ Ya existe una estacion con código " + "Tierra del Fuego");
+                System.out.println("✗ Ya existe la estacion con el codigo " + codigo1);
                 return;
             }
         }
-
-        Object[] responseDestino = estaciones.buscar(2);
-
+        int codigo2 = leerInt(in, "Ingrese el codigo (entero positivo) de la segunda estacion: ", 1);
+        Object[] responseDestino = estaciones.buscar(codigo2);
         if (responseDestino[0] instanceof Boolean) {
             if (!(Boolean) responseDestino[0]) {
-                System.out.println("✗ Ya existe una estacion con código " + "Retiro");
+                System.out.println("✗ Ya existe la estacion con el codigo " + codigo2);
                 return;
             }
         }
-        Object[] responseIgnorarEstacion = estaciones.buscar(4);
-
+        int codigo3 = leerInt(in, "Ingrese el codigo (entero positivo) de la estacion a excluir: ", 1);
+        Object[] responseIgnorarEstacion = estaciones.buscar(codigo3);
         if (responseIgnorarEstacion[0] instanceof Boolean) {
             if (!(Boolean) responseIgnorarEstacion[0]) {
-                System.out.println("✗ Ya existe una estacion con código " + "Canuelas");
+                System.out.println("✗ Ya existe la estacion con el codigo " + codigo3);
                 return;
             }
         }
-        // System.out.println("estacion partida " + responseOrigen[1]);
-        // System.out.println("fin");
-        // red.caminoConMenosEstaciones((Object) responseOrigen[1],(Object) responseDestino[1]);
-        System.out.println("Camino Tierra del Fuego a Retiro menos la estacion Canuelas");
-        // System.out.println("Lista resultante " + red.obtenerTodosLosCaminosIgnorandoUnaEstacion((Estacion) responseOrigen[1], (Estacion) responseDestino[1],(Estacion) responseIgnorarEstacion[1]));
         red.obtenerTodosLosCaminosIgnorandoUnaEstacion((Estacion) responseOrigen[1], (Estacion) responseDestino[1], (Estacion) responseIgnorarEstacion[1]);
-
     }
 
-    private void obtenerCaminosConMenosKm() {
-
-        Object[] responseOrigen = estaciones.buscar(8);
+    private void obtenerCaminosConMenosKm(Scanner in) {
+        int codigo1 = leerInt(in, "Ingrese el codigo (entero positivo) de la primera estacion: ", 1);
+        Object[] responseOrigen = estaciones.buscar(codigo1);
         if (responseOrigen[0] instanceof Boolean) {
             if (!(Boolean) responseOrigen[0]) {
-                System.out.println("✗ Ya existe una estacion con código " + "Tierra del Fuego");
+                System.out.println("✗ Ya existe la estacion con el codigo " + codigo1);
                 return;
             }
         }
-
-        Object[] responseDestino = estaciones.buscar(2);
-
+        int codigo2 = leerInt(in, "Ingrese el codigo (entero positivo) de la segunda estacion: ", 1);
+        Object[] responseDestino = estaciones.buscar(codigo2);
         if (responseDestino[0] instanceof Boolean) {
             if (!(Boolean) responseDestino[0]) {
-                System.out.println("✗ Ya existe una estacion con código " + "Retiro");
+                System.out.println("✗ Ya existe la estacion con el codigo " + codigo2);
                 return;
             }
         }
-        // System.out.println("estacion partida " + responseOrigen[1]);
-        // System.out.println("fin");
-        // red.caminoConMenosEstaciones((Object) responseOrigen[1],(Object) responseDestino[1]);
-        System.out.println("Camino con menos km de  Tierra del Fuego a Retiro");
+
         System.out.println("Lista resultante " + red.obtenerCaminoMasCorto((Estacion) responseOrigen[1], (Estacion) responseDestino[1]));
-
     }
 
-    private void caminoConMenosEstaciones() {
-
-        Object[] responseOrigen = estaciones.buscar(8);
+    private void caminoConMenosEstaciones(Scanner in) {
+        int codigo1 = leerInt(in, "Ingrese el codigo (entero positivo) de la primera estacion: ", 1);
+        Object[] responseOrigen = estaciones.buscar(codigo1);
         if (responseOrigen[0] instanceof Boolean) {
             if (!(Boolean) responseOrigen[0]) {
-                System.out.println("✗ Ya existe una estacion con código " + "Tierra del Fuego");
+                System.out.println("✗ Ya existe la estacion con el codigo " + codigo1);
                 return;
             }
         }
 
-        Object[] responseDestino = estaciones.buscar(2);
-
+        int codigo2 = leerInt(in, "Ingrese el codigo (entero positivo) de la segunda estacion: ", 1);
+        Object[] responseDestino = estaciones.buscar(codigo2);
         if (responseDestino[0] instanceof Boolean) {
             if (!(Boolean) responseDestino[0]) {
-                System.out.println("✗ Ya existe una estacion con código " + "Retiro");
+                System.out.println("✗ Ya existe la estacion con el codigo " + codigo2);
                 return;
             }
         }
-        // System.out.println("estacion partida " + responseOrigen[1]);
-        // System.out.println("fin");
-        // red.caminoConMenosEstaciones((Object) responseOrigen[1],(Object) responseDestino[1]);
-        System.out.println("Camino con menos estaciones de  Tierra del Fuego a Retiro");
-        System.out.println(red.caminoConMenosEstaciones((Estacion) responseOrigen[1], (Estacion) responseDestino[1]));
 
+        System.out.println(red.caminoConMenosEstaciones((Estacion) responseOrigen[1], (Estacion) responseDestino[1]));
     }
 
     private void obtenerCaminoMasCorto(Scanner in) {
-        //int codigo = leerInt(in, "Ingrese el nodo del camino (comienza desde  la raiz) ", 1);
         red.obtenerCaminoMasCortoEnNodos("Retiro");
-
     }
 
     private void obtenerAdyacentes(Scanner in) {
-        //int codigo = leerInt(in, "Ingrese el nodo del camino (comienza desde  la raiz) ", 1);
         System.out.println(red.getAdyacentesDeUnaEstaciones(1));
-
     }
 
     private void obtenerCaminoMasCortoEnNodos(Scanner in) {
         System.out.println(red.obtenerCaminoMasCortoEnNodos("1"));
-
     }
+    // ===== FIN GRUPO: VIAJES Y GRAFOS =====
 
-// FIN TEST BORRARR
-    // =========================================================
-    // =========================================================
+    // ===== INICIO GRUPO: TRENES =====
     private boolean trenInsertar(int codigo, Tren tren) {
-
         return trenes.insertar((Comparable) codigo, tren);
     }
 
     private Object trenBuscar(int codigo) {
-        // return trenes.buscar(codigo);
         Object[] response = trenes.buscar(codigo);
         boolean trenEncontrado = (boolean) response[0];
         if ((boolean) response[0]) {
             return response[1];
         }
         return null;
-
     }
 
     private boolean trenEliminar(int codigo) {
-        // return trenes.eliminar(codigo);
         return trenes.eliminar(codigo);
     }
 
-    // ====== Opción 1 ======
-    private void cargarInicial(Scanner sc) {
-        System.out.println("[TODO] Carga inicial (StringTokenizer)...");
-    }
-
-    // =========================
-    // ====== ABM TRENES =======
-    // =========================
     private void abmTrenes(Scanner in) {
         boolean volver = false;
         while (!volver) {
@@ -359,7 +309,6 @@ public class TrenesSA {
                     + "0) Volver\n"
                     + "Opción: "
             );
-
             String op = in.nextLine().trim();
             switch (op) {
                 case "1":
@@ -398,7 +347,6 @@ public class TrenesSA {
                 System.out.println("✗ Ya existe un tren con código " + codigo);
                 return;
             }
-
         }
 
         String propulsion = leerNoVacio(in, "Propulsión (electrico/diesel/otro): ");
@@ -437,12 +385,10 @@ public class TrenesSA {
         }
 
         System.out.println("Actual: " + t);
-
         String propulsion = leerOpcional(in, "Nueva propulsión (Enter mantiene): ");
         Integer vagPas = leerIntOpcional(in, "Nuevos vagones pasajeros (Enter mantiene): ", 0);
         Integer vagCar = leerIntOpcional(in, "Nuevos vagones carga (Enter mantiene): ", 0);
         String linea = leerOpcional(in, "Nueva línea (Enter mantiene): ");
-
         if (!propulsion.isEmpty()) {
             t.setPropulsion(propulsion);
         }
@@ -467,7 +413,6 @@ public class TrenesSA {
 
         System.out.println("== Trenes ==");
         System.out.println(trenes.listar());
-
     }
 
     private void buscarTren(Scanner in) {
@@ -476,12 +421,12 @@ public class TrenesSA {
         if (response[0] instanceof Boolean) {
             if ((Boolean) response[0]) {
                 Tren tren = (Tren) response[1];
-                System.out.println(tren.getLinea());
+                System.out.println(tren.toString());
             } else {
-                System.out.println("✗ No existe el tren " + codigo);
+                System.out.println("✗ Ya existe la estacion");
+
             }
         }
-
     }
 
     private void buscarDestino(Scanner in) {
@@ -491,22 +436,18 @@ public class TrenesSA {
             if ((Boolean) response[0]) {
                 Tren tren = (Tren) response[1];
                 //Estacion estaciones.
-                System.out.println("TODAS LAS LINEAS DE ESTE TREEN " + tren.getLinea());
+                System.out.println("TODAS LAS LINEAS DE ESTE TREEN [" + tren.getLinea() + " ]");
 
                 Linea unaLinea = lineas.get(tren.getLinea());
-
-                System.out.println("aca estoy " + unaLinea.toString());
-
             } else {
-                System.out.println("✗ No existe el tren " + codigo);
+                System.out.println("✗ Ya existe la estacion");
+
             }
         }
-
     }
+    // ===== FIN GRUPO: TRENES =====
 
-    // ============================
-    // ====== ABM ESTACIONES ======
-    // ============================
+    // ===== INICIO GRUPO: ESTACIONES =====
     private void abmEstaciones(Scanner in) {
         boolean volver = false;
         while (!volver) {
@@ -521,7 +462,6 @@ public class TrenesSA {
                     + "0) Volver\n"
                     + "Opción: "
             );
-
             String op = in.nextLine().trim();
             switch (op) {
                 case "1":
@@ -552,6 +492,7 @@ public class TrenesSA {
     }
 
     private void altaEstacion(Scanner in) {
+
         int codigo = leerInt(in, "Código de estación (entero positivo): ", 1);
         Object[] response = estaciones.buscar(codigo);
         if (response[0] instanceof Boolean) {
@@ -568,7 +509,6 @@ public class TrenesSA {
         String cp = leerNoVacio(in, "Código Postal: ");
         int cantVias = leerInt(in, "Cantidad de vías: ", 0);
         int cantPlataformas = leerInt(in, "Cantidad de plataformas: ", 0);
-
         estaciones.insertar(codigo, new Estacion(nombre, calle, numero, ciudad, cp, cantVias, cantPlataformas));
         System.out.println("✓ Alta de estación OK");
     }
@@ -592,14 +532,12 @@ public class TrenesSA {
                 return;
             }
             Estacion estacion = (Estacion) response[1];
-
             System.out.println("Actual: " + estacion);
 
             String numero = leerOpcional(in, "Nuevo número (Enter mantiene): ");
             String calle = leerOpcional(in, "Nueva calle (Enter mantiene): ");
             String ciudad = leerOpcional(in, "Nueva ciudad (Enter mantiene): ");
             String codigoPostal = leerOpcional(in, "Nuevo código postal (Enter mantiene): ");
-
             if (numero != null) {
                 estacion.setNumero(numero);
             }
@@ -607,7 +545,6 @@ public class TrenesSA {
                 estacion.setCalle(calle);
             }
 
-            // ✅ FIX: antes estabas seteando "calle" en ciudad/cp
             if (!ciudad.isEmpty()) {
                 estacion.setCiudad(ciudad);
             }
@@ -645,6 +582,69 @@ public class TrenesSA {
         String prefijo = leerNoVacio(sc, "Nombre (prefijo) a buscar: ")
                 .trim()
                 .toLowerCase();
+        Lista ls = estaciones.listar(); // Lista de Estacion
+        StringBuilder out = new StringBuilder();
+        for (int i = 1; i <= ls.longitud(); i++) {   // 1..N
+            Estacion est = (Estacion) ls.recuperar(i);
+            if (est == null) {
+                continue;
+            }
+
+            String nombre = est.getNombre();
+            if (nombre != null && nombre.trim().toLowerCase().startsWith(prefijo)) {
+                out.append("• ").append(nombre).append('\n');
+            }
+        }
+
+        if (out.length() == 0) {
+            System.out.println("No hay estaciones que empiecen con '" + prefijo + "'.");
+        } else {
+            System.out.println("Coincidencias:\n" + out);
+        }
+    }
+
+    private void consultasEstaciones(Scanner sc) {
+        System.out.println("[TODO] Consultas de Estaciones...");
+        boolean volver = false;
+        while (!volver) {
+            System.out.println("=== CONSULTAS ===");
+            System.out.println("1. Mostrar informacion de una estación.");
+            System.out.println("2. Obtener todaS las estaciones que comiencen con un prefijo.");
+            System.out.println("0. Volver");
+            System.out.print("Opción: ");
+
+            int opc = Integer.parseInt(sc.nextLine().trim());
+            switch (opc) {
+                case 1:
+                    mostrarEstacionDada(sc);
+                    break;
+                case 2:
+                    mostrarTodasLasEstacionesConUnPreFijo(sc);
+                    break;
+                case 0:
+                    volver = true;
+                    break;
+                default:
+                    System.out.println("Opción inválida.");
+            }
+        }
+    }
+
+    private void mostrarEstacionInformacion(Scanner in) {
+        String nombre = leerNoVacio(in, "Ingrese el nonmbre de la estacion ");
+        Object[] response = estaciones.buscar(nombre);
+        if (response[0] instanceof Boolean) {
+            if ((Boolean) response[0]) {
+                Estacion estacion = (Estacion) response[1];
+                System.out.println(estacion.toString());
+            } else {
+                System.out.println("✗ No existe  estacion " + nombre);
+            }
+        }
+    }
+
+    private void mostrarTodasLasEstacionesConUnPreFijo(Scanner in) {
+        String prefijo = leerNoVacio(in, "Nombre (prefijo) a buscar: ").trim().toLowerCase();
 
         Lista ls = estaciones.listar(); // Lista de Estacion
         StringBuilder out = new StringBuilder();
@@ -668,15 +668,36 @@ public class TrenesSA {
         }
     }
 
-    // =======================
-    // ====== ABM LÍNEAS =====
-    // =======================
+    private void mostrarEstacionDada(Scanner in) {
+        int codigo = leerInt(in, "Código a buscar: ", 1);
+        Object[] response = estaciones.buscar(codigo);
+        if (response[0] instanceof Boolean) {
+            if (!(Boolean) response[0]) {
+                System.out.println("✗ No existe la estación " + codigo);
+                return;
+            }
+            Estacion estacion = (Estacion) response[1];
+            System.out.println(estacion);
+        }
+    }
+
+    private boolean existeEstacion(String nombre) {
+        Object[] estacion = estaciones.buscar(nombre);
+        return estacion[0] instanceof Boolean;
+    }
+
+    private Estacion obtenerEstacion(String nombre) {
+        Object[] estacion = estaciones.buscar(nombre);
+        return (Estacion) estacion[1];
+    }
+    // ===== FIN GRUPO: ESTACIONES =====
+
+    // ===== INICIO GRUPO: LÍNEAS =====
     private void abmLineas(Scanner sc) {
         boolean volver = false;
         while (!volver) {
             imprimirMenuLineas();
             String op = sc.nextLine().trim();
-
             switch (op) {
                 case "1":
                     altaLinea(sc);
@@ -726,14 +747,12 @@ public class TrenesSA {
                 System.out.println("✗ No existe estación con código " + codEst);
                 return;
             }
-            recorrido.insertar(res[1], recorrido.longitud() + 1); // guarda Estacion
-
+            recorrido.insertar(res[1], recorrido.longitud() + 1);
+            // guarda Estacion
         }
         Linea linea = new Linea(nombreLinea, recorrido);
         lineas.put(nombreLinea, linea);
 
-        // true => no dirigido (carga ida y vuelta)
-        //  lineas.put(nombreLinea, recorrido);
         System.out.println("✓ Línea creada: " + nombreLinea);
     }
 
@@ -767,19 +786,14 @@ public class TrenesSA {
         System.out.println("=== LÍNEAS ===");
         lineas.forEach((key, linea) -> System.out.println(key + " = " + linea));
     }
+    // ===== FIN GRUPO: LÍNEAS =====
 
-    // =======================
-    // ====== ABM RIELES =====
-    // =======================
-    // =======================
-// ====== ABM RIELES =====
-// =======================
+    // ===== INICIO GRUPO: RIELES =====
     private void abmRieles(Scanner sc) {
         boolean volver = false;
         while (!volver) {
             imprimirMenuRieles();
             String op = sc.nextLine().trim();
-
             switch (op) {
                 case "1":
                     altaRiel(sc);
@@ -835,7 +849,6 @@ public class TrenesSA {
 
         Estacion ori = buscarEstacionPorCodigo(codOri);
         Estacion des = buscarEstacionPorCodigo(codDes);
-
         if (ori == null) {
             System.out.println("No existe estación con código " + codOri);
             return;
@@ -847,18 +860,14 @@ public class TrenesSA {
 
         red.insertarVertice(ori);
         red.insertarVertice(des);
-
-        // Verifico riel DIRECTO (arco). En tu Grafo el “exists” es verificarArco(...)
         if (red.existeArco(ori, des) || red.existeArco(des, ori)) {
             System.out.println("Ya existe un riel entre esas dos estaciones.");
             return;
         }
 
         int distancia = leerInt(sc, "Distancia (km): ", 1);
-
         Riel r = new Riel(codOri, codDes, distancia);
 
-        // true => no dirigido (carga ida y vuelta)
         red.insertarArco(ori, des, true, r);
 
         System.out.println("✓ Riel agregado: " + r);
@@ -870,7 +879,6 @@ public class TrenesSA {
 
         Estacion ori = buscarEstacionPorCodigo(codOri);
         Estacion des = buscarEstacionPorCodigo(codDes);
-
         if (ori == null) {
             System.out.println("No existe estación con código " + codOri);
             return;
@@ -880,7 +888,6 @@ public class TrenesSA {
             return;
         }
 
-        // Recupero el riel antes de borrar (etiqueta del arco)
         Riel eliminado = (Riel) red.obtenerEtiquetaArco(ori, des);
         if (eliminado == null) {
             eliminado = (Riel) red.obtenerEtiquetaArco(des, ori);
@@ -891,7 +898,6 @@ public class TrenesSA {
             return;
         }
 
-        // Borro ambos sentidos (porque lo cargaste como no dirigido)
         red.eliminarArco(ori, des);
         red.eliminarArco(des, ori);
 
@@ -904,7 +910,6 @@ public class TrenesSA {
 
         Estacion ori = buscarEstacionPorCodigo(codOri);
         Estacion des = buscarEstacionPorCodigo(codDes);
-
         if (ori == null) {
             System.out.println("No existe estación con código " + codOri);
             return;
@@ -932,7 +937,7 @@ public class TrenesSA {
     }
 
     private void listarRieles() {
-        Lista etiquetas = red.listarEtiquetas(); // devuelve rieles (con duplicados si es no dirigido)
+        Lista etiquetas = red.listarEtiquetas();
         if (etiquetas.esVacia()) {
             System.out.println("No hay rieles cargados.");
             return;
@@ -954,7 +959,6 @@ public class TrenesSA {
 
     private void listarRielesDeEstacion(Scanner sc) {
         int cod = leerInt(sc, "Código de estación: ", 1);
-
         Estacion est = buscarEstacionPorCodigo(cod);
         if (est == null) {
             System.out.println("No existe estación con código " + cod);
@@ -962,7 +966,6 @@ public class TrenesSA {
         }
 
         Lista rieles = red.listarEtiquetasDeVertice(est);
-
         if (rieles.esVacia()) {
             System.out.println("No hay rieles conectados a esa estación.");
             return;
@@ -974,33 +977,25 @@ public class TrenesSA {
             System.out.println(r);
         }
     }
+    // ===== FIN GRUPO: RIELES =====
 
-    // ======================
-    // ===== CONSULTAS ======
-    // ======================
-    private void menuConsultas(Scanner sc) {
+    // ===== INICIO GRUPO: CONSULTAS =====
+    private void consultaTrenes(Scanner sc) {
         boolean volver = false;
         while (!volver) {
             System.out.println("=== CONSULTAS ===");
-            System.out.println("1. Listar rieles de una estación");
-            System.out.println("2. Cantidad total de estaciones / trenes / rieles");
+            System.out.println("1. Mostrar informacion de un tren");
+            System.out.println("2. Mostrar las estaciones de un tren");
             System.out.println("0. Volver");
             System.out.print("Opción: ");
-
-            int opc;
-            try {
-                opc = Integer.parseInt(sc.nextLine().trim());
-            } catch (NumberFormatException e) {
-                System.out.println("Opción inválida.");
-                continue;
-            }
+            int opc = Integer.parseInt(sc.nextLine().trim());
 
             switch (opc) {
                 case 1:
-
+                    buscarTren(sc);
                     break;
                 case 2:
-                    //mostrarResumen();
+                    buscarDestino(sc);
                     break;
                 case 0:
                     volver = true;
@@ -1010,16 +1005,9 @@ public class TrenesSA {
             }
         }
     }
+    // ===== FIN GRUPO: CONSULTAS =====
 
-    // ====== Stubs ======
-    private void consultasEstaciones(Scanner sc) {
-        System.out.println("[TODO] Consultas de Estaciones...");
-    }
-
-    private void consultasViajes(Scanner sc) {
-        System.out.println("[TODO] Consultas de Viajes (acá va BFS/DFS/Dijkstra con rieles).");
-    }
-
+    // ===== INICIO GRUPO: UTILIDADES Y LECTURA DE CONSOLA =====
     private String leerNoVacio(Scanner in, String prompt) {
         String s;
         do {
@@ -1070,32 +1058,26 @@ public class TrenesSA {
         }
         return null;
     }
+    // ===== FIN GRUPO: UTILIDADES Y LECTURA DE CONSOLA =====
 
+    // ===== INICIO GRUPO: CARGA DE DATOS DESDE ARCHIVO =====
     public void cargarInicialDesdeArchivo(String fileName) throws IOException {
 
         java.io.File archivo = new java.io.File(fileName);
-
-        System.out.println("--- VERIFICACIÓN DE ENTORNO ---");
-        System.out.println("1. Directorio de ejecución: " + System.getProperty("user.dir"));
-        System.out.println("2. ¿Existe el archivo '" + fileName + "'?: " + archivo.exists());
-
         if (!archivo.exists()) {
-            System.out.println("3. Lista de archivos detectados en esta carpeta:");
+
             String[] lista = new java.io.File(".").list();
             for (String s : lista) {
                 System.out.println("   -> " + s);
             }
-            return; // Detenemos aquí hasta encontrarlo
+            return;
         }
 
-        // Si llega acá, es porque lo encontró
         System.out.println("✓ ¡ARCHIVO DETECTADO! Iniciando lectura...");
-        // ... tu código de lectura ...
 
         List<String[]> lineasPend = new ArrayList<>();
         List<String[]> rielesPend = new ArrayList<>();
         List<String[]> trenesPend = new ArrayList<>();
-
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String raw;
             int nro = 0;
@@ -1168,14 +1150,13 @@ public class TrenesSA {
     }
 
     private void cargarLineaDesdeArchivo(String[] p) {
-        // L;NombreLinea;codEst1;codEst2;...
+
         String nombreLinea = p[1];
         if (lineas.containsKey(nombreLinea)) {
             return;
         }
 
         Lista recorrido = new Lista();
-
         for (int i = 2; i < p.length; i++) {
             int codEst = Integer.parseInt(p[i]);
             Estacion est = buscarEstacionPorCodigo(codEst);
@@ -1191,37 +1172,34 @@ public class TrenesSA {
     }
 
     private void cargarRielDesdeArchivo(String[] p) {
-        // R;codOri;codDes;dist
+
         int codOri = Integer.parseInt(p[1]);
         int codDes = Integer.parseInt(p[2]);
         int dist = Integer.parseInt(p[3]);
 
         Estacion ori = buscarEstacionPorCodigo(codOri);
         Estacion des = buscarEstacionPorCodigo(codDes);
-
         if (ori == null || des == null) {
             throw new IllegalStateException("Riel referencia estación inexistente: " + codOri + " / " + codDes);
         }
 
         red.insertarVertice(ori);
         red.insertarVertice(des);
-
         if (red.existeArco(ori, des) || red.existeArco(des, ori)) {
             return;
         }
 
         Riel r = new Riel(codOri, codDes, dist);
-        red.insertarArco(ori, des, true, r); // true => no dirigido (ida y vuelta)
+        red.insertarArco(ori, des, true, r);
+        // true => no dirigido (ida y vuelta)
     }
 
     private void cargarTrenDesdeArchivo(String[] p) {
-        // T;codTren;propulsion;vagPas;vagCar;linea|no-asignado
         int codigo = Integer.parseInt(p[1]);
         String prop = p[2];
         int vagPas = Integer.parseInt(p[3]);
         int vagCar = Integer.parseInt(p[4]);
         String linea = p[5];
-
         if (!linea.equalsIgnoreCase("no-asignado") && !lineas.containsKey(linea)) {
             throw new IllegalStateException("Tren " + codigo + " referencia línea inexistente: " + linea);
         }
@@ -1232,46 +1210,5 @@ public class TrenesSA {
         }
 
         trenInsertar(codigo, new Tren(codigo, prop, vagPas, vagCar, linea));
-    }
-
-    private void cargarEstacion(String[] p) {
-        String nombre = p[1];
-
-        String calle;
-        String numero;
-        String ciudad;
-        String cp;
-        int vias;
-        int plataformas;
-
-        if (p.length >= 8) {
-            calle = p[2];
-            numero = p[3];
-            ciudad = p[4];
-            cp = p[5];
-            vias = Integer.parseInt(p[6]);
-            plataformas = Integer.parseInt(p[7]);
-        } else {
-            // formato compacto
-            calle = p[2];
-            numero = ""; // o intentás extraerlo
-            ciudad = p[3];
-            cp = p[4];
-            vias = Integer.parseInt(p[5]);
-            plataformas = Integer.parseInt(p[6]);
-        }
-
-        Estacion e = new Estacion(nombre, calle, numero, ciudad, cp, vias, plataformas);
-        estaciones.insertar(nombre, e); // clave: nombre (Comparable)
-    }
-
-    private boolean existeEstacion(String nombre) {
-        Object[] estacion = estaciones.buscar(nombre);
-        return estacion[0] instanceof Boolean;
-    }
-
-    private Estacion obtenerEstacion(String nombre) {
-        Object[] estacion = estaciones.buscar(nombre);
-        return (Estacion) estacion[1];
     }
 }
