@@ -20,7 +20,7 @@ public class AVL {
 
                 this.raiz = eliminarAux(this.raiz, x);
 
-                 eliminado = true;
+                eliminado = true;
             }
 
         }
@@ -61,10 +61,8 @@ public class AVL {
         }
 
         nodo.recalcularAltura();
-        //return this.balancear(nodo);
-        //return this.balancear(nodo);
+
         return nodo;
-        //return nodo; // cuando actives AVL: return balancear(nodo);
     }
 
     // baja hasta encontrar el nodo
@@ -82,12 +80,6 @@ public class AVL {
             return balancear(nodo);
         } else {
 
-            // Reutilizá tus helpers aquí si querés:
-            // return eliminarNodoYDevolverNuevaRaiz(nodo);  // si lo implementás
-            // O directamente inline como arriba (0/1/2 hijos) y:
-            // return balancear(nodo);
-            // (lo de arriba ya te lo dejé resuelto)
-            // --- Inline tal cual lo dejé arriba es más simple y seguro ---
             if (nodo.getIzquierdo() == null) {
                 return nodo.getDerecho();
             }
@@ -147,7 +139,6 @@ public class AVL {
         NodoAVL derecho = hijo.getDerecho();
         boolean eliminado = false;
         if (padre == null) {
-            // caso especial de la raiz con un hijo
             this.raiz = (izquierdo != null) ? izquierdo : derecho;
         } else if (izquierdo != null) {
             padre.setIzquierdo(izquierdo);
@@ -164,69 +155,22 @@ public class AVL {
         NodoAVL candidato = nodo.getDerecho();
         NodoAVL padreCandidato = nodo;
         boolean eliminado = false;
-        // obtengo el menor de los mayores (candidato)
         while (candidato.getIzquierdo() != null) {
             padreCandidato = candidato;
             candidato = candidato.getIzquierdo();
         }
-        // remplazo el valor del nodo a eliminar por el valor del candidato
         nodo.setElemento(candidato.getClave(), candidato.getElemento());
-        // hijo pude ser null o no
         NodoAVL hijoCandidato = candidato.getDerecho();
-        // elimina el nodo
-        // el candidato es el hijo derecho del nodo a eliminar?
         if (nodo.getDerecho() == candidato) {
-            // caso especial, el candidato es hijo del nodo
             nodo.setDerecho(hijoCandidato);
             eliminado = true;
         } else {
-            // caso comun, el candidato no es hijo del nodo
             padreCandidato.setIzquierdo(hijoCandidato);
             eliminado = true;
         }
         return eliminado;
     }
 
-    /*
-    private NodoAVL balancear(NodoAVL nodo) {
-        if (nodo == null) {
-            return null;
-        }
-
-        // 1) Recalcular antes de leer el balance
-        nodo.recalcularAltura();
-        int balancePadre = nodo.calcularBalance(); // convención: altura(izq) - altura(der)
-
-        // Si ya está dentro de [-1, 1], no toco nada
-        if (balancePadre >= -1 && balancePadre <= 1) {
-            return nodo;
-        }
-
-        // 2) Desbalance a la izquierda (LL/LR)
-        if (balancePadre > 1) {
-            int balanceHijo = (nodo.getIzquierdo() != null) ? nodo.getIzquierdo().calcularBalance() : 0;
-            // LR si el hijo izq está cargado a la derecha
-            if (balanceHijo < 0) {
-                return rotarIzquierdaDerecha(nodo);
-            } else {
-                return rotarDerecha(nodo);
-            }
-        }
-
-        // 3) Desbalance a la derecha (RR/RL)
-        if (balancePadre < -1) {
-            int balanceHijo = (nodo.getDerecho() != null) ? nodo.getDerecho().calcularBalance() : 0;
-            // RL si el hijo der está cargado a la izquierda
-            if (balanceHijo > 0) {
-                return rotarDerechaIzquierda(nodo);
-            } else {
-                return rotarIzquierda(nodo);
-            }
-        }
-
-        return nodo; // por completitud
-    }
-     */
     private NodoAVL balancear(NodoAVL n) {
         if (n == null) {
             return null;
@@ -256,20 +200,20 @@ public class AVL {
         NodoAVL temp = h.getIzquierdo();
         h.setIzquierdo(nodo);
         nodo.setDerecho(temp);
-        // recalculo altura de nodo y su "hijo"
+
         nodo.recalcularAltura();
         h.recalcularAltura();
         return h;
     }
 
     private NodoAVL rotarDerecha(NodoAVL nodo) {
-        // pivot
+
         NodoAVL h = nodo.getIzquierdo();
-        // temporal
+
         NodoAVL temp = h.getDerecho();
         h.setDerecho(nodo);
         nodo.setIzquierdo(temp);
-        // recalculo altura del nodo y su "hijo"
+
         nodo.recalcularAltura();
         h.recalcularAltura();
         return h;
@@ -288,7 +232,7 @@ public class AVL {
     public Lista listar() {
         Lista lista = new Lista();
         listarAux(this.raiz, lista);
-       // System.out.println(lista);
+        // System.out.println(lista);
         return lista;
     }
 
@@ -300,23 +244,6 @@ public class AVL {
         }
     }
 
-    /*
-    public boolean pertenece(Comparable clave) {
-        boolean pertenece = false;
-        NodoAVL nodo = this.raiz;
-        Comparable elemento;
-        while (nodo != null && !pertenece) {
-            elemento = nodo.getElemento();
-       if (elemento.compareTo(clave) > 0) {
-                nodo = nodo.getIzquierdo();
-            } else if (elemento.compareTo(clave) < 0) {
-                nodo = nodo.getDerecho();
-            }else{
-            }
-        }
-        return pertenece;
-    }
-     */
     public Object minimoElem() {
         NodoAVL nodo = this.raiz;
         // bajada por la izquierda
@@ -355,16 +282,6 @@ public class AVL {
         }
     }
 
-    /*
-    // utilidad, no prestar antencion
-    public void llenar(int[] num) {
-
-        for (int i = 0; i < num.length; i++) {
-            insertar(num[i]);
-        }
-    }
-     */
-    // copiado de arbol binario
     public String toString() {
         String res = " ";
         if (this.raiz != null) {
@@ -373,20 +290,17 @@ public class AVL {
         return res;
     }
 
-    // copiado de arbol binario
     private String toStringAux(NodoAVL nodo, String s) {
         if (nodo != null) {
             s += "\n" + nodo.getElemento() + "\t";
-            /// System.out.println("2323423");
             if (nodo.getIzquierdo() != null) {
                 System.out.println("actual " + nodo.getIzquierdo().getElemento());
             }
             NodoAVL izquierdo = nodo.getIzquierdo();
-            //  System.out.println("izq  "+izquierdo.getElemento());
             NodoAVL derecho = nodo.getDerecho();
             s += "HI: " + ((izquierdo != null) ? izquierdo.getElemento() : "-") + "\t"
                     + "HD: " + ((derecho != null) ? derecho.getElemento() : "-");
-            //   System.out.println("vaorrr de s " + s);
+
             s = toStringAux(nodo.getIzquierdo(), s);
             s = toStringAux(nodo.getDerecho(), s);
         }
@@ -395,12 +309,12 @@ public class AVL {
 //devuelve Object[2]
     //[1] true/false
     //[2] Estacion /  Trem
+
     public Object[] buscar(Comparable codigo) {
         boolean pertenece = false;
         NodoAVL nodo = this.raiz;
         Object elementoEncontrado = null;
-        //   System.out.println(" retorno " + pertenece + "  objecto     " + nodo);
-        //    System.out.println("");
+
         while (nodo != null && !pertenece) {
             if (nodo.getClave().compareTo(codigo) > 0) {
                 nodo = nodo.getIzquierdo();
@@ -414,8 +328,7 @@ public class AVL {
         return new Object[]{pertenece, elementoEncontrado};
 
     }
-    
-    // Método público que llamas desde afuera
+
     public void mostrarEstructura() {
         if (this.raiz == null) {
             System.out.println("El árbol AVL está vacío.");
@@ -424,20 +337,16 @@ public class AVL {
         }
     }
 
-    // Método privado recursivo
     private void mostrarEstructuraAux(NodoAVL nodo, String prefijo) {
         if (nodo != null) {
-            // Obtenemos los valores de los hijos. Si es null, mostramos "-"
             String valorIzq = (nodo.getIzquierdo() != null) ? nodo.getIzquierdo().getElemento().toString() : "-";
             String valorDer = (nodo.getDerecho() != null) ? nodo.getDerecho().getElemento().toString() : "-";
-            
-            // Imprimimos la información estructural del nodo actual
-            System.out.println(prefijo + "Nodo: [" + nodo.getElemento().toString() + "] " + 
-                               "| Altura: " + nodo.getAltura() + 
-                               " | Hijo Izq: " + valorIzq + 
-                               " | Hijo Der: " + valorDer);
-            
-            // Llamadas recursivas aumentando el prefijo para simular los niveles del árbol
+
+            System.out.println(prefijo + "Nodo: [" + nodo.getElemento().toString() + "] "
+                    + "| Altura: " + nodo.getAltura()
+                    + " | Hijo Izq: " + valorIzq
+                    + " | Hijo Der: " + valorDer);
+
             mostrarEstructuraAux(nodo.getIzquierdo(), prefijo + "    ");
             mostrarEstructuraAux(nodo.getDerecho(), prefijo + "    ");
         }
