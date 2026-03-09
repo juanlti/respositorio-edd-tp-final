@@ -88,6 +88,7 @@ ABM: Se creó el tramo de riel entre Rosario y Tucuman
 ABM: Se creó el tramo de riel entre Mendoza y Neuquen
 ABM: Se creó el tramo de riel entre La Plata y Las Flores
 ABM: Se creó el tramo de riel entre Tandil y Mar del Plata
+ABM: Se creó el tramo de riel entre Constitucion y La Plata
 ABM: Se agrego Tren 9012 [diesel] pas:6 carga:2 linea:Mitre
 ABM: Se agrego Tren 893 [gasolina] pas:0 carga:11 linea:no-asignado
 ABM: Se agrego Tren 4402 [diesel] pas:8 carga:4 linea:Roca-Tandil
@@ -113,5 +114,3 @@ ABM: Se agrego Tren 1017 [electrico] pas:7 carga:1 linea:San Martin
 eed.tp.TrenesSA@55f96302
 ==============================================
 
-ABM: Se creó la estación PALERMI
-ABM: Se agrego PALERMI (PALERMI) - PALERMI 300 CP:300 | vías: 1, plataformas: 1

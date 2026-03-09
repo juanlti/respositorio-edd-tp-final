@@ -497,7 +497,7 @@ public class Grafo {
         }
         return l;
     }
-
+/*
     public String getAdyacentesDeUnaEstaciones(int codigo) {
         NodoAdy aux = this.inicio.getSigEstacion().getSigEstacion().getSigEstacion().getPrimerRiel();
 
@@ -508,6 +508,7 @@ public class Grafo {
         }
         return "adyacentes de " + this.inicio.getSigEstacion().getSigEstacion().getSigEstacion().toString() + " estaciones : " + estaciones;
     }
+*/
 
     public String getEstacionMasCercana(int codigo) {
         NodoAdy aux = this.inicio.getSigEstacion().getSigEstacion().getSigEstacion().getPrimerRiel();
@@ -744,7 +745,7 @@ public class Grafo {
 
         obtenerTodosLosCaminosIgnorandoUnaEstacionAux(nodoOrigen, destino, visitados, caminoActual, ignorarEstacion);
 
-        System.out.println("resultado " + resultado + " el camino encontrado es " + this.todosLosCaminos.toString());
+        System.out.println("el camino encontrado es " + this.todosLosCaminos.toString());
 
     }
 

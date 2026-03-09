@@ -267,10 +267,11 @@ public class TrenesSA {
     private void obtenerCaminoMasCorto(Scanner in) {
         red.obtenerCaminoMasCortoEnNodos("Retiro");
     }
-
+/*
     private void obtenerAdyacentes(Scanner in) {
         System.out.println(red.getAdyacentesDeUnaEstaciones(1));
     }
+*/
 
     private void obtenerCaminoMasCortoEnNodos(Scanner in) {
         System.out.println(red.obtenerCaminoMasCortoEnNodos("1"));
@@ -290,6 +291,7 @@ public class TrenesSA {
         }
         return null;
     }
+    
 
     private boolean trenEliminar(int codigo) {
         return trenes.eliminar(codigo);
