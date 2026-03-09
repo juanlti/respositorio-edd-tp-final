@@ -20,7 +20,12 @@ public class EEDTP {
 
         app.cargarInicialDesdeArchivo("file.txt");
 
+        LogHelper.registrar("\n=== ESTADO DEL SISTEMA POST-CARGA INICIAL ===");
+        LogHelper.registrar(app.toString());
+        LogHelper.registrar("==============================================\n");
+
         app.comenzar();
+
     }
 
 }

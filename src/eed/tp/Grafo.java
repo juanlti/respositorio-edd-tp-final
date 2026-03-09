@@ -36,6 +36,7 @@ public class Grafo {
             this.inicio = new NodoVert(x, this.inicio, null);
             exito = true;
             this.cantidadVertices++;
+            LogHelper.registrar("Se agrego la estacion " + x.getNombre());
         }
         return exito;
     }
@@ -109,6 +110,7 @@ public class Grafo {
                     recorrerAdyacentes(auxOrigen, destinoNodoAdy);
 
                     exito = true;
+                    LogHelper.registrar("ABM: Se creó el tramo de riel entre " + origen.getNombre() + " y " + destino.getNombre());
 
                     if (esGrafo) {
                         NodoAdy origenNodoAdy = new NodoAdy(auxOrigen, null, etiqueta);
@@ -284,7 +286,11 @@ public class Grafo {
             otrosVertices = otrosVertices.getSigEstacion();
         }
 
-        return auxEliminarYauxExisteUnVerice(elemento, true);
+        fueEliminado = auxEliminarYauxExisteUnVerice(elemento, true);
+        if (fueEliminado) {
+            LogHelper.registrar("Se quito la estación " + elemento);
+        }
+        return fueEliminado;
 
     }
 
@@ -360,6 +366,7 @@ public class Grafo {
                 } else {
                     prev.setSigAdyancete(a.getSigRiel());
                 }
+
                 return true;
             }
             prev = a;

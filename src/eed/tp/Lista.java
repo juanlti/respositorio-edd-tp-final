@@ -1,24 +1,9 @@
 package eed.tp;
 
-
-
-
-
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/*
-
-
- */
 public class Lista {
 
     private Nodo cabecera;
     private int longitud;
-
 
     public Lista() {
         this.cabecera = null;
@@ -81,7 +66,7 @@ public class Lista {
             aux = this.cabecera;
 
             while (aux != null) {
-                cadena += aux.getElem()+ ",";
+                cadena += aux.getElem() + ",";
                 aux = aux.getEnlace();
             }
         } else {
@@ -222,7 +207,7 @@ public class Lista {
                 this.longitud--;
 
             } else {
-                if (n.getEnlace()!=null && n.getEnlace().getElem().equals(x)) {
+                if (n.getEnlace() != null && n.getEnlace().getElem().equals(x)) {
                     n.setEnlace(n.getEnlace().getEnlace());
                     this.longitud--;
                 }

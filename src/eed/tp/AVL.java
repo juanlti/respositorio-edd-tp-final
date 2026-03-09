@@ -30,7 +30,8 @@ public class AVL {
 
     public boolean insertar(Comparable clave, Object data) {
         this.raiz = insertarAux(this.raiz, clave, data);
-        return true; // si querés detectar duplicado, podés agregar un flag
+        LogHelper.registrar("ABM: Se agrego " + data);
+        return true;
     }
 
     private NodoAVL insertarAux(NodoAVL nodo, Comparable clave, Object data) {
@@ -42,21 +43,19 @@ public class AVL {
         Comparable contenidoClave = nodo.getClave();
 
         if (clave.compareTo(contenidoClave) < 0) {
-            // 2) Bajar por izquierda con ramificación "separada"
             if (nodo.getIzquierdo() != null) {
-                nodo.setIzquierdo(insertarAux(nodo.getIzquierdo(), clave, data)); // reconectar
+                nodo.setIzquierdo(insertarAux(nodo.getIzquierdo(), clave, data));
             } else {
                 nodo.setIzquierdo(new NodoAVL(clave, data));
             }
         } else if (clave.compareTo(contenidoClave) > 0) {
-            // 2) Bajar por derecha con ramificación "separada"
             if (nodo.getDerecho() != null) {
-                nodo.setDerecho(insertarAux(nodo.getDerecho(), clave, data)); // reconectar
+                nodo.setDerecho(insertarAux(nodo.getDerecho(), clave, data));
             } else {
                 nodo.setDerecho(new NodoAVL(clave, data));
             }
         } else {
-            // duplicado: no cambies estructura
+
             return nodo;
         }
 
@@ -65,7 +64,6 @@ public class AVL {
         return nodo;
     }
 
-    // baja hasta encontrar el nodo
     private NodoAVL eliminarAux(NodoAVL nodo, Comparable x) {
         if (nodo == null) {
             return null;
@@ -103,15 +101,15 @@ public class AVL {
     private boolean eliminarNodo(NodoAVL nodo, NodoAVL padre) {
         NodoAVL izquierdo = nodo.getIzquierdo();
         NodoAVL derecho = nodo.getDerecho();
-        // determino el caso a eliminar
+
         if (izquierdo == null && derecho == null) {
-            // elimino un nodo hoja (sin hijos)
+
             eliminarHoja(nodo, padre);
         } else if (izquierdo != null && derecho != null) {
-            // elimino un nodo con dos hijos
+
             eliminarConDosHijos(nodo);
         } else {
-            // elimino un nodo con un hijo, uno izquierdo o derecho, pero no ambos
+
             eliminarConUnHijo(nodo, padre);
         }
         return true;
@@ -121,7 +119,7 @@ public class AVL {
     private boolean eliminarHoja(NodoAVL hijo, NodoAVL padre) {
         boolean eliminado = false;
         if (padre == null) {
-            // caso especial un unico elemento
+
             this.raiz = null;
         } else if (padre.getIzquierdo() == hijo) {
             padre.setIzquierdo(null);

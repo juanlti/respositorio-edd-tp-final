@@ -45,8 +45,8 @@ public class NodoAVL {
         return this.dato;
     }
 
-    public void setElemento(Comparable clave,Object elemento) {
-        this.clave=clave;
+    public void setElemento(Comparable clave, Object elemento) {
+        this.clave = clave;
         this.dato = elemento;
     }
 

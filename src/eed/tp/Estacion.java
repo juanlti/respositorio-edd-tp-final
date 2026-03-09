@@ -27,6 +27,7 @@ public class Estacion {
         this.cp = cp;
         this.vias = vias;
         this.plataformas = plataformas;
+        LogHelper.registrar("ABM: Se creó la estación " + nombre);
     }
 
     public String getNombre() {
@@ -43,40 +44,20 @@ public class Estacion {
                 + " | vías: " + vias + ", plataformas: " + plataformas;
     }
 
-    /*
-    public void getEstacion(int idEstacion) {
-      return this.
-
-    }
-    */
-
     public void setCiudad(String data) {
-        this.ciudad=data;
+        this.ciudad = data;
     }
 
     public void setCodigoPostal(String data) {
-             this.cp=data;
+        this.cp = data;
     }
 
     public void setCalle(String data) {
-             this.calle=data;
+        this.calle = data;
     }
 
     public void setNumero(String data) {
-             this.numero=data;
+        this.numero = data;
     }
 
-    /*
-     
-                bajaEstacion(in);
-            } else if ("3".equals(op)) {
-                modificarEstacion(in);
-            } else if ("4".equals(op)) {
-                listarEstaciones();
-            } else if ("5".equals(op)) {
-                buscarEstacion(in);
-            } else if ("0".equals(op)) {
-                volver = true;
-
-     */
 }

@@ -1,6 +1,7 @@
 package eed.tp;
 
 public class Riel {
+
     private final int codEstacionOrigen;
     private final int codEstacionDestino;
     private int distanciaKm;
@@ -26,15 +27,13 @@ public class Riel {
     public void setDistanciaKm(int distanciaKm) {
         this.distanciaKm = distanciaKm;
     }
-    
-   
 
     @Override
     public String toString() {
-        return "Riel{" +
-                "origen=" + codEstacionOrigen +
-                ", destino=" + codEstacionDestino +
-                ", distanciaKm=" + distanciaKm +
-                '}';
+        return "Riel{"
+                + "origen=" + codEstacionOrigen
+                + ", destino=" + codEstacionDestino
+                + ", distanciaKm=" + distanciaKm
+                + '}';
     }
 }
