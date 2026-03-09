@@ -498,18 +498,6 @@ public class Grafo {
         return l;
     }
 
-    // eliminar
-    public String getAdyacentesDeUnaEstaciones(int codigo) {
-        NodoAdy aux = this.inicio.getSigEstacion().getSigEstacion().getSigEstacion().getPrimerRiel();
-
-        String estaciones = "";
-        while (aux != null) {
-            estaciones = estaciones + aux.getEtiqueta().toString();
-            aux = aux.getSigRiel();
-        }
-        return "adyacentes de " + this.inicio.getSigEstacion().getSigEstacion().getSigEstacion().toString() + " estaciones : " + estaciones;
-    }
-// eliminar
 
     public String getEstacionMasCercana(int codigo) {
         NodoAdy aux = this.inicio.getSigEstacion().getSigEstacion().getSigEstacion().getPrimerRiel();
