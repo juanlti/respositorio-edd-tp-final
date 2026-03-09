@@ -41,10 +41,6 @@ public class Grafo {
         return exito;
     }
 
-    public void ubierVerticePublico(String unaEstacion) {
-
-    }
-
     private NodoVert ubicarVertice(Estacion x) {
 
         boolean exito = false;
@@ -174,92 +170,6 @@ public class Grafo {
         return existe;
     }
 
-    public Lista listarEnProfundidad(Estacion x) {
-
-        Lista visitados = new Lista();
-
-        NodoVert aux = ubicarVertice(x);
-
-        while (aux != null) {
-
-            if (visitados.localizar(aux.getEstacion()) < 0) {
-
-                listarEnProfundidadAux(aux, visitados);
-            }
-            aux = aux.getSigEstacion();
-
-        }
-        return visitados;
-    }
-
-    private void listarEnProfundidadAux(NodoVert n, Lista visitados) {
-
-        if (n != null) {
-            visitados.insertar(n.getEstacion(), visitados.longitud() + 1);
-            NodoAdy moverAdy = n.getPrimerRiel();
-
-            while (moverAdy != null) {
-                if (visitados.localizar(moverAdy.getVertice().getEstacion()) < 0) {
-                    listarEnProfundidadAux(moverAdy.getVertice(), visitados);
-                }
-
-                moverAdy = moverAdy.getSigRiel();
-
-            }
-        }
-
-    }
-
-    public Lista listarEnAnchura(Estacion x) {
-        Lista visitados = new Lista();
-        NodoVert aux = ubicarVertice(x);
-
-        if (this.inicio != null) {
-            visitados = listarEnAnchuraAux(aux, visitados);
-
-            while (aux != null && visitados.longitud() < this.cantidadVertices) {
-
-                if (visitados.localizar(aux.getEstacion()) == -1) {
-                    visitados = listarEnAnchuraAux(aux, visitados);
-                }
-                aux = aux.getSigEstacion();
-
-            }
-
-        }
-        return visitados;
-
-    }
-
-    private Lista listarEnAnchuraAux(NodoVert u, Lista visitados) {
-        Cola c1 = new Cola();
-
-        visitados.insertar(u.getEstacion(), visitados.longitud() + 1);
-        c1.poner(u);
-
-        while (!c1.esVacia()) {
-            NodoVert auxVert = (NodoVert) c1.obtenerFrente();
-
-            c1.sacar();
-
-            NodoAdy moverAdy = auxVert.getPrimerRiel();
-            while (moverAdy != null) {
-
-                if (visitados.localizar(moverAdy.getVertice().getEstacion()) == -1) {
-
-                    visitados.insertar(moverAdy.getVertice().getEstacion(), visitados.longitud() + 1);
-                    c1.poner(moverAdy.getVertice());
-                }
-
-                moverAdy = moverAdy.getSigRiel();
-
-            }
-
-        }
-
-        return visitados;
-    }
-
     public boolean eliminarVertice(Object elemento) {
         boolean fueEliminado = false;
         NodoVert otrosVertices = this.inicio;
@@ -375,86 +285,6 @@ public class Grafo {
         return false;
     }
 
-    public Grafo clone() {
-
-        Grafo grafoClone = new Grafo();
-
-        grafoClone.inicio = new NodoVert(this.inicio.getEstacion(), null, null);
-        NodoVert moverVerticesClone = grafoClone.inicio;
-        NodoVert moverVerticeOriginal = this.inicio;
-        while (moverVerticeOriginal != null) {
-
-            if (moverVerticeOriginal.getPrimerRiel() != null) {
-                NodoAdy moverAdyOriginal = moverVerticeOriginal.getPrimerRiel();
-                NodoAdy moverAdyClone = new NodoAdy(moverAdyOriginal.getVertice(), null);
-                System.out.println(" nuevbo elemento " + moverAdyClone.getVertice().getEstacion());
-                moverVerticesClone.setPrimerRiel(moverAdyClone);
-
-                while (moverAdyOriginal != null) {
-
-                    NodoAdy aux = new NodoAdy(moverAdyOriginal.getVertice(), null);
-                    moverAdyClone.setSigAdyancete(aux);
-                    moverAdyClone = moverAdyClone.getSigRiel();
-                    moverAdyOriginal = moverAdyOriginal.getSigRiel();
-
-                }
-
-            } else {
-
-                NodoVert auxVertClone = new NodoVert(moverVerticeOriginal.getSigEstacion().getEstacion(), null, null);
-                moverVerticesClone.setSigEstacion(auxVertClone);
-            }
-
-            moverVerticesClone = moverVerticesClone.getSigEstacion();
-            moverVerticeOriginal = moverVerticeOriginal.getSigEstacion();
-
-        }
-        return grafoClone;
-    }
-
-    public boolean existeCamino(Estacion origen, Estacion destino) {
-
-        NodoVert o = ubicarVertice(origen);
-
-        if (o == null) {
-            return false;
-        }
-
-        NodoVert d = ubicarVertice(destino);
-        if (d == null) {
-            return false;
-        }
-
-        Lista visitados = new Lista();
-        return existeCaminoAux(o, d, visitados);
-    }
-
-    private boolean existeCaminoAux(NodoVert n, NodoVert destino, Lista visitados) {
-        if (n == null) {
-            return false;
-        }
-
-        if (n.getEstacion().equals(destino.getEstacion())) {
-            return true;
-        }
-
-        if (visitados.localizar(n.getEstacion()) > 0) {
-            return false;
-        }
-
-        visitados.insertar(n.getEstacion(), visitados.longitud() + 1);
-
-        NodoAdy ady = n.getPrimerRiel();
-        while (ady != null) {
-            if (existeCaminoAux(ady.getVertice(), destino, visitados)) {
-                return true;
-            }
-            ady = ady.getSigRiel();
-        }
-
-        return false;
-    }
-
     public Object obtenerEtiquetaArco(Estacion origen, Estacion destino) {
         NodoVert vo = ubicarVertice(origen);
         if (vo == null) {
@@ -497,18 +327,6 @@ public class Grafo {
         }
         return l;
     }
-/*
-    public String getAdyacentesDeUnaEstaciones(int codigo) {
-        NodoAdy aux = this.inicio.getSigEstacion().getSigEstacion().getSigEstacion().getPrimerRiel();
-
-        String estaciones = "";
-        while (aux != null) {
-            estaciones = estaciones + aux.getEtiqueta().toString();
-            aux = aux.getSigRiel();
-        }
-        return "adyacentes de " + this.inicio.getSigEstacion().getSigEstacion().getSigEstacion().toString() + " estaciones : " + estaciones;
-    }
-*/
 
     public String getEstacionMasCercana(int codigo) {
         NodoAdy aux = this.inicio.getSigEstacion().getSigEstacion().getSigEstacion().getPrimerRiel();
