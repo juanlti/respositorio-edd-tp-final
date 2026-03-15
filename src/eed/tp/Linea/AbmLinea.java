@@ -9,8 +9,8 @@ import eed.tp.AVL;
 import eed.tp.Estacion.Estacion;
 import eed.tp.Linea.Linea;
 import eed.tp.Lista;
-import static eed.tp.Input.leerInt;
-import static eed.tp.Input.leerNoVacio;
+import static eed.tp.Servicios.Input.leerInt;
+import static eed.tp.Servicios.Input.leerNoVacio;
 import java.util.HashMap;
 import java.util.Scanner;
 

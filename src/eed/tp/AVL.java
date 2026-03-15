@@ -1,5 +1,6 @@
 package eed.tp;
 
+import eed.tp.Servicios.LogHelper;
 import eed.tp.Nodos.NodoAVL;
 
 public class AVL {

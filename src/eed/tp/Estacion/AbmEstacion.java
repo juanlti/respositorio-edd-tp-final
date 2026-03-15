@@ -7,9 +7,9 @@ package eed.tp.Estacion;
 
 import eed.tp.AVL;
 import eed.tp.Grafo;
-import static eed.tp.Input.leerInt;
-import static eed.tp.Input.leerNoVacio;
-import static eed.tp.Input.leerOpcional;
+import static eed.tp.Servicios.Input.leerInt;
+import static eed.tp.Servicios.Input.leerNoVacio;
+import static eed.tp.Servicios.Input.leerOpcional;
 import java.util.Scanner;
 
 /**

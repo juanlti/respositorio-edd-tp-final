@@ -1,5 +1,6 @@
 package eed.tp;
 
+import eed.tp.Servicios.LogHelper;
 import eed.tp.Estacion.Estacion;
 import eed.tp.Riel.Riel;
 import eed.tp.Cola;

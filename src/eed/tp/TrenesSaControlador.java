@@ -9,12 +9,9 @@ import eed.tp.Ejercicios_6_7_8.Ejercicio_6_Tren;
 import eed.tp.Ejercicios_6_7_8.Ejercicio_7_Estacion;
 import eed.tp.Ejercicios_6_7_8.Ejercicio_8_Viaje;
 import eed.tp.Estacion.Estacion;
-import eed.tp.Tren.Tren;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import static java.lang.System.in;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;

@@ -7,8 +7,8 @@ package eed.tp.Ejercicios_6_7_8;
 
 import eed.tp.AVL;
 import eed.tp.Estacion.Estacion;
-import static eed.tp.Input.leerInt;
-import static eed.tp.Input.leerNoVacio;
+import static eed.tp.Servicios.Input.leerInt;
+import static eed.tp.Servicios.Input.leerNoVacio;
 import eed.tp.Lista;
 import java.util.Scanner;
 
