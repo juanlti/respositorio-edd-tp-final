@@ -36,6 +36,7 @@ public class Linea {
     public void setEstaciones(Lista estaciones) {
         this.estaciones = estaciones;
     }
+   
 
     @Override
     public String toString() {

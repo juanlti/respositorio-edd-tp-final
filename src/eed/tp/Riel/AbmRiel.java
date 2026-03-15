@@ -5,9 +5,7 @@
  */
 package eed.tp.Riel;
 
-import eed.tp.AVL;
 import eed.tp.Grafo;
-import eed.tp.Lista;
 import static eed.tp.Input.leerInt;
 import java.util.Scanner;
 
@@ -18,27 +16,21 @@ import java.util.Scanner;
 public class AbmRiel {
 
     private Grafo red;
-    private AVL estaciones;
 
-    public AbmRiel(AVL estaciones,Grafo red) {
+    public AbmRiel(Grafo red) {
         this.red = red;
-        this.estaciones = estaciones;
-    }
-
-    private void imprimirMenuRieles() {
-        System.out.println("=== ABM RIELES (RED) ===");
-        System.out.println("1) Alta de riel");
-        System.out.println("2) Baja de riel");
-        System.out.println("3) Modificación de riel");
-        System.out.println("4) Listar rieles");
-        System.out.println("0) Volver");
-        System.out.print("Opción: ");
     }
 
     public void abmRieles(Scanner sc) {
         boolean volver = false;
         while (!volver) {
-            imprimirMenuRieles();
+            System.out.print(
+                    "---- ABM RIELES ----\n"
+                    + "1) Alta\n"
+                    + "2) Baja\n"
+                    + "3) Modificación\n"
+                    + "0) Volver\n"
+                    + "Opción: ");
             String op = sc.nextLine().trim();
             switch (op) {
                 case "1":
@@ -49,12 +41,6 @@ public class AbmRiel {
                     break;
                 case "3":
                     modificarRiel(sc);
-                    break;
-                case "4":
-                    listarRieles();
-                    break;
-                case "5":
-                    // listarRielesDeEstacion(sc);
                     break;
                 case "0":
                     volver = true;
@@ -104,46 +90,4 @@ public class AbmRiel {
         }
     }
 
-    private void listarRieles() {
-        Lista etiquetas = red.listarEtiquetas();
-        if (etiquetas.esVacia()) {
-            System.out.println("No hay rieles cargados.");
-            return;
-        }
-
-        System.out.println("=== LISTA DE RIELES ===");
-
-        java.util.HashSet<String> vistos = new java.util.HashSet<>();
-        for (int i = 1; i <= etiquetas.longitud(); i++) {
-            Riel r = (Riel) etiquetas.recuperar(i);
-            String key = (Math.min(r.getCodEstacionOrigen(), r.getCodEstacionDestino()))
-                    + "-"
-                    + (Math.max(r.getCodEstacionOrigen(), r.getCodEstacionDestino()));
-            if (vistos.add(key)) {
-                System.out.println(r);
-            }
-        }
-    }
-    /*
-    private void listarRielesDeEstacion(Scanner sc) {
-        int cod = leerInt(sc, "Código de estación: ", 1);
-        Estacion est = buscarEstacionPorCodigo(cod);
-        if (est == null) {
-            System.out.println("No existe estación con código " + cod);
-            return;
-        }
-
-        Lista rieles = red.listarEtiquetasDeVertice(est);
-        if (rieles.esVacia()) {
-            System.out.println("No hay rieles conectados a esa estación.");
-            return;
-        }
-
-        System.out.println("=== RIELES DE LA ESTACIÓN " + cod + " ===");
-        for (int i = 1; i <= rieles.longitud(); i++) {
-            Riel r = (Riel) rieles.recuperar(i);
-            System.out.println(r);
-        }
-    }
-     */
 }

@@ -29,7 +29,7 @@ public class Ejercicio_8_Viaje {
         boolean volver = false;
         while (!volver) {
             System.out.print(
-                    "---- ABM Trenes ----\n"
+                    "---- Consulta Viaje ----\n"
                     + "1) Obtener el camino mas corto entre dos estaciones que pasen por menos estaciones\n"
                     + "2) Obtener el camino con menos kilometros entre dos estaciones\n"
                     + "3) Obtener todos los caminos posibles entre dos estaciones sin pasar por una estacion dada \n"

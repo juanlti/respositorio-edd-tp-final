@@ -25,16 +25,17 @@ public class Ejercicio_7_Estacion {
     }
 
     public void consultasEstaciones(Scanner sc) {
-        System.out.println("[TODO] Consultas de Estaciones...");
+
         boolean volver = false;
         while (!volver) {
-            System.out.println("=== CONSULTAS ===");
-            System.out.println("1. Mostrar informacion de una estación.");
-            System.out.println("2. Obtener todaS las estaciones que comiencen con un prefijo.");
-            System.out.println("3. Listar estaciones");
-            System.out.println("0. Volver");
-            System.out.print("Opción: ");
-
+            System.out.print(
+                    "---- Consulta Estacion ----\n"
+                    + "1) Mostrar informacion de una estación\n"
+                    + "2) Obtener todaS las estaciones que comiencen con un prefijo.\n"
+                    + "3) Listar estaciones \n"
+                    + "0) Volver\n"
+                    + "Opción: "
+            );
             int opc = Integer.parseInt(sc.nextLine().trim());
             switch (opc) {
                 case 1:

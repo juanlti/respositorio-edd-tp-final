@@ -235,7 +235,7 @@ public class AVL {
     public void listarAux(NodoAVL nodo, Lista lista) {
         if (nodo != null) {
             listarAux(nodo.getDerecho(), lista);
-            lista.insertar(nodo.getElemento(), 1);
+            lista.insertar(nodo.getElemento(), lista.longitud() + 1);
             listarAux(nodo.getIzquierdo(), lista);
         }
     }
