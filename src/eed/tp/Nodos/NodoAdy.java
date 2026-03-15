@@ -1,4 +1,4 @@
-package eed.tp;
+package eed.tp.Nodos;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

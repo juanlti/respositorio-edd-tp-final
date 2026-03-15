@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eed.tp;
+package eed.tp.Estacion;
+
+import eed.tp.LogHelper;
 
 /**
  *
@@ -20,6 +22,7 @@ public class Estacion {
     private int plataformas;
 
     public Estacion(String nombre, String calle, String numero, String ciudad, String cp, int vias, int plataformas) {
+
         this.nombre = nombre;
         this.calle = calle;
         this.numero = numero;

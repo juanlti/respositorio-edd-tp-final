@@ -18,7 +18,7 @@ public class EEDTP {
         TrenesSA app = new TrenesSA();
         Scanner sc = new Scanner(System.in);
 
-        app.cargarInicialDesdeArchivo("file.txt");
+       // app.cargarInicialDesdeArchivo("file.txt");
 
         LogHelper.registrar("\n=== ESTADO DEL SISTEMA POST-CARGA INICIAL ===");
         LogHelper.registrar(app.toString());

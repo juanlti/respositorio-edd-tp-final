@@ -1,5 +1,7 @@
 package eed.tp;
 
+import eed.tp.Nodos.Nodo;
+
 public class Lista {
 
     private Nodo cabecera;

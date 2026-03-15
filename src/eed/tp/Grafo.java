@@ -1,9 +1,11 @@
 package eed.tp;
 
+import eed.tp.Estacion.Estacion;
+import eed.tp.Riel.Riel;
 import eed.tp.Cola;
 import eed.tp.Lista;
-import eed.tp.NodoAdy;
-import eed.tp.NodoVert;
+import eed.tp.Nodos.NodoAdy;
+import eed.tp.Nodos.NodoVert;
 import java.util.ArrayList;
 
 /**
@@ -27,7 +29,7 @@ public class Grafo {
 
     }
 
-    public boolean insertarVertice(Estacion x) {
+    public boolean insertarVertice(Comparable x) {
 
         boolean exito = false;
         NodoVert aux = ubicarVertice(x);
@@ -36,12 +38,12 @@ public class Grafo {
             this.inicio = new NodoVert(x, this.inicio, null);
             exito = true;
             this.cantidadVertices++;
-            LogHelper.registrar("Se agrego la estacion " + x.getNombre());
+            //LogHelper.registrar("Se agrego la estacion " + x.getNombre());
         }
         return exito;
     }
 
-    private NodoVert ubicarVertice(Estacion x) {
+    private NodoVert ubicarVertice(Object x) {
 
         boolean exito = false;
 
@@ -89,7 +91,7 @@ public class Grafo {
         return sb.toString();
     }
 
-    public boolean insertarArco(Estacion origen, Estacion destino, boolean esGrafo, Riel etiqueta) {
+    public boolean insertarArco(Comparable origen, Comparable destino, Riel etiqueta) {
 
         boolean exito = false;
         if (this.inicio != null) {
@@ -106,9 +108,9 @@ public class Grafo {
                     recorrerAdyacentes(auxOrigen, destinoNodoAdy);
 
                     exito = true;
-                    LogHelper.registrar("ABM: Se creó el tramo de riel entre " + origen.getNombre() + " y " + destino.getNombre());
+                    LogHelper.registrar("ABM: Se creó el tramo de riel entre " + origen.toString() + " y " + destino.toString());
 
-                    if (esGrafo) {
+                    if (true) {
                         NodoAdy origenNodoAdy = new NodoAdy(auxOrigen, null, etiqueta);
                         recorrerAdyacentes(auxDestino, origenNodoAdy);
 
@@ -173,8 +175,9 @@ public class Grafo {
     public boolean eliminarVertice(Object elemento) {
         boolean fueEliminado = false;
         NodoVert otrosVertices = this.inicio;
-
-        while (otrosVertices != null) {
+        //buscar vertice = elemento 
+        boolean encontrado = false;
+        while (otrosVertices != null && encontrado) {
             if (!otrosVertices.getEstacion().equals(elemento)) {
 
                 NodoAdy auxMover = otrosVertices.getPrimerRiel();
@@ -260,7 +263,7 @@ public class Grafo {
         return false;
     }
 
-    public boolean eliminarArco(Estacion origen, Estacion destino) {
+    public boolean eliminarArco(Object origen, Object destino) {
         NodoVert vo = ubicarVertice(origen);
         if (vo == null) {
             return false;
@@ -285,7 +288,9 @@ public class Grafo {
         return false;
     }
 
-    public Object obtenerEtiquetaArco(Estacion origen, Estacion destino) {
+    /*
+    public Object obtenerEtiquetaArco(Object origen, Object destino) {
+        
         NodoVert vo = ubicarVertice(origen);
         if (vo == null) {
             return null;
@@ -299,6 +304,29 @@ public class Grafo {
             ady = ady.getSigRiel();
         }
         return null;
+    }
+     */
+    public Object modificarDistanciaRiel(Object origen, Object destino, int cantKm) {
+
+        boolean exito = false;
+        Riel riel = null;
+        //busco el nivel de la estacion Origen para realizar una busqueda adyacente hasta encontrar a la estacion destino
+        NodoVert verticeOrigen = ubicarVertice(origen);
+        NodoAdy primerVecino = verticeOrigen.getPrimerRiel();
+        if (verticeOrigen != null && primerVecino != null && !exito) {
+            NodoVert vecino = primerVecino.getVertice();
+            if (vecino.getEstacion().equals(destino)) {
+                riel = (Riel) primerVecino.getEtiqueta();
+                riel.setDistanciaKm(cantKm);
+                exito = true;
+            }
+
+            primerVecino = primerVecino.getSigRiel();
+
+        }
+
+        return riel;
+
     }
 
     public Lista listarEtiquetas() {
