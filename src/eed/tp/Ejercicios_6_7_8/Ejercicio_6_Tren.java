@@ -6,8 +6,11 @@
 package eed.tp.Ejercicios_6_7_8;
 
 import eed.tp.AVL;
+import eed.tp.Estacion.Estacion;
 import eed.tp.Tren.Tren;
 import static eed.tp.Input.leerInt;
+import eed.tp.Linea.Linea;
+import eed.tp.Lista;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -17,8 +20,8 @@ import java.util.Scanner;
  */
 public class Ejercicio_6_Tren {
 
-    private AVL trenes;
-    private HashMap linea;
+    private final AVL trenes;
+    private final HashMap linea;
 
     public Ejercicio_6_Tren(AVL trenes, HashMap linea) {
         this.trenes = trenes;
@@ -28,12 +31,14 @@ public class Ejercicio_6_Tren {
     public void consultaTrenes(Scanner sc) {
         boolean volver = false;
         while (!volver) {
-            System.out.println("=== CONSULTAS ===");
-            System.out.println("1. Mostrar informacion de un tren");
-            System.out.println("2. Mostrar las estaciones de un tren");
-            System.out.println("3. Listar todos los trenes");
-            System.out.println("0. Volver");
-            System.out.print("Opción: ");
+            System.out.print(
+                    "---- Consulta Tren ----\n"
+                    + "1) Mostrar informacion de un tren\n"
+                    + "2) Mostrar las estaciones de un tren\n"
+                    + "3) Listar todos los trenes \n"
+                    + "0) Volver\n"
+                    + "Opción: "
+            );
             int opc = Integer.parseInt(sc.nextLine().trim());
 
             switch (opc) {
@@ -61,7 +66,15 @@ public class Ejercicio_6_Tren {
         if (tren == null) {
             System.out.println("✗ No existe el tren");
         } else {
-            System.out.println("TODAS LAS LINEAS DE ESTE TREEN [" + tren.getLinea() + " ]");
+            String lineaDelTren = tren.getLinea();
+            Linea lineaEncontrada = (Linea) this.linea.get(lineaDelTren);
+            Lista estaciones = lineaEncontrada.getEstaciones();
+            System.out.println("La linea del tren ingresado es: " + lineaDelTren);
+            for (int i = 0; i < estaciones.longitud(); i++) {
+                Estacion estacion = (Estacion) estaciones.recuperar(i);
+                System.out.println("Las ciudades por donde pasa [ " + estacion.getCiudad() + " ]");
+
+            }
         }
     }
 
@@ -79,11 +92,13 @@ public class Ejercicio_6_Tren {
     private void listarTrenes() {
         if (trenes.esVacio()) {
             System.out.println("== Trenes == (sin trenes)");
-            return;
+
+        } else {
+
+            System.out.println("== Trenes ==");
+            System.out.println(trenes.listar());
         }
 
-        System.out.println("== Trenes ==");
-        System.out.println(trenes.listar());
     }
 
 }

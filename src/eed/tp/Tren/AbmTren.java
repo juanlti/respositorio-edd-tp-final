@@ -71,7 +71,6 @@ public class AbmTren {
             if (linea.isEmpty()) {
                 linea = "no-asignado";
             }
-
             trenes.insertar(codigo, new Tren(codigo, propulsion, vagPas, vagCar, linea));
 
         }
@@ -90,31 +89,24 @@ public class AbmTren {
     private void modificarTren(Scanner in) {
         int codigo = leerInt(in, "Código del tren a modificar: ", 1);
         Tren t = (Tren) trenes.buscar(codigo);
-
         if (t == null) {
             System.out.println("✗ No existe el tren " + codigo);
-            return;
+        } else {
+            System.out.println("Actual: " + t);
+            String propulsion = leerOpcional(in, "Nueva propulsión (Enter mantiene): ");
+            Integer vagPas = leerIntOpcional(in, "Nuevos vagones pasajeros (Enter mantiene): ", 0);
+            Integer vagCar = leerIntOpcional(in, "Nuevos vagones carga (Enter mantiene): ", 0);
+            String linea = leerOpcional(in, "Nueva línea (Enter mantiene): ");
+            if (!propulsion.isEmpty() || vagPas != null || vagCar != null || !linea.isEmpty()) {
+                t.setPropulsion(propulsion);
+                t.setCantidadVagonesPasajeros(vagPas);
+                t.setCantidadVagonesCarga(vagCar);
+                t.setLinea(linea);
+            }
+
+            System.out.println("✓ Modificación OK");
         }
 
-        System.out.println("Actual: " + t);
-        String propulsion = leerOpcional(in, "Nueva propulsión (Enter mantiene): ");
-        Integer vagPas = leerIntOpcional(in, "Nuevos vagones pasajeros (Enter mantiene): ", 0);
-        Integer vagCar = leerIntOpcional(in, "Nuevos vagones carga (Enter mantiene): ", 0);
-        String linea = leerOpcional(in, "Nueva línea (Enter mantiene): ");
-        if (!propulsion.isEmpty()) {
-            t.setPropulsion(propulsion);
-        }
-        if (vagPas != null) {
-            t.setCantidadVagonesPasajeros(vagPas);
-        }
-        if (vagCar != null) {
-            t.setCantidadVagonesCarga(vagCar);
-        }
-        if (!linea.isEmpty()) {
-            t.setLinea(linea);
-        }
-
-        System.out.println("✓ Modificación OK");
     }
 
 }

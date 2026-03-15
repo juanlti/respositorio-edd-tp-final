@@ -31,13 +31,14 @@ public class AbmLinea {
     public void abmLineas(Scanner sc) {
         boolean volver = false;
         while (!volver) {
-            System.out.println("=== ABM LÍNEAS ===");
-            System.out.println("1) Alta de línea");
-            System.out.println("2) Baja de línea");
-            System.out.println("3) Modificación de línea");
-            System.out.println("4) Listar líneas");
-            System.out.println("0) Volver");
-            System.out.print("Opción: ");
+            System.out.print(
+                    "---- ABM LÍNEAS ----\n"
+                    + "1) Alta\n"
+                    + "2) Baja\n"
+                    + "3) Modificación\n"
+                    + "0) Volver\n"
+                    + "Opción: "
+            );
             String op = sc.nextLine().trim();
             switch (op) {
                 case "1":
@@ -48,9 +49,6 @@ public class AbmLinea {
                     break;
                 case "3":
                     modificarLinea(sc);
-                    break;
-                case "4":
-                    listarLineas();
                     break;
                 case "0":
                     volver = true;

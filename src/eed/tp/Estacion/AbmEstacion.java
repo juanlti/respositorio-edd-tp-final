@@ -75,8 +75,6 @@ public class AbmEstacion {
             int cantPlataformas = leerInt(in, "Cantidad de plataformas: ", 0);
             estaciones.insertar(codigo, new Estacion(nombre, calle, numero, ciudad, cp, cantVias, cantPlataformas));
             red.insertarVertice(codigo);
-
-            //agregar en grafo directamente
             System.out.println("✓ Alta de estación OK");
         }
 
@@ -96,7 +94,6 @@ public class AbmEstacion {
         Estacion estacion = (Estacion) estaciones.buscar(codigo);
 
         if (estacion == null) {
-
             System.out.println("✗ No existe la estación " + codigo);
 
         } else {
@@ -106,13 +103,11 @@ public class AbmEstacion {
             String ciudad = leerOpcional(in, "Nueva ciudad (Enter mantiene): ");
             String codigoPostal = leerOpcional(in, "Nuevo código postal (Enter mantiene): ");
             if (numero != null && !calle.isEmpty() && !ciudad.isEmpty() && !codigoPostal.isEmpty()) {
-
                 estacion.setNumero(numero);
                 estacion.setCalle(calle);
                 estacion.setCiudad(ciudad);
                 estacion.setCodigoPostal(codigoPostal);
             }
-
             System.out.println("✓ Modificación OK");
         }
     }

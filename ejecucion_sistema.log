@@ -269,3 +269,16 @@ ABM: Se creó la estación Palermo
 ABM: Se agrego Palermo (bsas) - nqn 1 CP:8300 | vías: 1, plataformas: 1
 ABM: Se creó la estación nqn
 ABM: Se agrego nqn (nqn) - nqn 39 CP:39 | vías: 1, plataformas: 1
+
+=== ESTADO DEL SISTEMA POST-CARGA INICIAL ===
+eed.tp.TrenesSA@55f96302
+==============================================
+
+ABM: Se creó la estación NQN
+ABM: Se agrego NQN (NQN) - 3 3 CP:3 | vías: 3, plataformas: 3
+ABM: Se creó la estación RN
+ABM: Se agrego RN (RN) - 4 4 CP:4 | vías: 4, plataformas: 4
+
+=== ESTADO DEL SISTEMA POST-CARGA INICIAL ===
+==============================================
+
