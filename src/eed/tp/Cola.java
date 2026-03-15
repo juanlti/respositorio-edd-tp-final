@@ -5,7 +5,9 @@
  */
 package eed.tp;
 
-import conjuntistas.Hash.Nodo;
+import eed.tp.Nodos.Nodo;
+
+
 
 public class Cola {
 
