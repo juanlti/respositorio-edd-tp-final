@@ -6,7 +6,6 @@
 package eed.tp.Tren;
 
 import eed.tp.AVL;
-import eed.tp.Tren.Tren;
 import static eed.tp.Servicios.Input.leerInt;
 import static eed.tp.Servicios.Input.leerIntOpcional;
 import static eed.tp.Servicios.Input.leerNoVacio;
@@ -25,7 +24,7 @@ public class AbmTren {
         this.trenes = trenes;
     }
 
-    public void abmTrenes(Scanner in) {
+    public void abmTrenes(Scanner sc) {
         boolean volver = false;
         while (!volver) {
             System.out.print(
@@ -36,18 +35,19 @@ public class AbmTren {
                     + "0) Volver\n"
                     + "Opción: "
             );
-            String op = in.nextLine().trim();
-            switch (op) {
-                case "1":
-                    altaTren(in);
+            int opc = sc.nextInt();
+            sc.nextLine();
+            switch (opc) {
+                case 1:
+                    altaTren(sc);
                     break;
-                case "2":
-                    bajaTren(in);
+                case 2:
+                    bajaTren(sc);
                     break;
-                case "3":
-                    modificarTren(in);
+                case 3:
+                    modificarTren(sc);
                     break;
-                case "0":
+                case 0:
                     volver = true;
                     break;
                 default:
@@ -56,29 +56,29 @@ public class AbmTren {
         }
     }
 
-    private void altaTren(Scanner in) {
-        int codigo = leerInt(in, "Código (entero positivo): ", 1);
+    private void altaTren(Scanner sc) {
+        int codigo = leerInt(sc, "Código (entero positivo): ", 1);
         Tren tren = (Tren) trenes.buscar(codigo);
 
         if (tren != null) {
             System.out.println("✗ Ya existe un tren con código " + codigo);
 
         } else {
-            String propulsion = leerNoVacio(in, "Propulsión (electrico/diesel/otro): ");
-            int vagPas = leerInt(in, "Vagones de pasajeros (>=0): ", 0);
-            int vagCar = leerInt(in, "Vagones de carga (>=0): ", 0);
-            String linea = leerOpcional(in, "Línea (Enter para 'no-asignado'): ");
+            String propulsion = leerNoVacio(sc, "Propulsión (electrico/diesel/otro): ");
+            int vagPas = leerInt(sc, "Vagones de pasajeros (>=0): ", 0);
+            int vagCar = leerInt(sc, "Vagones de carga (>=0): ", 0);
+            String linea = leerOpcional(sc, "Línea (Enter para 'no-asignado'): ");
             if (linea.isEmpty()) {
                 linea = "no-asignado";
             }
-            trenes.insertar(codigo, new Tren(codigo, propulsion, vagPas, vagCar, linea));
+            trenes.insertar(codigo, new Tren(propulsion, vagPas, vagCar, linea));
 
         }
 
     }
 
-    private void bajaTren(Scanner in) {
-        int codigo = leerInt(in, "Código del tren a eliminar: ", 1);
+    private void bajaTren(Scanner sc) {
+        int codigo = leerInt(sc, "Código del tren a eliminar: ", 1);
         if (trenes.eliminar(codigo)) {
             System.out.println("✓ Baja OK");
         } else {
@@ -86,17 +86,17 @@ public class AbmTren {
         }
     }
 
-    private void modificarTren(Scanner in) {
-        int codigo = leerInt(in, "Código del tren a modificar: ", 1);
+    private void modificarTren(Scanner sc) {
+        int codigo = leerInt(sc, "Código del tren a modificar: ", 1);
         Tren t = (Tren) trenes.buscar(codigo);
         if (t == null) {
             System.out.println("✗ No existe el tren " + codigo);
         } else {
             System.out.println("Actual: " + t);
-            String propulsion = leerOpcional(in, "Nueva propulsión (Enter mantiene): ");
-            Integer vagPas = leerIntOpcional(in, "Nuevos vagones pasajeros (Enter mantiene): ", 0);
-            Integer vagCar = leerIntOpcional(in, "Nuevos vagones carga (Enter mantiene): ", 0);
-            String linea = leerOpcional(in, "Nueva línea (Enter mantiene): ");
+            String propulsion = leerOpcional(sc, "Nueva propulsión (Enter mantiene): ");
+            Integer vagPas = leerIntOpcional(sc, "Nuevos vagones pasajeros (Enter mantiene): ", 0);
+            Integer vagCar = leerIntOpcional(sc, "Nuevos vagones carga (Enter mantiene): ", 0);
+            String linea = leerOpcional(sc, "Nueva línea (Enter mantiene): ");
             if (!propulsion.isEmpty() || vagPas != null || vagCar != null || !linea.isEmpty()) {
                 t.setPropulsion(propulsion);
                 t.setCantidadVagonesPasajeros(vagPas);

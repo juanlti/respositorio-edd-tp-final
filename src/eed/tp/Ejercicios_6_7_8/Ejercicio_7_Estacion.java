@@ -36,7 +36,8 @@ public class Ejercicio_7_Estacion {
                     + "0) Volver\n"
                     + "Opción: "
             );
-            int opc = Integer.parseInt(sc.nextLine().trim());
+            int opc = sc.nextInt();
+            sc.nextLine();
             switch (opc) {
                 case 1:
                     mostrarEstacionDada(sc);

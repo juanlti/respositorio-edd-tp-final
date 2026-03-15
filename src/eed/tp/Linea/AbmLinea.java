@@ -39,18 +39,18 @@ public class AbmLinea {
                     + "0) Volver\n"
                     + "Opción: "
             );
-            String op = sc.nextLine().trim();
-            switch (op) {
-                case "1":
+            int opc = sc.nextInt();
+            switch (opc) {
+                case 1:
                     altaLinea(sc);
                     break;
-                case "2":
+                case 2:
                     bajaLinea(sc);
                     break;
-                case "3":
+                case 3:
                     modificarLinea(sc);
                     break;
-                case "0":
+                case 0:
                     volver = true;
                     break;
                 default:

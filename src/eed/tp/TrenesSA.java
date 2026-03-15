@@ -5,9 +5,9 @@
  */
 package eed.tp;
 
+import eed.tp.Servicios.CargarInicialDesdeArchivo;
 import eed.tp.Servicios.LogHelper;
 import java.io.IOException;
-import java.util.Scanner;
 
 /**
  *
@@ -17,8 +17,7 @@ public class TrenesSA {
 
     public static void main(String[] args) throws IOException {
         TrenesSaControlador app = new TrenesSaControlador();
-        app.cargarInicialDesdeArchivo("file.txt");
-
+        app.cargarInicialDesdeArchivo("src/eed/tp/Servicios/file.txt");
         LogHelper.registrar("\n=== ESTADO DEL SISTEMA POST-CARGA INICIAL ===");
         LogHelper.registrar(app.toString());
         LogHelper.registrar("==============================================\n");

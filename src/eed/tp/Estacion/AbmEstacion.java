@@ -26,7 +26,7 @@ public class AbmEstacion {
         this.red = red;
     }
 
-    public void abmEstaciones(Scanner in) {
+    public void abmEstaciones(Scanner sc) {
         boolean volver = false;
         while (!volver) {
             System.out.print(
@@ -37,18 +37,19 @@ public class AbmEstacion {
                     + "0) Volver\n"
                     + "Opción: "
             );
-            String op = in.nextLine().trim();
+            int op = sc.nextInt();
+            sc.nextLine();
             switch (op) {
-                case "1":
-                    altaEstacion(in);
+                case 1:
+                    altaEstacion(sc);
                     break;
-                case "2":
-                    bajaEstacion(in);
+                case 2:
+                    bajaEstacion(sc);
                     break;
-                case "3":
-                    modificarEstacion(in);
+                case 3:
+                    modificarEstacion(sc);
                     break;
-                case "0":
+                case 0:
                     volver = true;
                     break;
                 default:
@@ -57,22 +58,22 @@ public class AbmEstacion {
         }
     }
 
-    private void altaEstacion(Scanner in) {
+    private void altaEstacion(Scanner sc) {
 
-        int codigo = leerInt(in, "Código de estación (entero positivo): ", 1);
+        int codigo = leerInt(sc, "Código de estación (entero positivo): ", 1);
 
         if (estaciones.buscar(codigo) != null) {
 
             System.out.println("✗ Ya existe una estacion con código " + codigo);
 
         } else {
-            String nombre = leerNoVacio(in, "Nombre de la estación: ");
-            String ciudad = leerNoVacio(in, "Ciudad: ");
-            String calle = leerNoVacio(in, "Calle de la estación: ");
-            String numero = leerNoVacio(in, "Número: ");
-            String cp = leerNoVacio(in, "Código Postal: ");
-            int cantVias = leerInt(in, "Cantidad de vías: ", 0);
-            int cantPlataformas = leerInt(in, "Cantidad de plataformas: ", 0);
+            String nombre = leerNoVacio(sc, "Nombre de la estación: ");
+            String ciudad = leerNoVacio(sc, "Ciudad: ");
+            String calle = leerNoVacio(sc, "Calle de la estación: ");
+            String numero = leerNoVacio(sc, "Número: ");
+            String cp = leerNoVacio(sc, "Código Postal: ");
+            int cantVias = leerInt(sc, "Cantidad de vías: ", 0);
+            int cantPlataformas = leerInt(sc, "Cantidad de plataformas: ", 0);
             estaciones.insertar(codigo, new Estacion(nombre, calle, numero, ciudad, cp, cantVias, cantPlataformas));
             red.insertarVertice(codigo);
             System.out.println("✓ Alta de estación OK");
@@ -89,8 +90,8 @@ public class AbmEstacion {
         }
     }
 
-    private void modificarEstacion(Scanner in) {
-        int codigo = leerInt(in, "Código de la estación a modificar: ", 1);
+    private void modificarEstacion(Scanner sc) {
+        int codigo = leerInt(sc, "Código de la estación a modificar: ", 1);
         Estacion estacion = (Estacion) estaciones.buscar(codigo);
 
         if (estacion == null) {
@@ -98,10 +99,10 @@ public class AbmEstacion {
 
         } else {
             System.out.println("Actual: " + estacion);
-            String numero = leerOpcional(in, "Nuevo número (Enter mantiene): ");
-            String calle = leerOpcional(in, "Nueva calle (Enter mantiene): ");
-            String ciudad = leerOpcional(in, "Nueva ciudad (Enter mantiene): ");
-            String codigoPostal = leerOpcional(in, "Nuevo código postal (Enter mantiene): ");
+            String numero = leerOpcional(sc, "Nuevo número (Enter mantiene): ");
+            String calle = leerOpcional(sc, "Nueva calle (Enter mantiene): ");
+            String ciudad = leerOpcional(sc, "Nueva ciudad (Enter mantiene): ");
+            String codigoPostal = leerOpcional(sc, "Nuevo código postal (Enter mantiene): ");
             if (numero != null && !calle.isEmpty() && !ciudad.isEmpty() && !codigoPostal.isEmpty()) {
                 estacion.setNumero(numero);
                 estacion.setCalle(calle);

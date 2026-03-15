@@ -39,8 +39,8 @@ public class Ejercicio_6_Tren {
                     + "0) Volver\n"
                     + "Opción: "
             );
-            int opc = Integer.parseInt(sc.nextLine().trim());
-
+            int opc = sc.nextInt();
+            sc.nextLine();
             switch (opc) {
                 case 1:
                     buscarTren(sc);

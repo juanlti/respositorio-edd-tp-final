@@ -31,18 +31,19 @@ public class AbmRiel {
                     + "3) Modificación\n"
                     + "0) Volver\n"
                     + "Opción: ");
-            String op = sc.nextLine().trim();
-            switch (op) {
-                case "1":
+            int opc = sc.nextInt();
+            sc.nextLine();
+            switch (opc) {
+                case 1:
                     altaRiel(sc);
                     break;
-                case "2":
+                case 2:
                     bajaRiel(sc);
                     break;
-                case "3":
+                case 3:
                     modificarRiel(sc);
                     break;
-                case "0":
+                case 0:
                     volver = true;
                     break;
                 default:

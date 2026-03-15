@@ -91,7 +91,7 @@ public class Grafo {
         return sb.toString();
     }
 
-    public boolean insertarArco(Comparable origen, Comparable destino, Riel etiqueta) {
+    public boolean insertarArco(Object origen, Object destino, Riel etiqueta) {
 
         boolean exito = false;
         if (this.inicio != null) {
