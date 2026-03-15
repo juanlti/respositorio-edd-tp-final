@@ -1,4 +1,7 @@
-package eed.tp;
+package eed.tp.Nodos;
+
+import eed.tp.Lista;
+import eed.tp.Nodos.NodoAdy;
 
 public class NodoVert {
 

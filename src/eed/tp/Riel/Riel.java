@@ -1,4 +1,4 @@
-package eed.tp;
+package eed.tp.Riel;
 
 public class Riel {
 

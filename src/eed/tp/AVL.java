@@ -1,5 +1,7 @@
 package eed.tp;
 
+import eed.tp.Nodos.NodoAVL;
+
 public class AVL {
 
     private NodoAVL raiz = null;
@@ -14,18 +16,15 @@ public class AVL {
 
     public boolean eliminar(Comparable x) {
         boolean eliminado = false;
-        Object[] elementoRecuperado = this.buscar(x);
-        if (elementoRecuperado[0] instanceof Boolean) {
-            if ((Boolean) elementoRecuperado[0]) {
+        Object elemento = this.buscar(x);
+        if (elemento != null) {
 
-                this.raiz = eliminarAux(this.raiz, x);
+            this.raiz = eliminarAux(this.raiz, x);
 
-                eliminado = true;
-            }
-
+            eliminado = true;
         }
-
         return eliminado;
+
     }
 
     public boolean insertar(Comparable clave, Object data) {
@@ -230,7 +229,6 @@ public class AVL {
     public Lista listar() {
         Lista lista = new Lista();
         listarAux(this.raiz, lista);
-        // System.out.println(lista);
         return lista;
     }
 
@@ -304,13 +302,10 @@ public class AVL {
         }
         return s;
     }
-//devuelve Object[2]
-    //[1] true/false
-    //[2] Estacion /  Trem
 
-    public Object[] buscar(Comparable codigo) {
-        boolean pertenece = false;
+    public Object buscar(Comparable codigo) {
         NodoAVL nodo = this.raiz;
+        boolean pertenece = false;
         Object elementoEncontrado = null;
 
         while (nodo != null && !pertenece) {
@@ -323,7 +318,7 @@ public class AVL {
                 elementoEncontrado = nodo.getElemento();
             }
         }
-        return new Object[]{pertenece, elementoEncontrado};
+        return elementoEncontrado;
 
     }
 
