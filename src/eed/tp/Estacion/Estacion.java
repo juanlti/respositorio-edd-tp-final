@@ -5,7 +5,7 @@
  */
 package eed.tp.Estacion;
 
-import eed.tp.LogHelper;
+import eed.tp.Servicios.LogHelper;
 
 /**
  *

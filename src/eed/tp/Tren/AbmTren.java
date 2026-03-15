@@ -7,10 +7,10 @@ package eed.tp.Tren;
 
 import eed.tp.AVL;
 import eed.tp.Tren.Tren;
-import static eed.tp.Input.leerInt;
-import static eed.tp.Input.leerIntOpcional;
-import static eed.tp.Input.leerNoVacio;
-import static eed.tp.Input.leerOpcional;
+import static eed.tp.Servicios.Input.leerInt;
+import static eed.tp.Servicios.Input.leerIntOpcional;
+import static eed.tp.Servicios.Input.leerNoVacio;
+import static eed.tp.Servicios.Input.leerOpcional;
 import java.util.Scanner;
 
 /**

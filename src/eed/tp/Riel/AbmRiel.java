@@ -6,7 +6,7 @@
 package eed.tp.Riel;
 
 import eed.tp.Grafo;
-import static eed.tp.Input.leerInt;
+import static eed.tp.Servicios.Input.leerInt;
 import java.util.Scanner;
 
 /**

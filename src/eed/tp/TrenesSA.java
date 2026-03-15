@@ -5,6 +5,7 @@
  */
 package eed.tp;
 
+import eed.tp.Servicios.LogHelper;
 import java.io.IOException;
 import java.util.Scanner;
 
