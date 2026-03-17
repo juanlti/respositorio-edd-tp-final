@@ -8,16 +8,8 @@ import eed.tp.Tren.AbmTren;
 import eed.tp.Ejercicios_6_7_8.Ejercicio_6_Tren;
 import eed.tp.Ejercicios_6_7_8.Ejercicio_7_Estacion;
 import eed.tp.Ejercicios_6_7_8.Ejercicio_8_Viaje;
-import eed.tp.Estacion.Estacion;
-import eed.tp.Riel.Riel;
 import eed.tp.Servicios.CargarInicialDesdeArchivo;
-import eed.tp.Tren.Tren;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 
 public class TrenesSaControlador {
@@ -117,7 +109,6 @@ public class TrenesSaControlador {
     }
 
     public void cargarInicialDesdeArchivo(String url) throws IOException {
-
         CargarInicialDesdeArchivo carga = new CargarInicialDesdeArchivo(this.trenes, this.estaciones, this.red, this.lineas, url);
         carga.cargarInicialDesdeArchivo();
     }
