@@ -5,7 +5,6 @@ package eed.tp.Nodos;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 public class NodoAVL {
 
     private int altura;
@@ -32,7 +31,8 @@ public class NodoAVL {
     }
 
     public int getAltura() {
-        return this.altura;
+        return Math.abs(this.altura);
+        //  return this.altura;
     }
 
     public void recalcularAltura() {
@@ -68,5 +68,4 @@ public class NodoAVL {
     public int calcularBalance() {
         return ((this.izquierdo == null) ? -1 : this.izquierdo.altura) - ((this.derecho == null) ? -1 : this.derecho.altura);
     }
-
 }

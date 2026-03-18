@@ -34,16 +34,21 @@ public class AVL {
             if (comparacion < 0) {
                 // Seguimos buscando a la izquierda
                 tipoCaso = metodoEliminarCasos(nodo.getIzquierdo(), eliminar);
-                if (!this.selecionaCaso(nodo, eliminar, tipoCaso)) {
-                    System.out.println("ERROR AL ELIMINAR REVISAR EL CASO: " + tipoCaso);
+                if (tipoCaso != -1) {
+                    if (!this.selecionaCaso(nodo, eliminar, tipoCaso)) {
+                        System.out.println("ERROR AL ELIMINAR REVISAR EL CASO: " + tipoCaso + " NODO :" + nodo.getClave() + " ELIMINAR :" + eliminar);
+                    }
+                    tipoCaso = -1;
                 }
-                tipoCaso = -1;
 
             } else if (comparacion > 0) {
                 tipoCaso = metodoEliminarCasos(nodo.getDerecho(), eliminar);
-                if (!this.selecionaCaso(nodo, eliminar, tipoCaso)) {
-                    System.out.println("ERROR AL ELIMINAR REVISAR EL CASO: " + tipoCaso);
+                if (tipoCaso != -1) {
+                    if (!this.selecionaCaso(nodo, eliminar, tipoCaso)) {
+                        System.out.println("ERROR AL ELIMINAR REVISAR EL CASO: " + tipoCaso + " NODO :" + nodo.getClave() + " ELIMINAR :" + eliminar);
+                    }
                 }
+
                 tipoCaso = -1;
             } else {
 
@@ -78,6 +83,7 @@ public class AVL {
 
     private boolean selecionaCaso(NodoAVL padre, Object eliminar, int tipoCaso) {
         boolean eliminado = false;
+        System.out.println("tipo de caso a selecionar " + tipoCaso);
         if (tipoCaso != -1) {
             switch (tipoCaso) {
 
@@ -96,12 +102,15 @@ public class AVL {
             }
 
         }
+        /*
         this.balancear(padre);
+         */
         return eliminado;
 
     }
 
     private boolean eliminarHoja(NodoAVL padre, Object eliminar) {
+        System.out.println("entro ? " + padre.getClave() + " eliminar " + eliminar);
         if (padre.getDerecho() != null && padre.getDerecho().getClave().compareTo(eliminar) == 0) {
 
             padre.setDerecho(null);
