@@ -83,7 +83,7 @@ public class AbmEstacion {
 
     private void bajaEstacion(Scanner in) {
         int codigo = leerInt(in, "Código de la estación a eliminar: ", 1);
-        if (estaciones.eliminar(codigo)) {
+        if (estaciones.buscar(codigo) == null) {
             System.out.println("✓ Baja OK");
         } else {
             System.out.println("✗ No existe la estación " + codigo);

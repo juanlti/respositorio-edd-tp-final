@@ -79,7 +79,8 @@ public class AbmTren {
 
     private void bajaTren(Scanner sc) {
         int codigo = leerInt(sc, "Código del tren a eliminar: ", 1);
-        if (trenes.eliminar(codigo)) {
+        trenes.eliminar(codigo);
+        if (trenes.buscar(codigo)==null) {
             System.out.println("✓ Baja OK");
         } else {
             System.out.println("✗ No existe el tren " + codigo);
