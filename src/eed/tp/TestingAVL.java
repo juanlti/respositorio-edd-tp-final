@@ -41,6 +41,9 @@ public class TestingAVL {
         // CASO 1: Eliminar un nodo HOJA (Sin hijos)
         System.out.println(CYAN + "\n[Caso 1] Eliminar HOJA (el 50):" + RESET);
         a.eliminar(50); // El 50 no tiene hijos.
+        a.eliminar(3);
+        a.eliminar(6);
+        a.eliminar(1);
         System.out.println("¿Existe el 50?: " + ((a.buscar(50) == null) ? sOk : sErr));
         System.out.println(a.toString());
 
@@ -72,5 +75,6 @@ public class TestingAVL {
         System.out.println(a.toString());
 
         System.out.println("\n" + AMARILLO + "Listado Inorden Final: " + RESET + a.listar().toString());
+        System.out.println("altura "+a);
     }
 }

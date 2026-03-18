@@ -47,14 +47,14 @@ public class AVL {
                 tipoCaso = -1;
             } else {
 
-                tipoCaso = obtenerCaso(nodo);
+                tipoCaso = catalogarTipoDeElimninacion(nodo);
             }
 
         }
         return tipoCaso;
     }
 
-    private int obtenerCaso(NodoAVL nodo) {
+    private int catalogarTipoDeElimninacion(NodoAVL nodo) {
         int tipoCaso = -1;
         // Caso 1: Es Hoja (No tiene hijos)
         if (nodo.getIzquierdo() == null && nodo.getDerecho() == null) {
@@ -72,8 +72,6 @@ public class AVL {
 
         }
 
-        // Al salir de cualquier bloque, balanceamos antes de retornar al padre
-        // this.balancear(nodo)
         return tipoCaso;
 
     }
@@ -98,13 +96,13 @@ public class AVL {
             }
 
         }
+        this.balancear(padre);
         return eliminado;
 
     }
 
     private boolean eliminarHoja(NodoAVL padre, Object eliminar) {
-
-        if (padre.getDerecho().getClave().compareTo(eliminar) == 0) {
+        if (padre.getDerecho() != null && padre.getDerecho().getClave().compareTo(eliminar) == 0) {
 
             padre.setDerecho(null);
         } else {
@@ -117,7 +115,7 @@ public class AVL {
     private boolean eliminarConDosHijos(NodoAVL padre, Object eliminar) {
         NodoAVL[] succedorYpadre;
 
-        if (padre.getDerecho().getClave().compareTo(eliminar) == 0) {
+        if (padre.getDerecho() != null && padre.getDerecho().getClave().compareTo(eliminar) == 0) {
             succedorYpadre = minimoElem(padre.getDerecho().getIzquierdo());
             padre.getDerecho().setElemento(succedorYpadre[0].getClave(), succedorYpadre[0].getClave());
         } else {
@@ -125,7 +123,7 @@ public class AVL {
             padre.getIzquierdo().setElemento(succedorYpadre[0].getClave(), succedorYpadre[0].getClave());
 
         }
-        this.selecionaCaso(succedorYpadre[1], succedorYpadre[0].getClave(), obtenerCaso(succedorYpadre[0]));
+        this.selecionaCaso(succedorYpadre[1], succedorYpadre[0].getClave(), catalogarTipoDeElimninacion(succedorYpadre[0]));
 
         return true;
 
@@ -133,7 +131,7 @@ public class AVL {
 
     private boolean eliminarConUnHijoIzquierdo(NodoAVL padre, Object eliminar) {
         NodoAVL temp = null;
-        if (padre.getDerecho().getClave().compareTo(eliminar) == 0) {
+        if (padre.getDerecho() != null && padre.getDerecho().getClave().compareTo(eliminar) == 0) {
 
             temp = padre.getDerecho().getIzquierdo();
             padre.setDerecho(null);
@@ -152,7 +150,7 @@ public class AVL {
 
     private boolean eliminarConUnHijoDerecho(NodoAVL padre, Object eliminar) {
         NodoAVL temp = null;
-        if (padre.getDerecho().getClave().compareTo(eliminar) == 0) {
+        if (padre.getDerecho() != null && padre.getDerecho().getClave().compareTo(eliminar) == 0) {
 
             temp = padre.getDerecho().getDerecho();
             padre.setDerecho(null);
