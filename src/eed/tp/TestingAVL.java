@@ -40,20 +40,20 @@ public class TestingAVL {
 
         // CASO 1: Eliminar un nodo HOJA (Sin hijos)
         System.out.println(CYAN + "\n[Caso 1] Eliminar HOJA (el 50):" + RESET);
-        //a.eliminar(50); // El 50 no tiene hijos.
+        a.eliminar(50); // El 50 no tiene hijos.
         System.out.println(a.toString());
         System.out.println("final ");
-        //a.eliminar(1);
-        //a.eliminar(3);
-        //a.eliminar(6);
-        //  a.eliminar(5);
+        a.eliminar(1);
+        a.eliminar(3);
+        a.eliminar(6);
+        a.eliminar(5);
         System.out.println("¿Existe el 50?: " + ((a.buscar(50) == null) ? sOk : sErr));
         System.out.println(a.toString());
 
         // CASO 2: Eliminar un nodo con UN HIJO
         // El nodo 7 es perfecto para esto: su único hijo es el 6.
         System.out.println(CYAN + "\n[Caso 2] Eliminar nodo con UN HIJO (el 7):" + RESET);
-        //  a.eliminar(7);
+        a.eliminar(7);
         System.out.println("¿Existe el 7?: " + ((a.buscar(7) == null) ? sOk : sErr));
         System.out.println("¿El 6 (su hijo) subió correctamente?: " + ((a.buscar(6) != null) ? sOk : sErr));
         System.out.println(a.toString());
@@ -61,7 +61,7 @@ public class TestingAVL {
         // CASO 3: Eliminar nodo con DOS HIJOS (Subárbol)
         // El 15 tiene dos hijos: el bloque del 12 y el bloque del 20.
         System.out.println(CYAN + "\n[Caso 3] Eliminar nodo con DOS HIJOS (el 15):" + RESET);
-        //   a.eliminar(15);
+        a.eliminar(15);
         System.out.println("¿Existe el 15?: " + ((a.buscar(15) == null) ? sOk : sErr));
         System.out.println("Verificando que sus descendientes (12, 20, 19) sigan vivos...");
         System.out.println("12: " + (a.buscar(12) != null ? "SÍ" : "NO")
