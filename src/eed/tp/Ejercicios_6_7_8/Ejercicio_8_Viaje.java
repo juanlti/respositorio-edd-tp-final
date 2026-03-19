@@ -25,7 +25,7 @@ public class Ejercicio_8_Viaje {
         this.red = red;
     }
 
-    public void consultasViajes(Scanner in) {
+    public void consultasViajes(Scanner sc) {
         boolean volver = false;
         while (!volver) {
             System.out.print(
@@ -37,21 +37,22 @@ public class Ejercicio_8_Viaje {
                     + "0) Volver\n"
                     + "Opción: "
             );
-            String op = in.nextLine().trim();
-            switch (op) {
-                case "1":
-                    caminoConMenosEstaciones(in);
+            int opc = sc.nextInt();
+            sc.nextLine();
+            switch (opc) {
+                case 1:
+                    caminoConMenosEstaciones(sc);
                     break;
-                case "2":
-                    obtenerCaminosConMenosKm(in);
+                case 2:
+                    obtenerCaminosConMenosKm(sc);
                     break;
-                case "3":
-                    obtenerTodosLosCaminosMenosUnaEstacion(in);
+                case 3:
+                    obtenerTodosLosCaminosMenosUnaEstacion(sc);
                     break;
-                case "4":
-                    verificarLaExistenciaDeUnCaminoEntreDosEstacionesConUnLimiteMaximoEnKm(in);
+                case 4:
+                    verificarLaExistenciaDeUnCaminoEntreDosEstacionesConUnLimiteMaximoEnKm(sc);
                     break;
-                case "0":
+                case 0:
                     volver = true;
                     break;
                 default:
@@ -60,61 +61,52 @@ public class Ejercicio_8_Viaje {
         }
     }
 
-    private void verificarLaExistenciaDeUnCaminoEntreDosEstacionesConUnLimiteMaximoEnKm(Scanner in) {
+    private void verificarLaExistenciaDeUnCaminoEntreDosEstacionesConUnLimiteMaximoEnKm(Scanner sc) {
 
-        int codigo1 = leerInt(in, "Ingrese el codigo (entero positivo) de la primera estacion: ", 1);
-        Estacion estacionInicio = (Estacion) estaciones.buscar(codigo1);
+        Object codigo1 = leerInt(sc, "Ingrese el codigo (entero positivo) de la primera estacion: ", 1);
 
-        int codigo2 = leerInt(in, "Ingrese el codigo (entero positivo) de la segunda estacion: ", 1);
-        Estacion estacionFinal = (Estacion) estaciones.buscar(codigo2);
+        Object codigo2 = leerInt(sc, "Ingrese el codigo (entero positivo) de la segunda estacion: ", 1);
 
         if (codigo1 == codigo2) {
             System.out.println("No se puede buscar dos estaciones con el mismo codigo");
         } else {
-            int km = leerInt(in, "Ingrese el limite de km entre estaciones (entero positivo): ", 1);
+            int km = leerInt(sc, "Ingrese el limite de km entre estaciones (entero positivo): ", 1);
 
-            boolean resultado = red.verificarCaminoConUnaCantidadMaximaDeKm(estacionInicio, estacionFinal, km);
+            boolean resultado = red.verificarCaminoConUnaCantidadMaximaDeKm(codigo1, codigo2, km);
             System.out.println("Camino existente :" + resultado + " con una distancia maxima de " + km);
         }
 
     }
 
-    private void obtenerTodosLosCaminosMenosUnaEstacion(Scanner in) {
+    private void obtenerTodosLosCaminosMenosUnaEstacion(Scanner sc) {
 
-        int codigo1 = leerInt(in, "Ingrese el codigo (entero positivo) de la primera estacion: ", 1);
-        Estacion estacionInicio = (Estacion) estaciones.buscar(codigo1);
+        Object codigo1 = leerInt(sc, "Ingrese el codigo de la primera estacion: ", 1);
+        Object codigo2 = leerInt(sc, "Ingrese el codigo de la segunda estacion: ", 1);
+        Object codigo3 = leerInt(sc, "Ingrese el codigo de la estacion a excluir: ", 1);
 
-        int codigo2 = leerInt(in, "Ingrese el codigo (entero positivo) de la segunda estacion: ", 1);
-        Estacion estacionFinal = (Estacion) estaciones.buscar(codigo2);
-
-        int codigo3 = leerInt(in, "Ingrese el codigo (entero positivo) de la estacion a excluir: ", 1);
-        Estacion estacionExcluir = (Estacion) estaciones.buscar(codigo2);
-
-        if (codigo1 == codigo2 || codigo1 == codigo3) {
-            System.out.println("Las estaciones deben ser diferentes entre si");
+        // 1. Corregimos la comparación: Usar .equals() para Objects
+        if (codigo1.equals(codigo2) || codigo1.equals(codigo3) || codigo2.equals(codigo3)) {
+            System.out.println("Las estaciones deben ser diferentes entre si.");
         } else {
-            red.obtenerTodosLosCaminosIgnorandoUnaEstacion(estacionInicio, estacionFinal, estacionExcluir);
+            System.out.println("Caminos encontrados: " + red.obtenerTodosLosCaminosIgnorandoUnaEstacion(codigo1, codigo2, codigo3).toString());
+
         }
     }
 
-    private void obtenerCaminosConMenosKm(Scanner in) {
-        int codigo1 = leerInt(in, "Ingrese el codigo (entero positivo) de la primera estacion: ", 1);
-        Estacion estacionInicio = (Estacion) estaciones.buscar(codigo1);
+    private void obtenerCaminosConMenosKm(Scanner sc) {
+        Object codigo1 = leerInt(sc, "Ingrese el codigo (entero positivo) de la primera estacion: ", 1);
 
-        int codigo2 = leerInt(in, "Ingrese el codigo (entero positivo) de la segunda estacion: ", 1);
-        Estacion estacionFinal = (Estacion) estaciones.buscar(codigo2);
+        Object codigo2 = leerInt(sc, "Ingrese el codigo (entero positivo) de la segunda estacion: ", 1);
 
-        System.out.println("Lista resultante " + red.obtenerCaminoMasCorto(estacionInicio, estacionFinal));
+        System.out.println("Lista resultante " + red.obtenerCaminoMasCorto(codigo1, codigo2));
     }
 
-    private void caminoConMenosEstaciones(Scanner in) {
-        int codigo1 = leerInt(in, "Ingrese el codigo (entero positivo) de la primera estacion: ", 1);
-        Estacion estacionInicio = (Estacion) estaciones.buscar(codigo1);
+    private void caminoConMenosEstaciones(Scanner sc) {
+        Object codigo1 = leerInt(sc, "Ingrese el codigo (entero positivo) de la primera estacion: ", 1);
 
-        int codigo2 = leerInt(in, "Ingrese el codigo (entero positivo) de la segunda estacion: ", 1);
-        Estacion estacionFinal = (Estacion) estaciones.buscar(codigo2);
+        Object codigo2 = leerInt(sc, "Ingrese el codigo (entero positivo) de la segunda estacion: ", 1);
 
-        System.out.println(red.caminoConMenosEstaciones(estacionInicio, estacionFinal));
+        System.out.println(red.caminoConMenosEstaciones(codigo1, codigo2));
     }
 
 }

@@ -8,12 +8,8 @@ import eed.tp.Tren.AbmTren;
 import eed.tp.Ejercicios_6_7_8.Ejercicio_6_Tren;
 import eed.tp.Ejercicios_6_7_8.Ejercicio_7_Estacion;
 import eed.tp.Ejercicios_6_7_8.Ejercicio_8_Viaje;
-import eed.tp.Estacion.Estacion;
-import java.io.BufferedReader;
-import java.io.FileReader;
+import eed.tp.Servicios.CargarInicialDesdeArchivo;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class TrenesSaControlador {
@@ -21,7 +17,7 @@ public class TrenesSaControlador {
     public final AVL trenes = new AVL();
     public final AVL estaciones = new AVL();
     public final java.util.HashMap<String, Linea> lineas = new java.util.HashMap<>();
-    public final Grafo red = new Grafo();
+    public final Grafo red = new Grafo(this.trenes, this.estaciones);
 
     AbmTren abmTren = new AbmTren(this.trenes);
     AbmEstacion abmEstaciones = new AbmEstacion(this.estaciones, this.red);
@@ -32,26 +28,27 @@ public class TrenesSaControlador {
     Ejercicio_8_Viaje ejercio_8_Viaje = new Ejercicio_8_Viaje(this.estaciones, this.red);
 
     public void comenzar() {
-
         Scanner sc = new Scanner(System.in);
-        int opc = sc.nextInt();
-        System.out.print(
-                "\n================== TrenesSA ==================\n"
-                + "1) Cargar datos iniciales (archivo)\n"
-                + "2) ABM Trenes\n"
-                + "3) ABM Estaciones\n"
-                + "4) ABM Líneas\n"
-                + "5) ABM Rieles\n"
-                + "6) Consultas de Trenes\n"
-                + "7) Consultas de Estaciones\n"
-                + "8) Consultas de Viajes\n"
-                + "9) Mostrar sistema\n"
-                + "0) Salir\n"
-                + "------------------------------------------------\n"
-                + "Opción: "
-        );
+        int opc = -1; // Le ponemos -1 para obligarlo a entrar al while la primera vez
 
         while (opc != 0) {
+            System.out.print(
+                    "\n================== TrenesSA ==================\n"
+                    + "1) ABM Trenes\n"
+                    + "2) ABM Estaciones\n"
+                    + "3) ABM Líneas\n"
+                    + "4) ABM Rieles\n"
+                    + "5) Consultas de Trenes\n"
+                    + "6) Consultas de Estaciones\n"
+                    + "7) Consultas de Viajes\n"
+                    + "8) Mostrar sistema\n"
+                    + "0) Salir\n"
+                    + "------------------------------------------------\n"
+                    + "Opción: "
+            );
+
+            opc = sc.nextInt();
+            sc.nextLine();
 
             switch (opc) {
                 case 1:
@@ -84,12 +81,11 @@ public class TrenesSaControlador {
                 default:
                     System.out.println("Opción inválida.");
                     break;
-
             }
         }
     }
 
-    public void mostrarSistema() {
+    private void mostrarSistema() {
         System.out.println("\n--- 1. ÁRBOL AVL DE TRENES ---");
         this.trenes.mostrarEstructura();
 
@@ -112,150 +108,9 @@ public class TrenesSaControlador {
         System.out.println("\n=================================================");
     }
 
-    public void cargarInicialDesdeArchivo(String fileName) throws IOException {
-
-        java.io.File archivo = new java.io.File(fileName);
-        if (!archivo.exists()) {
-
-            String[] lista = new java.io.File(".").list();
-            for (String s : lista) {
-                System.out.println("   -> " + s);
-            }
-            return;
-        }
-
-        System.out.println("✓ ¡ARCHIVO DETECTADO! Iniciando lectura...");
-
-        List<String[]> lineasPend = new ArrayList<>();
-        List<String[]> rielesPend = new ArrayList<>();
-        List<String[]> trenesPend = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
-            String raw;
-            int nro = 0;
-
-            while ((raw = br.readLine()) != null) {
-                nro++;
-                String line = raw.replace("\uFEFF", "").trim();
-
-                if (line.isEmpty() || line.startsWith("#") || line.startsWith("//")) {
-                    continue;
-                }
-
-                char tipo = Character.toUpperCase(line.charAt(0));
-                String[] p = line.split(";");
-                for (int i = 0; i < p.length; i++) {
-                    p[i] = p[i].trim();
-                }
-
-                switch (tipo) {
-                    case 'E':
-                        cargarEstacionDesdeArchivo(p);
-                        break;
-                    case 'L':
-                        lineasPend.add(p);
-                        break;
-                    case 'R':
-                        rielesPend.add(p);
-                        break;
-                    case 'T':
-                        trenesPend.add(p);
-                        break;
-                    default:
-                        System.out.println("Tipo desconocido en línea " + nro + ": " + line);
-                        break;
-                }
-            }
-        }
-
-        /*
-        for (String[] p : lineasPend) {
-            cargarLineaDesdeArchivo(p);
-        }
-        for (String[] p : rielesPend) {
-            cargarRielDesdeArchivo(p);
-        }
-        for (String[] p : trenesPend) {
-            cargarTrenDesdeArchivo(p);
-        }
-         */
-        System.out.println("Carga inicial OK.");
+    public void cargarInicialDesdeArchivo(String url) throws IOException {
+        CargarInicialDesdeArchivo carga = new CargarInicialDesdeArchivo(this.trenes, this.estaciones, this.red, this.lineas, url);
+        carga.cargarInicialDesdeArchivo();
     }
-
-    private void cargarEstacionDesdeArchivo(String[] p) {
-
-        int codigo = Integer.parseInt(p[1]);
-        String nombre = p[2];
-        String ciudad = p[3];
-        String calle = p[4];
-        String numero = p[5];
-        String cp = p[6];
-        int vias = Integer.parseInt(p[7]);
-        int plataformas = Integer.parseInt(p[8]);
-
-        estaciones.insertar(codigo, new Estacion(nombre, calle, numero, ciudad, cp, vias, plataformas));
-    }
-
-    private void cargarLineaDesdeArchivo(String[] p) {
-
-        String nombreLinea = p[1];
-        if (lineas.containsKey(nombreLinea)) {
-            return;
-        }
-
-        Lista recorrido = new Lista();
-        for (int i = 2; i < p.length; i++) {
-            int codEst = Integer.parseInt(p[i]);
-            Estacion estacion = (Estacion) estaciones.buscar(codEst);
-            if (estacion != null) {
-                recorrido.insertar(codEst, recorrido.longitud() + 1);
-                red.insertarVertice(codEst);
-                Linea l = new Linea(nombreLinea, recorrido);
-                lineas.put(nombreLinea, l);
-            }
-
-        }
-
-    }
-    /*
-    private void cargarRielDesdeArchivo(String[] p) {
-
-        int codOri = Integer.parseInt(p[1]);
-        int codDes = Integer.parseInt(p[2]);
-        int dist = Integer.parseInt(p[3]);
-
-        Estacion ori = buscarEstacionPorCodigo(codOri);
-        Estacion des = buscarEstacionPorCodigo(codDes);
-        if (ori == null || des == null) {
-            throw new IllegalStateException("Riel referencia estación inexistente: " + codOri + " / " + codDes);
-        }
-
-        red.insertarVertice(ori);
-        red.insertarVertice(des);
-        if (red.existeArco(ori, des) || red.existeArco(des, ori)) {
-            return;
-        }
-
-        Riel r = new Riel(codOri, codDes, dist);
-        red.insertarArco(ori, des, true, r);
-        // true => no dirigido (ida y vuelta)
-    }
-
-    private void cargarTrenDesdeArchivo(String[] p) {
-        int codigo = Integer.parseInt(p[1]);
-        String prop = p[2];
-        int vagPas = Integer.parseInt(p[3]);
-        int vagCar = Integer.parseInt(p[4]);
-        String linea = p[5];
-        if (!linea.equalsIgnoreCase("no-asignado") && !lineas.containsKey(linea)) {
-            throw new IllegalStateException("Tren " + codigo + " referencia línea inexistente: " + linea);
-        }
-        if (trenes.buscar(codigo) == null) {
-            return;
-        }
-
-        trenInsertar(codigo, new Tren(codigo, prop, vagPas, vagCar, linea));
-    }
-
-     */
 
 }

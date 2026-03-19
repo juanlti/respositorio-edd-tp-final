@@ -9,24 +9,19 @@ package eed.tp.Tren;
  *
  * @author juanc
  */
-public class Tren implements Comparable<Tren> {
+public class Tren {
 
-    private final int codigo;
     private String propulsion;
     private int vagPasajeros;
     private int vagCarga;
     private String linea;
 
-    public Tren(int codigo, String propulsion, int vagPasajeros, int vagCarga, String linea) {
-        this.codigo = codigo;
+    public Tren(String propulsion, int vagPasajeros, int vagCarga, String linea) {
+
         this.propulsion = propulsion;
         this.vagPasajeros = vagPasajeros;
         this.vagCarga = vagCarga;
         this.linea = linea;
-    }
-
-    public int getCodigo() {
-        return codigo;
     }
 
     public String getLinea() {
@@ -39,7 +34,7 @@ public class Tren implements Comparable<Tren> {
 
     @Override
     public String toString() {
-        return "Tren " + codigo + " [" + propulsion + "] pas:" + vagPasajeros
+        return "Tren " + " [" + propulsion + "] pas:" + vagPasajeros
                 + " carga:" + vagCarga + " linea:" + linea;
     }
 
@@ -56,32 +51,6 @@ public class Tren implements Comparable<Tren> {
     public void setCantidadVagonesCarga(int cantVagonesCarga) {
         this.vagCarga = cantVagonesCarga;
 
-    }
-
-    public Tren(int codigo) {
-        this(codigo, "", 0, 0, "");
-    }
-
-    @Override
-    public int compareTo(Tren o) {
-        return Integer.compare(this.codigo, o.codigo);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (!(obj instanceof Tren)) {
-            return false;
-        }
-        Tren other = (Tren) obj;
-        return this.codigo == other.codigo;
-    }
-
-    @Override
-    public int hashCode() {
-        return Integer.hashCode(codigo);
     }
 
 }

@@ -31,12 +31,13 @@ public class Ejercicio_7_Estacion {
             System.out.print(
                     "---- Consulta Estacion ----\n"
                     + "1) Mostrar informacion de una estación\n"
-                    + "2) Obtener todaS las estaciones que comiencen con un prefijo.\n"
+                    + "2) Obtener todas las estaciones que comiencen con un prefijo.\n"
                     + "3) Listar estaciones \n"
                     + "0) Volver\n"
                     + "Opción: "
             );
-            int opc = Integer.parseInt(sc.nextLine().trim());
+            int opc = sc.nextInt();
+            sc.nextLine();
             switch (opc) {
                 case 1:
                     mostrarEstacionDada(sc);
@@ -62,7 +63,7 @@ public class Ejercicio_7_Estacion {
         Lista ls = estaciones.listar(); // Lista de Estacion
         StringBuilder out = new StringBuilder();
 
-        for (int i = 1; i <= ls.longitud(); i++) {   // 1..N
+        for (int i = 1; i <= ls.longitud(); i++) { 
             Estacion est = (Estacion) ls.recuperar(i);
             if (est == null) {
                 continue;
