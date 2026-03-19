@@ -31,8 +31,8 @@ public class NodoAVL {
     }
 
     public int getAltura() {
-        return Math.abs(this.altura);
-        //  return this.altura;
+       // return Math.abs(this.altura);
+          return this.altura;
     }
 
     public void recalcularAltura() {

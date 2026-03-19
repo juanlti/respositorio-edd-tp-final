@@ -18,7 +18,12 @@ public class AVL {
     public void eliminar(Object x) {
 
         if (this.raiz != null) {
-            metodoEliminarCasos(this.raiz, x);
+            if (((Comparable) x).compareTo(this.raiz.getClave()) != 0) {
+                metodoEliminarCasos(this.raiz, x, false);
+            } else {
+                metodoEliminarCasos(this.raiz, x, true);
+            }
+
         }
 
     }
@@ -26,25 +31,25 @@ public class AVL {
     //si eliminar > nodo.getClave() => mayor a 0.
     //si eliminar < nodo.getClave() => menor a 0.
     // si eliminar === nodo.getClave() => 0
-    private int metodoEliminarCasos(NodoAVL nodo, Object eliminar) {
+    private int metodoEliminarCasos(NodoAVL nodo, Object eliminar, boolean casoEspecial) {
         int tipoCaso = -1;
         if (nodo != null) {
 
             int comparacion = ((Comparable) eliminar).compareTo(nodo.getClave());
             if (comparacion < 0) {
                 // Seguimos buscando a la izquierda
-                tipoCaso = metodoEliminarCasos(nodo.getIzquierdo(), eliminar);
+                tipoCaso = metodoEliminarCasos(nodo.getIzquierdo(), eliminar, casoEspecial);
                 if (tipoCaso != -1) {
-                    if (!this.selecionaCaso(nodo, eliminar, tipoCaso)) {
+                    if (!this.procesarEliminacionPorTipo(nodo, eliminar, tipoCaso, casoEspecial)) {
                         System.out.println("ERROR AL ELIMINAR REVISAR EL CASO: " + tipoCaso + " NODO :" + nodo.getClave() + " ELIMINAR :" + eliminar);
                     }
                     tipoCaso = -1;
                 }
 
             } else if (comparacion > 0) {
-                tipoCaso = metodoEliminarCasos(nodo.getDerecho(), eliminar);
+                tipoCaso = metodoEliminarCasos(nodo.getDerecho(), eliminar, casoEspecial);
                 if (tipoCaso != -1) {
-                    if (!this.selecionaCaso(nodo, eliminar, tipoCaso)) {
+                    if (!this.procesarEliminacionPorTipo(nodo, eliminar, tipoCaso, casoEspecial)) {
                         System.out.println("ERROR AL ELIMINAR REVISAR EL CASO: " + tipoCaso + " NODO :" + nodo.getClave() + " ELIMINAR :" + eliminar);
                     }
                 }
@@ -53,8 +58,15 @@ public class AVL {
             } else {
 
                 tipoCaso = catalogarTipoDeElimninacion(nodo);
-            }
+                if (casoEspecial && tipoCaso != -1) {
+                    if (!this.procesarEliminacionPorTipo(nodo, eliminar, tipoCaso, casoEspecial)) {
+                        System.out.println("CASO ESPECIAL ERROR AL ELIMINAR REVISAR EL CASO: " + tipoCaso + " NODO :" + nodo.getClave() + " ELIMINAR :" + eliminar);
+                    }
+                    tipoCaso = -1;
 
+                }
+
+            }
         }
         return tipoCaso;
     }
@@ -81,41 +93,73 @@ public class AVL {
 
     }
 
-    private boolean selecionaCaso(NodoAVL padre, Object eliminar, int tipoCaso) {
+    private boolean procesarEliminacionPorTipo(NodoAVL padre, Object eliminar, int tipoCaso, boolean casoEspecial) {
         boolean eliminado = false;
-        System.out.println("tipo de caso a selecionar " + tipoCaso);
         if (tipoCaso != -1) {
             switch (tipoCaso) {
 
                 case 1:
-                    eliminado = this.eliminarHoja(padre, eliminar);
+                    if (casoEspecial) {
+                        padre = null;
+                    } else {
+                        eliminado = this.eliminarHoja(padre, eliminar);
+                    }
                     break;
                 case 2:
-                    eliminado = this.eliminarConUnHijoDerecho(padre, eliminar);
+                    if (casoEspecial) {
+                        eliminado = this.casoEspecialConHijoDerecho(padre);
+                    } else {
+                        eliminado = this.eliminarConUnHijoDerecho(padre, eliminar);
+                    }
+
                     break;
                 case 3:
-                    eliminado = this.eliminarConUnHijoIzquierdo(padre, eliminar);
+                    if (casoEspecial) {
+                        eliminado = this.casoEspecialConHijoIzquierdo(padre);
+                    } else {
+                        eliminado = this.eliminarConUnHijoIzquierdo(padre, eliminar);
+                    }
+
                     break;
                 case 4:
-                    eliminado = this.eliminarConDosHijos(padre, eliminar);
-                    break;
+                    if (casoEspecial) {
+                        eliminado = this.casoEspecialConHijoIzquierdo(padre);
+                    } else {
+                        eliminado = this.eliminarConDosHijos(padre, eliminar);
+                        break;
+
+                    }
             }
 
         }
-        /*
-        this.balancear(padre);
-         */
+
+        // this.balancear(padre);
         return eliminado;
 
     }
 
+    private boolean casoEspecialConHijoIzquierdo(NodoAVL padre) {
+        NodoAVL[] succedorYpadre = this.maximoElem(padre.getIzquierdo());
+        padre.setElemento(succedorYpadre[0].getClave(), succedorYpadre[0].getClave());
+        this.procesarEliminacionPorTipo(succedorYpadre[1], succedorYpadre[0].getClave(), catalogarTipoDeElimninacion(succedorYpadre[0]), false);
+        return true;
+    }
+
+    private boolean casoEspecialConHijoDerecho(NodoAVL padre) {
+        NodoAVL[] succedorYpadre = minimoElem(padre.getDerecho());
+        padre.setElemento(succedorYpadre[0].getClave(), succedorYpadre[0].getClave());
+        this.procesarEliminacionPorTipo(succedorYpadre[1], succedorYpadre[0].getClave(), catalogarTipoDeElimninacion(succedorYpadre[0]), false);
+        return true;
+    }
+
     private boolean eliminarHoja(NodoAVL padre, Object eliminar) {
-        System.out.println("entro ? " + padre.getClave() + " eliminar " + eliminar);
+
         if (padre.getDerecho() != null && padre.getDerecho().getClave().compareTo(eliminar) == 0) {
 
             padre.setDerecho(null);
         } else {
             padre.setIzquierdo(null);
+
         }
         return true;
 
@@ -128,11 +172,11 @@ public class AVL {
             succedorYpadre = minimoElem(padre.getDerecho().getIzquierdo());
             padre.getDerecho().setElemento(succedorYpadre[0].getClave(), succedorYpadre[0].getClave());
         } else {
-            succedorYpadre = minimoElem(padre.getIzquierdo().getDerecho());
+            succedorYpadre = maximoElem(padre.getIzquierdo().getDerecho());
             padre.getIzquierdo().setElemento(succedorYpadre[0].getClave(), succedorYpadre[0].getClave());
 
         }
-        this.selecionaCaso(succedorYpadre[1], succedorYpadre[0].getClave(), catalogarTipoDeElimninacion(succedorYpadre[0]));
+        this.procesarEliminacionPorTipo(succedorYpadre[1], succedorYpadre[0].getClave(), catalogarTipoDeElimninacion(succedorYpadre[0]), false);
 
         return true;
 
@@ -159,6 +203,7 @@ public class AVL {
 
     private boolean eliminarConUnHijoDerecho(NodoAVL padre, Object eliminar) {
         NodoAVL temp = null;
+
         if (padre.getDerecho() != null && padre.getDerecho().getClave().compareTo(eliminar) == 0) {
 
             temp = padre.getDerecho().getDerecho();
@@ -281,21 +326,23 @@ public class AVL {
     public NodoAVL[] minimoElem(NodoAVL nodo) {
         NodoAVL padre = null;
 
+        while (nodo.getIzquierdo() != null) {
+            padre = nodo;
+            nodo = nodo.getIzquierdo();
+        }
+
+        return new NodoAVL[]{nodo, padre};
+    }
+
+    public NodoAVL[] maximoElem(NodoAVL nodo) {
+        NodoAVL padre = null;
+
         while (nodo.getDerecho() != null) {
             padre = nodo;
             nodo = nodo.getDerecho();
         }
 
         return new NodoAVL[]{nodo, padre};
-    }
-
-    public Object maximoElem() {
-        NodoAVL nodo = this.raiz;
-        // bajada por la derecha
-        while (nodo != null) {
-            nodo = nodo.getDerecho();
-        }
-        return nodo.getElemento();
     }
 
     public Lista listarRango(int minimo, int maximo) {
