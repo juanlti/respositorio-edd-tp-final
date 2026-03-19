@@ -11,19 +11,19 @@ package eed.tp;
  */
 public class Parentesco {
 
-    private String hijo;
-    private String padre;
+    private Object hijo;
+    private Object padre;
 
-    public Parentesco(String hijo, String padre) {
+    public Parentesco(Object hijo, Object padre) {
         this.hijo = hijo;
         this.padre = padre;
     }
 
-    public String getHijo() {
+    public Object getHijo() {
         return hijo;
     }
 
-    public String getPadre() {
+    public Object getPadre() {
         return padre;
     }
 }

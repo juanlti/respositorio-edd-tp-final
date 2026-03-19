@@ -68,9 +68,9 @@ public class AbmEstacion {
 
         } else {
             String nombre = leerNoVacio(sc, "Nombre de la estación: ");
+            String numero = leerOpcional(sc, "Número calle : ");
             String ciudad = leerNoVacio(sc, "Ciudad: ");
             String calle = leerNoVacio(sc, "Calle de la estación: ");
-            String numero = leerNoVacio(sc, "Número: ");
             String cp = leerNoVacio(sc, "Código Postal: ");
             int cantVias = leerInt(sc, "Cantidad de vías: ", 0);
             int cantPlataformas = leerInt(sc, "Cantidad de plataformas: ", 0);
@@ -83,7 +83,8 @@ public class AbmEstacion {
 
     private void bajaEstacion(Scanner in) {
         int codigo = leerInt(in, "Código de la estación a eliminar: ", 1);
-        if (estaciones.buscar(codigo) == null) {
+        if (red.eliminarVertice(codigo)) {
+
             System.out.println("✓ Baja OK");
         } else {
             System.out.println("✗ No existe la estación " + codigo);
@@ -99,7 +100,7 @@ public class AbmEstacion {
 
         } else {
             System.out.println("Actual: " + estacion);
-            String numero = leerOpcional(sc, "Nuevo número (Enter mantiene): ");
+            String numero = leerOpcional(sc, "Nuevo número calle (Enter mantiene): ");
             String calle = leerOpcional(sc, "Nueva calle (Enter mantiene): ");
             String ciudad = leerOpcional(sc, "Nueva ciudad (Enter mantiene): ");
             String codigoPostal = leerOpcional(sc, "Nuevo código postal (Enter mantiene): ");

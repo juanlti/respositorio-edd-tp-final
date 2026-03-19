@@ -104,7 +104,6 @@ public class AVL {
         }
     }
 
-
     public boolean insertar(Comparable clave, Object data) {
         this.raiz = insertarAux(this.raiz, clave, data);
 
@@ -113,26 +112,31 @@ public class AVL {
     }
 
     private NodoAVL insertarAux(NodoAVL nodo, Comparable clave, Object data) {
-        // 1) Caso base: Si el lugar está vacío, creamos el nodo
+        NodoAVL resultado = nodo;
+
+        // 1) Caso base: El lugar está vacío
         if (nodo == null) {
-            return new NodoAVL(clave, data);
-        }
-
-        Comparable contenidoClave = nodo.getClave();
-
-        // 2) Navegación recursiva
-        if (clave.compareTo(contenidoClave) < 0) {
-            nodo.setIzquierdo(insertarAux(nodo.getIzquierdo(), clave, data));
-        } else if (clave.compareTo(contenidoClave) > 0) {
-            nodo.setDerecho(insertarAux(nodo.getDerecho(), clave, data));
+            resultado = new NodoAVL(clave, data);
         } else {
-            // Clave duplicada: no hacemos nada
-            return nodo;
+            Comparable contenidoClave = nodo.getClave();
+            int comparacion = clave.compareTo(contenidoClave);
+
+            // 2) Navegación recursiva
+            if (comparacion < 0) {
+                nodo.setIzquierdo(insertarAux(nodo.getIzquierdo(), clave, data));
+                // Después de insertar, balanceamos el nodo actual
+                resultado = balancear(nodo);
+            } else if (comparacion > 0) {
+                nodo.setDerecho(insertarAux(nodo.getDerecho(), clave, data));
+                // Después de insertar, balanceamos el nodo actual
+                resultado = balancear(nodo);
+            }
+            // Si comparacion == 0, no hacemos nada (clave duplicada)
+            // y el "resultado" sigue siendo "nodo"
         }
 
-        // 3) IMPORTANTE: Recalcular altura y balancear SIEMPRE
-        // (Quitamos los if/else anidados para que esto se ejecute al volver de la recursión)
-        return balancear(nodo);
+        // 3) Único punto de salida
+        return resultado;
     }
 
     private NodoAVL balancear(NodoAVL n) {
@@ -154,7 +158,7 @@ public class AVL {
             }
             return rotarIzquierda(n); // RR
         }
-        System.out.println("nodo " + n.toString());
+
         return n;
     }
 
@@ -203,7 +207,8 @@ public class AVL {
     public void listarAux(NodoAVL nodo, Lista lista) {
         if (nodo != null) {
             listarAux(nodo.getDerecho(), lista);
-            lista.insertar(nodo.getElemento(), lista.longitud() + 1);
+            String elemento = "[clave: " + nodo.getClave() + " informacion :" + nodo.getElemento() + " ]";
+            lista.insertar(elemento, lista.longitud() + 1);
             listarAux(nodo.getIzquierdo(), lista);
         }
     }
@@ -315,7 +320,6 @@ public class AVL {
         }
     }
 
-    // ---- metodos de test, 
     public Lista listarPreorden() {
         Lista ls = new Lista();
         preordenAux(this.raiz, ls);

@@ -17,7 +17,7 @@ public class TrenesSaControlador {
     public final AVL trenes = new AVL();
     public final AVL estaciones = new AVL();
     public final java.util.HashMap<String, Linea> lineas = new java.util.HashMap<>();
-    public final Grafo red = new Grafo();
+    public final Grafo red = new Grafo(this.trenes, this.estaciones);
 
     AbmTren abmTren = new AbmTren(this.trenes);
     AbmEstacion abmEstaciones = new AbmEstacion(this.estaciones, this.red);

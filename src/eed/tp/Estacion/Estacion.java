@@ -13,6 +13,7 @@ import eed.tp.Servicios.LogHelper;
  */
 public class Estacion {
 
+
     private String nombre;
     private String calle;
     private String numero;
@@ -21,8 +22,8 @@ public class Estacion {
     private int vias;
     private int plataformas;
 
-    public Estacion(String nombre, String calle, String numero, String ciudad, String cp, int vias, int plataformas) {
-
+    public Estacion( String nombre, String calle, String numero, String ciudad, String cp, int vias, int plataformas) {
+ 
         this.nombre = nombre;
         this.calle = calle;
         this.numero = numero;
