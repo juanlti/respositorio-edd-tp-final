@@ -94,7 +94,7 @@ public class Grafo {
             NodoAdy ady = nodoAEliminar.getPrimerRiel();
             while (ady != null) {
                 // Borramos la referencia inversa (del vecino hacia 'elemento')
-                eliminarReferenciaEnVecino(ady.getVertice().getEstacion(), elemento);
+                eliminarReferenciaSimple(ady.getVertice(), elemento);
                 ady = ady.getSigRiel();
             }
 
@@ -112,8 +112,9 @@ public class Grafo {
         return exito;
     }
 
-    private boolean eliminarReferenciaEnVecino(Object origen, Object destino) {
+    public boolean eliminarArco(Object origen, Object destino) {
         boolean eliminado = false;
+        // 1. Solo buscamos el vértice de origen una vez
         NodoVert vOrigen = ubicarVertice(origen);
 
         if (vOrigen != null) {
@@ -121,19 +122,55 @@ public class Grafo {
             NodoAdy anterior = null;
 
             while (actual != null && !eliminado) {
+                // 2. ¿Es este el arco que conecta con el destino?
                 if (actual.getVertice().getEstacion().equals(destino)) {
+
+                    // --- PARTE A: Eliminar de Origen -> Destino ---
                     if (anterior == null) {
                         vOrigen.setPrimerRiel(actual.getSigRiel());
                     } else {
                         anterior.setSigAdyancete(actual.getSigRiel());
                     }
+
+                    // --- PARTE B: Eliminar de Destino -> Origen ---
+                    // "actual.getVertice()" es directamente el NodoVert del destino
+                    // No necesitamos llamar a ubicarVertice de nuevo.
+                    eliminarReferenciaSimple(actual.getVertice(), origen);
+
+                    LogHelper.registrar("Se eliminó el riel entre " + origen + " y " + destino);
                     eliminado = true;
                 }
-                anterior = actual;
-                actual = actual.getSigRiel();
+
+                if (!eliminado) {
+                    anterior = actual;
+                    actual = actual.getSigRiel();
+                }
             }
         }
         return eliminado;
+    }
+
+    /**
+     * Método privado que elimina la adyacencia hacia 'destinoId' dentro de un
+     * NodoVert ya localizado.
+     */
+    private void eliminarReferenciaSimple(NodoVert nodoADesconectar, Object destinoId) {
+        NodoAdy act = nodoADesconectar.getPrimerRiel();
+        NodoAdy ant = null;
+        boolean borrado = false;
+
+        while (act != null && !borrado) {
+            if (act.getVertice().getEstacion().equals(destinoId)) {
+                if (ant == null) {
+                    nodoADesconectar.setPrimerRiel(act.getSigRiel());
+                } else {
+                    ant.setSigAdyancete(act.getSigRiel());
+                }
+                borrado = true;
+            }
+            ant = act;
+            act = act.getSigRiel();
+        }
     }
 
     private boolean eliminarDeListaMaestra(Object elemento) {
@@ -154,17 +191,6 @@ public class Grafo {
             }
         }
         return exito;
-    }
-
-    public boolean eliminarArco(Object origen, Object destino) {
-        boolean eliminadoOrigen = eliminarReferenciaEnVecino(origen, destino);
-        boolean eliminadoDestino = eliminarReferenciaEnVecino(destino, origen);
-
-        if (eliminadoOrigen && eliminadoDestino) {
-            LogHelper.registrar("Se eliminó el riel entre " + origen + " y " + destino);
-            return true;
-        }
-        return false;
     }
 
     public Object modificarDistanciaRiel(Object origen, Object destino, int cantKm) {
@@ -423,6 +449,7 @@ public class Grafo {
                 if (estacionActual.equals(destino)) {
                     // Clonamos el camino actual para guardarlo en la lista de resultados
                     caminoActual.insertar(" | ", caminoActual.longitud() + 1);
+
                     todosLosCaminos.insertar(caminoActual.clone(), todosLosCaminos.longitud() + 1);
                 } else {
                     // 3. Si no es el destino, seguimos explorando vecinos
