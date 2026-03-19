@@ -6943,3 +6943,99 @@ ABM: Se agrego Tren  [electrico] pas:7 carga:0 linea:San Martin
 eed.tp.TrenesSaControlador@6ce253f1
 ==============================================
 
+ABM: Se creó la estación Tandil
+ABM: Se agrego Tandil (Tandil) - Av. España 745 CP:7000 | vías: 4, plataformas: 2
+ABM: Se creó la estación Retiro
+ABM: Se agrego Retiro (CABA) - Av. Dr. Jose Maria Ramos Mejia 1430 CP:C1104 | vías: 9, plataformas: 6
+ABM: Se creó la estación Constitucion
+ABM: Se agrego Constitucion (CABA) - Av. Brasil 1128 CP:C1154 | vías: 14, plataformas: 8
+ABM: Se creó la estación Canuelas
+ABM: Se agrego Canuelas (Canuelas) - Libertad 150 CP:1814 | vías: 3, plataformas: 2
+ABM: Se creó la estación Las Flores
+ABM: Se agrego Las Flores (Las Flores) - Av. Rivadavia 400 CP:7200 | vías: 2, plataformas: 2
+ABM: Se creó la estación Neuquen
+ABM: Se agrego Neuquen (capital) - Av. Brasil 1128 CP:C1154 | vías: 14, plataformas: 8
+ABM: Se creó la estación Bariloche
+ABM: Se agrego Bariloche (Rio negro) - Libertad 150 CP:1814 | vías: 3, plataformas: 2
+ABM: Se creó la estación Tierra del fuego
+ABM: Se agrego Tierra del fuego (tierra) - Av. Rivadavia 400 CP:7200 | vías: 2, plataformas: 2
+ABM: Se creó la estación La Plata
+ABM: Se agrego La Plata (Buenos Aires) - Calle 1 100 CP:1900 | vías: 5, plataformas: 4
+ABM: Se creó la estación Mar del Plata
+ABM: Se agrego Mar del Plata (Buenos Aires) - Av. Luro 200 CP:7600 | vías: 4, plataformas: 3
+ABM: Se creó la estación Rosario
+ABM: Se agrego Rosario (Santa Fe) - Aristobulo 300 CP:2000 | vías: 6, plataformas: 4
+ABM: Se creó la estación Cordoba
+ABM: Se agrego Cordoba (Cordoba) - Peron 400 CP:5000 | vías: 5, plataformas: 3
+ABM: Se creó la estación Mendoza
+ABM: Se agrego Mendoza (Mendoza) - Las Heras 500 CP:5500 | vías: 3, plataformas: 2
+ABM: Se creó la estación Tucuman
+ABM: Se agrego Tucuman (Tucuman) - Corrientes 600 CP:4000 | vías: 3, plataformas: 2
+ABM: Se creó la estación Salta
+ABM: Se agrego Salta (Salta) - Balcarce 700 CP:4400 | vías: 2, plataformas: 2
+ABM: Se creó la estación San Juan
+ABM: Se agrego San Juan (San Juan) - España 800 CP:5400 | vías: 2, plataformas: 2
+ABM: Se creó la estación San Luis
+ABM: Se agrego San Luis (San Luis) - Illia 900 CP:5700 | vías: 2, plataformas: 2
+ABM: Se creó la estación Santa Rosa
+ABM: Se agrego Santa Rosa (La Pampa) - Luro 1000 CP:6300 | vías: 2, plataformas: 2
+ABM: Se creó la estación Viedma
+ABM: Se agrego Viedma (Rio Negro) - Roca 1100 CP:8500 | vías: 2, plataformas: 2
+ABM: Se creó la estación Rawson
+ABM: Se agrego Rawson (Chubut) - Fontana 1200 CP:9103 | vías: 2, plataformas: 2
+ABM: Riel creado entre 2 y 1
+ABM: Riel creado entre 3 y 4
+ABM: Riel creado entre 4 y 5
+ABM: Riel creado entre 5 y 1
+ABM: Riel creado entre 5 y 6
+ABM: Riel creado entre 5 y 7
+ABM: Riel creado entre 5 y 8
+ABM: Riel creado entre 3 y 8
+ABM: Riel creado entre 4 y 2
+ABM: Riel creado entre 3 y 2
+ABM: Riel creado entre 2 y 9
+ABM: Riel creado entre 9 y 10
+ABM: Riel creado entre 3 y 10
+ABM: Riel creado entre 2 y 11
+ABM: Riel creado entre 11 y 12
+ABM: Riel creado entre 12 y 13
+ABM: Riel creado entre 13 y 16
+ABM: Riel creado entre 16 y 17
+ABM: Riel creado entre 17 y 12
+ABM: Riel creado entre 12 y 14
+ABM: Riel creado entre 14 y 15
+ABM: Riel creado entre 6 y 18
+ABM: Riel creado entre 18 y 4
+ABM: Riel creado entre 7 y 19
+ABM: Riel creado entre 19 y 20
+ABM: Riel creado entre 20 y 8
+ABM: Riel creado entre 11 y 14
+ABM: Riel creado entre 13 y 6
+ABM: Riel creado entre 9 y 5
+ABM: Riel creado entre 1 y 10
+ABM: Riel creado entre 3 y 9
+ABM: Se agrego Tren  [diesel] pas:6 carga:0 linea:Mitre
+ABM: Se agrego Tren  [gasolina] pas:0 carga:0 linea:no-asignado
+ABM: Se agrego Tren  [diesel] pas:8 carga:0 linea:Roca-Tandil
+ABM: Se agrego Tren  [electrico] pas:8 carga:0 linea:San Martin
+ABM: Se agrego Tren  [diesel] pas:5 carga:0 linea:Belgrano Norte
+ABM: Se agrego Tren  [gasolina] pas:4 carga:0 linea:Mitre
+ABM: Se agrego Tren  [electrico] pas:7 carga:0 linea:Roca-Tandil
+ABM: Se agrego Tren  [diesel] pas:6 carga:0 linea:San Martin
+ABM: Se agrego Tren  [electrico] pas:9 carga:0 linea:Belgrano Norte
+ABM: Se agrego Tren  [diesel] pas:5 carga:0 linea:Mitre
+ABM: Se agrego Tren  [gasolina] pas:3 carga:0 linea:no-asignado
+ABM: Se agrego Tren  [electrico] pas:10 carga:0 linea:San Martin
+ABM: Se agrego Tren  [diesel] pas:7 carga:0 linea:Roca-Tandil
+ABM: Se agrego Tren  [diesel] pas:6 carga:0 linea:Belgrano Norte
+ABM: Se agrego Tren  [electrico] pas:8 carga:0 linea:Mitre
+ABM: Se agrego Tren  [gasolina] pas:4 carga:0 linea:no-asignado
+ABM: Se agrego Tren  [diesel] pas:5 carga:0 linea:San Martin
+ABM: Se agrego Tren  [electrico] pas:9 carga:0 linea:Roca-Tandil
+ABM: Se agrego Tren  [diesel] pas:6 carga:0 linea:Belgrano Norte
+ABM: Se agrego Tren  [electrico] pas:7 carga:0 linea:San Martin
+
+=== ESTADO DEL SISTEMA POST-CARGA INICIAL ===
+eed.tp.TrenesSaControlador@6ce253f1
+==============================================
+
