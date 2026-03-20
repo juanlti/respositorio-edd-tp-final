@@ -15,13 +15,13 @@ import eed.tp.Nodos.NodoVert;
 public class Grafo {
 
     private NodoVert inicio;
-    private int cantidadVertices;
-    private AVL avlEstaciones;
 
-    public Grafo(AVL avlTrenes, AVL avlEstaciones) {
+
+
+    public Grafo() {
         this.inicio = null;
-        this.cantidadVertices = 0;
-        this.avlEstaciones = avlEstaciones;
+
+
 
     }
 
@@ -29,7 +29,6 @@ public class Grafo {
         boolean exito = false;
         if (ubicarVertice(x) == null) {
             this.inicio = new NodoVert(x, this.inicio, null);
-            this.cantidadVertices++;
             exito = true;
         }
         return exito;
@@ -103,8 +102,8 @@ public class Grafo {
 
             // 4. Si se eliminó del grafo, lo sacamos también del AVL para mantener la sincronía
             if (exito) {
-                this.avlEstaciones.eliminar((Comparable) elemento);
-                this.cantidadVertices--;
+
+  
                 LogHelper.registrar("Baja: Estación " + elemento + " y sus rieles eliminados.");
             }
         }
