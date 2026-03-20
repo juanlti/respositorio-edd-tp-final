@@ -47,7 +47,7 @@ public class AVL {
                     metodoEliminarCasos(nodo.getDerecho(), eliminar, false)
             );
         } else {
-            nodo = procesarEliminacionPorTipo(nodo, eliminar);
+            nodo = procesarEliminacionPorTipo(nodo);
         }
 
         return balancear(nodo);
@@ -75,7 +75,7 @@ public class AVL {
 
     }
 
-    private NodoAVL procesarEliminacionPorTipo(NodoAVL nodo, Object eliminar) {
+    private NodoAVL procesarEliminacionPorTipo(NodoAVL nodo) {
 
         int tipoCaso = catalogarTipoDeElimninacion(nodo);
 
