@@ -16,12 +16,8 @@ public class Grafo {
 
     private NodoVert inicio;
 
-
-
     public Grafo() {
         this.inicio = null;
-
-
 
     }
 
@@ -103,7 +99,6 @@ public class Grafo {
             // 4. Si se eliminó del grafo, lo sacamos también del AVL para mantener la sincronía
             if (exito) {
 
-  
                 LogHelper.registrar("Baja: Estación " + elemento + " y sus rieles eliminados.");
             }
         }
