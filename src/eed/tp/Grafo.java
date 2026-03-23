@@ -1,10 +1,11 @@
 package eed.tp;
 
+
 import eed.tp.Servicios.LogHelper;
-import eed.tp.Estacion.Estacion;
-import eed.tp.Riel.Riel;
+
 import eed.tp.Nodos.NodoAdy;
 import eed.tp.Nodos.NodoVert;
+
 
 /**
  * ↑: Alt+24 para flecha arriba. ↓: Alt+25 para flecha abajo. →: Alt+26 para
@@ -50,6 +51,7 @@ public class Grafo {
         boolean exito = false;
         NodoVert nodoOrigen = ubicarVertice(origen);
         NodoVert nodoDestino = ubicarVertice(destino);
+        nodoOrigen.getEstacion().equals(nodoDestino.getEstacion()); //comparacion correcta
 
         if (nodoOrigen != null && nodoDestino != null) {
             if (!existeAdyacente(nodoOrigen, destino)) {

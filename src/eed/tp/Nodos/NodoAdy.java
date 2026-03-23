@@ -11,9 +11,9 @@ package eed.tp.Nodos;
  */
 public class NodoAdy {
 
-    private NodoVert estacionDestino; // el vertice al que apunta esta conexion
+    private NodoVert nodoVertice; // el vertice al que apunta esta conexion
     private NodoAdy sigRiel; //siguiente riel en la lista de adyacentes (vecino inmedianto de este)
-    private Object riel;   // objecto Riel
+    private int etiqueta;   // objecto Riel
 
     public NodoAdy(NodoVert vertice, NodoAdy sigAdyancete) {
         this.estacionDestino = vertice;

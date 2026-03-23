@@ -1,24 +1,24 @@
 package eed.tp.Nodos;
 
 import eed.tp.Lista;
-import eed.tp.Nodos.NodoAdy;
+
 
 public class NodoVert {
 
-    private Object estacion;
+    private Object objct;
     private NodoVert sigEstacion;
-    private NodoAdy primerRiel;
+    private NodoAdy primerRiel; //primerAdyc
     private Lista refAdy;
 
     public NodoVert(Object elem, NodoVert sigVertice, NodoAdy primerAdy) {
-        this.estacion = elem;
+        this.objct = elem;
         this.sigEstacion = sigVertice;
         this.primerRiel = primerAdy;
         this.refAdy = null;
     }
 
     public String toString() {
-        return estacion.toString();
+        return objct.toString();
     }
 
     public Lista getRefAdy() {

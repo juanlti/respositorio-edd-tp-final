@@ -18,38 +18,31 @@ public class AVL {
     public void eliminar(Object x) {
 
         if (this.raiz != null) {
-            if (((Comparable) x).compareTo(this.raiz.getClave()) != 0) {
-                this.raiz = metodoEliminarCasos(this.raiz, x, false);
-            } else {
-                this.raiz = metodoEliminarCasos(this.raiz, x, true);
-            }
-
+            this.raiz = metodoEliminarCasos(this.raiz, x);
         }
-
     }
 
     //si eliminar > nodo.getClave() => mayor a 0.
     //si eliminar < nodo.getClave() => menor a 0.
     // si eliminar === nodo.getClave() => 0
-    private NodoAVL metodoEliminarCasos(NodoAVL nodo, Object eliminar, boolean casoEspecial) {
-        if (nodo == null) {
-            return null;
+    private NodoAVL metodoEliminarCasos(NodoAVL nodo, Object eliminar) {
+        if (nodo != null) {
+
+            int comparacion = ((Comparable) eliminar).compareTo(nodo.getClave());
+
+            if (comparacion < 0) {
+                nodo.setIzquierdo(
+                        metodoEliminarCasos(nodo.getIzquierdo(), eliminar)
+                );
+            } else if (comparacion > 0) {
+                nodo.setDerecho(
+                        metodoEliminarCasos(nodo.getDerecho(), eliminar)
+                );
+            } else {
+                nodo = procesarEliminacionPorTipo(nodo);
+            }
+
         }
-
-        int comparacion = ((Comparable) eliminar).compareTo(nodo.getClave());
-
-        if (comparacion < 0) {
-            nodo.setIzquierdo(
-                    metodoEliminarCasos(nodo.getIzquierdo(), eliminar, false)
-            );
-        } else if (comparacion > 0) {
-            nodo.setDerecho(
-                    metodoEliminarCasos(nodo.getDerecho(), eliminar, false)
-            );
-        } else {
-            nodo = procesarEliminacionPorTipo(nodo);
-        }
-
         return balancear(nodo);
     }
 
@@ -82,26 +75,26 @@ public class AVL {
         switch (tipoCaso) {
 
             case 1: // hoja
-                return null;
+                nodo = null;
+                break;
 
             case 2: // solo hijo derecho
-                return nodo.getDerecho();
-
+                nodo.getDerecho();
+                break;
             case 3: // solo hijo izquierdo
-                return nodo.getIzquierdo();
-
+                nodo.getIzquierdo();
+                break;
             case 4: // dos hijos
                 NodoAVL sucesor = this.minimoElem(nodo.getDerecho());
 
                 nodo.setElemento(sucesor.getClave(), sucesor.getClave());
 
-                nodo.setDerecho(metodoEliminarCasos(nodo.getDerecho(), sucesor.getClave(), false));
+                nodo.setDerecho(metodoEliminarCasos(nodo.getDerecho(), sucesor.getClave()));
 
-                return nodo;
+                break;
 
-            default:
-                return nodo;
         }
+        return nodo;
     }
 
     public boolean insertar(Comparable clave, Object data) {
@@ -140,25 +133,25 @@ public class AVL {
     }
 
     private NodoAVL balancear(NodoAVL n) {
-        if (n == null) {
-            return null;
-        }
-        n.recalcularAltura();
-        int b = n.calcularBalance(); // izq - der
+        if (n != null) {
 
-        if (b > 1) {
-            if (n.getIzquierdo().calcularBalance() < 0) {
-                n.setIzquierdo(rotarIzquierda(n.getIzquierdo())); // LR
-            }
-            return rotarDerecha(n); // LL
-        }
-        if (b < -1) {
-            if (n.getDerecho().calcularBalance() > 0) {
-                n.setDerecho(rotarDerecha(n.getDerecho())); // RL
-            }
-            return rotarIzquierda(n); // RR
-        }
+            n.recalcularAltura();
+            int b = n.calcularBalance(); // izq - der
 
+            if (b > 1) {
+                if (n.getIzquierdo().calcularBalance() < 0) {
+                    n.setIzquierdo(rotarIzquierda(n.getIzquierdo())); // LR
+                }
+                n = rotarDerecha(n); // LL
+            }
+            if (b < -1) {
+                if (n.getDerecho().calcularBalance() > 0) {
+                    n.setDerecho(rotarDerecha(n.getDerecho())); // RL
+                }
+                n = rotarIzquierda(n); // RR
+            }
+
+        }
         return n;
     }
 

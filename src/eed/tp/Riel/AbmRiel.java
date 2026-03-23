@@ -61,8 +61,8 @@ public class AbmRiel {
 
         } else {
             int distancia = leerInt(sc, "Distancia (km): ", 1);
-            Riel riel = new Riel(codOri, codDes, distancia);
-            red.insertarArco(codOri, codDes, riel);
+      
+            red.insertarArco(codOri, codDes, 500);
         }
 
     }
