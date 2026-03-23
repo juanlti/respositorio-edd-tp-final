@@ -39,7 +39,7 @@ public class AVL {
                 // Buscamos por la derecha y actualizamos el hijo derecho
                 nodo.setDerecho(metodoEliminarCasos(nodo.getDerecho(), eliminar));
             } else {
-                // 2. ¡Nodo encontrado! Evaluamos los 3 casos de eliminación
+                //Evaluamos los 3 casos de eliminación
                 int tipoCaso = catalogarTipoDeElimninacion(nodo);
 
                 switch (tipoCaso) {

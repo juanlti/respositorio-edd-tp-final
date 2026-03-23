@@ -29,7 +29,7 @@ public class NodoVert {
         this.refAdy = refAdy;
     }
 
-    public Object getEstacion() {
+    public Object getElemento() {
         return estacion;
     }
 

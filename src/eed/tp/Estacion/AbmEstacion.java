@@ -88,6 +88,7 @@ public class AbmEstacion {
             this.red.eliminarVertice(codigo);
             this.estaciones.eliminar(codigo);
             System.out.println("✓ Baja OK");
+              LogHelper.registrar("Baja: Estación " + elemento + " y sus rieles eliminados.");
         } else {
             System.out.println("✗ No existe la estación " + codigo);
         }
