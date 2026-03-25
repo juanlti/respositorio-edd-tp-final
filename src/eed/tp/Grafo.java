@@ -37,43 +37,37 @@ public class Grafo {
                 if (aux.getElemento().equals(x)) {
                     encontrado = aux;
                 }
-                aux = aux.getSigEstacion();
+                aux = aux.getSiguienteNodoVertice();
             }
         }
         return encontrado;
     }
 
     public boolean insertarArco(Object origen, Object destino, double etiqueta) {
-        boolean exito = false;
+
         NodoVert nodoOrigen = ubicarVertice(origen);
 
-        if (nodoOrigen != null) {
-            NodoVert nodoDestino = encontrarEstacionAdyacente(nodoOrigen, destino);
-            if (nodoDestino != null) {
-                NodoAdy nuevoOrigen = new NodoAdy(nodoDestino, nodoOrigen.getPrimerRiel(), etiqueta);
-                nodoOrigen.setPrimerRiel(nuevoOrigen);
+        NodoVert nodoDestino = encontrarEstacionAdyacente(nodoOrigen, destino);
 
-                NodoAdy nuevoDestino = new NodoAdy(nodoOrigen, nodoDestino.getPrimerRiel(), etiqueta);
-                nodoDestino.setPrimerRiel(nuevoDestino);
+        nodoOrigen.setPrimerAdyc(new NodoAdy(nodoDestino, nodoOrigen.getPrimerAdyc(), etiqueta));
 
-                exito = true;
-            }
-        }
-        return exito;
+        nodoDestino.setPrimerAdyc(new NodoAdy(nodoOrigen, nodoDestino.getPrimerAdyc(), etiqueta));
+
+        return true;
     }
 
     private NodoVert encontrarEstacionAdyacente(NodoVert nodo, Object destino) {
         boolean encontrado = false;
-        NodoVert estacionVertice = null;
-        NodoAdy aux = nodo.getPrimerRiel();
-        while (aux != null && !encontrado) {
-            if (aux.getVertice().getElemento().equals(destino)) {
-                estacionVertice = aux.getVertice();
+
+        NodoAdy nodoPrimerAdyc = nodo.getPrimerAdyc();
+        while (!encontrado && nodoPrimerAdyc != null) {
+            if (nodoPrimerAdyc.getVertice().getElemento().equals(destino)) {
                 encontrado = true;
+            } else {
+                nodoPrimerAdyc = nodoPrimerAdyc.getSigRiel();
             }
-            aux = aux.getSigRiel();
         }
-        return estacionVertice;
+        return nodoPrimerAdyc.getVertice();
     }
 
     public boolean eliminarVertice(Object elemento) {
@@ -84,7 +78,7 @@ public class Grafo {
         if (nodoAEliminar != null) {
             // 2. Antes de borrar el vértice, recorremos sus rieles
             // para avisarle a los vecinos que ya no están conectados a él.
-            NodoAdy ady = nodoAEliminar.getPrimerRiel();
+            NodoAdy ady = nodoAEliminar.getPrimerAdyc();
             while (ady != null) {
                 // Borramos la referencia inversa (del vecino hacia 'elemento')
                 eliminarReferenciaSimple(ady.getVertice(), elemento);
@@ -97,7 +91,6 @@ public class Grafo {
             // 4. Si se eliminó del grafo, lo sacamos también del AVL para mantener la sincronía
             if (exito) {
 
-              
             }
         }
 
@@ -110,7 +103,7 @@ public class Grafo {
         NodoVert vOrigen = ubicarVertice(origen);
 
         if (vOrigen != null) {
-            NodoAdy actual = vOrigen.getPrimerRiel();
+            NodoAdy actual = vOrigen.getPrimerAdyc();
             NodoAdy anterior = null;
 
             while (actual != null && !eliminado) {
@@ -119,7 +112,7 @@ public class Grafo {
 
                     // --- PARTE A: Eliminar de Origen -> Destino ---
                     if (anterior == null) {
-                        vOrigen.setPrimerRiel(actual.getSigRiel());
+                        vOrigen.setPrimerAdyc(actual.getSigRiel());
                     } else {
                         anterior.setSigAdyancete(actual.getSigRiel());
                     }
@@ -129,7 +122,6 @@ public class Grafo {
                     // No necesitamos llamar a ubicarVertice de nuevo.
                     eliminarReferenciaSimple(actual.getVertice(), origen);
 
-                
                     eliminado = true;
                 }
 
@@ -147,14 +139,14 @@ public class Grafo {
      * NodoVert ya localizado.
      */
     private void eliminarReferenciaSimple(NodoVert nodoADesconectar, Object destinoId) {
-        NodoAdy act = nodoADesconectar.getPrimerRiel();
+        NodoAdy act = nodoADesconectar.getPrimerAdyc();
         NodoAdy ant = null;
         boolean borrado = false;
 
         while (act != null && !borrado) {
             if (act.getVertice().getElemento().equals(destinoId)) {
                 if (ant == null) {
-                    nodoADesconectar.setPrimerRiel(act.getSigRiel());
+                    nodoADesconectar.setPrimerAdyc(act.getSigRiel());
                 } else {
                     ant.setSigAdyancete(act.getSigRiel());
                 }
@@ -169,42 +161,40 @@ public class Grafo {
         boolean exito = false;
         if (this.inicio != null) {
             if (this.inicio.getElemento().equals(elemento)) {
-                this.inicio = this.inicio.getSigEstacion();
+                this.inicio = this.inicio.getSiguienteNodoVertice();
                 exito = true;
             } else {
                 NodoVert aux = this.inicio;
-                while (aux.getSigEstacion() != null && !exito) {
-                    if (aux.getSigEstacion().getElemento().equals(elemento)) {
-                        aux.setSigEstacion(aux.getSigEstacion().getSigEstacion());
+                while (aux.getSiguienteNodoVertice() != null && !exito) {
+                    if (aux.getSiguienteNodoVertice().getElemento().equals(elemento)) {
+                        aux.setNodoVertice(aux.getSiguienteNodoVertice().getSiguienteNodoVertice());
                         exito = true;
                     }
-                    aux = aux.getSigEstacion();
+                    aux = aux.getSiguienteNodoVertice();
                 }
             }
         }
         return exito;
     }
 
-    public Object modificarDistanciaRiel(Object origen, Object destino, int cantKm) {
+    public boolean modificarDistanciaRiel(Object origen, Object destino, int cantKm) {
 
         boolean exito = false;
-        Riel riel = null;
-        //busco el nivel de la estacion Origen para realizar una busqueda adyacente hasta encontrar a la estacion destino
         NodoVert verticeOrigen = ubicarVertice(origen);
-        NodoAdy primerVecino = verticeOrigen.getPrimerRiel();
-        if (verticeOrigen != null && primerVecino != null && !exito) {
-            NodoVert vecino = primerVecino.getVertice();
-            if (vecino.getElemento().equals(destino)) {
-                riel = (Riel) primerVecino.getEtiqueta();
-                riel.setDistanciaKm(cantKm);
+        NodoAdy primerElementoAdycante = verticeOrigen.getPrimerAdyc();
+
+        while (!exito && primerElementoAdycante != null) {
+            NodoVert nodoVerticePrimereElemento = primerElementoAdycante.getVertice();
+            if (nodoVerticePrimereElemento.getElemento().equals(destino)) {
+                primerElementoAdycante.setEtiqueta(cantKm);
                 exito = true;
             }
 
-            primerVecino = primerVecino.getSigRiel();
+            primerElementoAdycante = primerElementoAdycante.getSigRiel();
 
         }
 
-        return riel;
+        return exito;
 
     }
 
@@ -244,7 +234,7 @@ public class Grafo {
                     break;
                 }
 
-                NodoAdy ady = nodoActual.getPrimerRiel();
+                NodoAdy ady = nodoActual.getPrimerAdyc();
 
                 while (ady != null) {
 
@@ -295,7 +285,7 @@ public class Grafo {
             if (idActual.equals(destino)) {
                 encontrado = true;
             } else {
-                NodoAdy ady = vActual.getPrimerRiel();
+                NodoAdy ady = vActual.getPrimerAdyc();
                 while (ady != null) {
                     NodoVert vVecino = ady.getVertice();
                     Object idVecino = vVecino.getElemento(); // OBTENEMOS LA CLAVE DEL VECINO
@@ -345,7 +335,7 @@ public class Grafo {
             if (estacion.equals(destino)) {
                 resultado = resultado + destino;
             } else {
-                NodoAdy primerAdy = nodoOrigen.getPrimerRiel();
+                NodoAdy primerAdy = nodoOrigen.getPrimerAdyc();
 
                 nodoOrigen = primerAdy.getVertice();
 
@@ -386,7 +376,7 @@ public class Grafo {
 
         } else {
 
-            NodoAdy ady = partida.getPrimerRiel();
+            NodoAdy ady = partida.getPrimerAdyc();
 
             while (ady != null) {
 
@@ -445,7 +435,7 @@ public class Grafo {
                     todosLosCaminos.insertar(caminoActual.clone(), todosLosCaminos.longitud() + 1);
                 } else {
                     // 3. Si no es el destino, seguimos explorando vecinos
-                    NodoAdy ady = actual.getPrimerRiel();
+                    NodoAdy ady = actual.getPrimerAdyc();
                     while (ady != null) {
                         obtenerTodosLosCaminosIgnorandoUnaEstacionAux(ady.getVertice(), destino, visitados, caminoActual, ignorarEstacion, todosLosCaminos);
                         ady = ady.getSigRiel();
@@ -496,7 +486,7 @@ public class Grafo {
         caminoActual.insertar(estacion, caminoActual.longitud() + 1);
 
         boolean encontrado = false;
-        NodoAdy ady = actual.getPrimerRiel();
+        NodoAdy ady = actual.getPrimerAdyc();
 
         while (ady != null && !encontrado) {
             Riel riel = (Riel) ady.getEtiqueta();
@@ -521,14 +511,14 @@ public class Grafo {
         } else {
             while (aux != null) {
                 System.out.print("Estación [" + aux.getElemento() + "] -> ");
-                NodoAdy ady = aux.getPrimerRiel();
+                NodoAdy ady = aux.getPrimerAdyc();
                 while (ady != null) {
                     Riel r = (Riel) ady.getEtiqueta();
                     System.out.print("[" + ady.getVertice().getElemento() + " (" + r.getDistanciaKm() + "km)] ");
                     ady = ady.getSigRiel();
                 }
                 System.out.println();
-                aux = aux.getSigEstacion();
+                aux = aux.getSiguienteNodoVertice();
             }
         }
     }
