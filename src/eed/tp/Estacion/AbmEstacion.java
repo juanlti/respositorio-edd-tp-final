@@ -10,6 +10,7 @@ import eed.tp.Grafo;
 import static eed.tp.Servicios.Input.leerInt;
 import static eed.tp.Servicios.Input.leerNoVacio;
 import static eed.tp.Servicios.Input.leerOpcional;
+import eed.tp.Servicios.LogHelper;
 import java.util.Scanner;
 
 /**
@@ -88,7 +89,7 @@ public class AbmEstacion {
             this.red.eliminarVertice(codigo);
             this.estaciones.eliminar(codigo);
             System.out.println("✓ Baja OK");
-              LogHelper.registrar("Baja: Estación " + elemento + " y sus rieles eliminados.");
+             // LogHelper.registrar("Baja: Estación " + elemento + " y sus rieles eliminados.");
         } else {
             System.out.println("✗ No existe la estación " + codigo);
         }

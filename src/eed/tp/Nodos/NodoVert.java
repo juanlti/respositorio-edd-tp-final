@@ -6,7 +6,7 @@ public class NodoVert {
 
     private Object elemento;
     private NodoVert SigNodoVertice;
-    private NodoAdy primerAdyc; //primerAdyc
+    private NodoAdy primerAdyc; 
     private Lista refAdy;
 
     public NodoVert(Object elem, NodoVert sigVertice, NodoAdy primerAdy) {

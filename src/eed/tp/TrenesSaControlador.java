@@ -103,7 +103,7 @@ public class TrenesSaControlador {
         }
 
         System.out.println("\n--- 4. ESTRUCTURA DE LA RED (GRAFO) ---");
-        this.red.mostrarEstructura();
+      //  this.red.mostrarEstructura();
 
         System.out.println("\n=================================================");
     }

@@ -72,8 +72,8 @@ public class Ejercicio_8_Viaje {
         } else {
             int km = leerInt(sc, "Ingrese el limite de km entre estaciones (entero positivo): ", 1);
 
-            boolean resultado = red.verificarCaminoConUnaCantidadMaximaDeKm(codigo1, codigo2, km);
-            System.out.println("Camino existente :" + resultado + " con una distancia maxima de " + km);
+         //   boolean resultado = red.verificarCaminoConUnaCantidadMaximaDeKm(codigo1, codigo2, km);
+          //  System.out.println("Camino existente :" + resultado + " con una distancia maxima de " + km);
         }
 
     }
@@ -98,7 +98,7 @@ public class Ejercicio_8_Viaje {
 
         Object codigo2 = leerInt(sc, "Ingrese el codigo (entero positivo) de la segunda estacion: ", 1);
 
-        System.out.println("Lista resultante " + red.obtenerCaminoMasCorto(codigo1, codigo2));
+       // System.out.println("Lista resultante " + red.obtenerCaminoMasCorto(codigo1, codigo2));
     }
 
     private void caminoConMenosEstaciones(Scanner sc) {
@@ -106,7 +106,7 @@ public class Ejercicio_8_Viaje {
 
         Object codigo2 = leerInt(sc, "Ingrese el codigo (entero positivo) de la segunda estacion: ", 1);
 
-        System.out.println(red.caminoConMenosEstaciones(codigo1, codigo2));
+        System.out.println(red.obtenerCaminoConMenosEstaciones(codigo1, codigo2));
     }
 
 }

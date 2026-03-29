@@ -64,7 +64,7 @@ public class AbmRiel {
 
             red.insertarArco(codOri, codDes, distancia);
 
-            LogHelper.registrar("ABM: Riel creado entre " + origen + " y " + destino);
+          //  LogHelper.registrar("ABM: Riel creado entre " + origen + " y " + destino);
         }
 
     }
@@ -76,7 +76,7 @@ public class AbmRiel {
 
         if (codOri == codDes) {
             System.out.println("No se puede eliminar  un riel de una estación consigo misma.");
-                LogHelper.registrar("Se eliminó el riel entre " + origen + " y " + destino);
+           //     LogHelper.registrar("Se eliminó el riel entre " + origen + " y " + destino);
         } else {
             System.out.println("✓ Riel eliminado: " + red.eliminarArco(codOri, codDes));
         }

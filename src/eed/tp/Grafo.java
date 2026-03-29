@@ -19,162 +19,175 @@ public class Grafo {
     }
 
     public boolean insertarVertice(Object x) {
+
         boolean exito = false;
-        if (ubicarVertice(x) == null) {
+        NodoVert aux = this.ubicarVertice(x);
+        if (aux == null) {
             this.inicio = new NodoVert(x, this.inicio, null);
             exito = true;
+
         }
+
         return exito;
     }
 
     private NodoVert ubicarVertice(Object x) {
-        NodoVert encontrado = null;
-        if (x != null) {
 
-            NodoVert aux = this.inicio;
-            while (aux != null) {
-                // Aquí está lo que tú dices: aux.getEstacion() ES la clave
-                if (aux.getElemento().equals(x)) {
-                    encontrado = aux;
+        NodoVert aux = this.inicio;
+        while (aux != null && !aux.getElemento().equals(x)) {
+
+            aux = aux.getSiguienteNodoVertice();
+        }
+
+        return aux;
+    }
+
+    private NodoVert encontrarNodoVerticeAnterior(Object x) {
+
+        NodoVert aux = this.inicio;
+        NodoVert nodoVertAnterior = null;
+
+        if (aux.getElemento().equals(x)) {
+            nodoVertAnterior = null;
+
+        } else {
+
+            while (nodoVertAnterior == null && aux != null) {
+
+                if (aux.getSiguienteNodoVertice().getElemento().equals(x)) {
+                    nodoVertAnterior = aux;
                 }
                 aux = aux.getSiguienteNodoVertice();
+
             }
+
         }
-        return encontrado;
+
+        return nodoVertAnterior;
     }
 
     public boolean insertarArco(Object origen, Object destino, double etiqueta) {
 
         NodoVert nodoOrigen = ubicarVertice(origen);
-
-        NodoVert nodoDestino = encontrarEstacionAdyacente(nodoOrigen, destino);
-
+        NodoVert nodoDestino = ubicarVertice(destino);
         nodoOrigen.setPrimerAdyc(new NodoAdy(nodoDestino, nodoOrigen.getPrimerAdyc(), etiqueta));
-
         nodoDestino.setPrimerAdyc(new NodoAdy(nodoOrigen, nodoDestino.getPrimerAdyc(), etiqueta));
 
         return true;
     }
 
-    private NodoVert encontrarEstacionAdyacente(NodoVert nodo, Object destino) {
-        boolean encontrado = false;
+    private Lista obtenerTodosLosVerticesDeAdyacencia(NodoVert pivote) {
+        Lista listaDeNodo = new Lista();
+        NodoAdy pivoteEnlace = pivote.getPrimerAdyc();
+        while (pivoteEnlace != null) {
+            listaDeNodo.insertar(pivoteEnlace.getVertice(), listaDeNodo.longitud() + 1);
 
-        NodoAdy nodoPrimerAdyc = nodo.getPrimerAdyc();
-        while (!encontrado && nodoPrimerAdyc != null) {
-            if (nodoPrimerAdyc.getVertice().getElemento().equals(destino)) {
-                encontrado = true;
-            } else {
-                nodoPrimerAdyc = nodoPrimerAdyc.getSigRiel();
-            }
+            pivoteEnlace = pivoteEnlace.getSigAdyacente();
+
         }
-        return nodoPrimerAdyc.getVertice();
+        return listaDeNodo;
+
     }
 
     public boolean eliminarVertice(Object elemento) {
         boolean exito = false;
-        // 1. Ubicamos el nodo para saber si existe y acceder a sus adyacentes
-        NodoVert nodoAEliminar = ubicarVertice(elemento);
+        Lista recorrerLosNodosAdyc;
 
-        if (nodoAEliminar != null) {
-            // 2. Antes de borrar el vértice, recorremos sus rieles
-            // para avisarle a los vecinos que ya no están conectados a él.
-            NodoAdy ady = nodoAEliminar.getPrimerAdyc();
-            while (ady != null) {
-                // Borramos la referencia inversa (del vecino hacia 'elemento')
-                eliminarReferenciaSimple(ady.getVertice(), elemento);
-                ady = ady.getSigRiel();
+        if (this.inicio != null && this.inicio.getElemento().equals(elemento)) {
+            recorrerLosNodosAdyc = obtenerTodosLosVerticesDeAdyacencia(this.inicio);
+            this.eliminarVerticeAux(recorrerLosNodosAdyc, elemento);
+
+            NodoVert eliminar = this.inicio;
+            this.inicio.setPrimerAdyc(null);
+            this.inicio = eliminar.getSiguienteNodoVertice();
+
+            exito = true;
+
+        } else {
+
+            NodoVert nodoAEliminarAnterior = this.encontrarNodoVerticeAnterior(elemento);
+
+            if (nodoAEliminarAnterior != null) {
+                NodoVert nodoEliminar = nodoAEliminarAnterior.getSiguienteNodoVertice();
+
+                recorrerLosNodosAdyc = obtenerTodosLosVerticesDeAdyacencia(nodoEliminar);
+
+                this.eliminarVerticeAux(recorrerLosNodosAdyc, elemento);
+                nodoEliminar.setPrimerAdyc(null);
+                nodoAEliminarAnterior.setNodoVertice(nodoEliminar.getSiguienteNodoVertice());
+
+                exito = true;
             }
 
-            // 3. Eliminamos el nodo de la lista maestra de vértices del Grafo
-            exito = eliminarDeListaMaestra(elemento);
-
-            // 4. Si se eliminó del grafo, lo sacamos también del AVL para mantener la sincronía
-            if (exito) {
-
-            }
         }
 
         return exito;
+    }
+
+    private void eliminarVerticeAux(Lista recorrerLosNodosAdyc, Object elemento) {
+
+        int longitud, posicion;
+        longitud = recorrerLosNodosAdyc.longitud();
+        posicion = 1;
+
+        while (posicion <= longitud) {
+
+            this.eliminarArcoDireccional((NodoVert) recorrerLosNodosAdyc.recuperar(posicion), elemento);
+            posicion++;
+
+        }
+
     }
 
     public boolean eliminarArco(Object origen, Object destino) {
         boolean eliminado = false;
         // 1. Solo buscamos el vértice de origen una vez
         NodoVert vOrigen = ubicarVertice(origen);
-
-        if (vOrigen != null) {
-            NodoAdy actual = vOrigen.getPrimerAdyc();
-            NodoAdy anterior = null;
-
-            while (actual != null && !eliminado) {
-                // 2. ¿Es este el arco que conecta con el destino?
-                if (actual.getVertice().getElemento().equals(destino)) {
-
-                    // --- PARTE A: Eliminar de Origen -> Destino ---
-                    if (anterior == null) {
-                        vOrigen.setPrimerAdyc(actual.getSigRiel());
-                    } else {
-                        anterior.setSigAdyancete(actual.getSigRiel());
-                    }
-
-                    // --- PARTE B: Eliminar de Destino -> Origen ---
-                    // "actual.getVertice()" es directamente el NodoVert del destino
-                    // No necesitamos llamar a ubicarVertice de nuevo.
-                    eliminarReferenciaSimple(actual.getVertice(), origen);
-
-                    eliminado = true;
-                }
-
-                if (!eliminado) {
-                    anterior = actual;
-                    actual = actual.getSigRiel();
-                }
+        NodoVert nodoVertDestino = this.eliminarArcoDireccional(vOrigen, destino);
+        if (nodoVertDestino != null) {
+            if (this.eliminarArcoDireccional(nodoVertDestino, origen) != null) {
+                eliminado = true;
             }
+
         }
+
         return eliminado;
     }
 
-    /**
-     * Método privado que elimina la adyacencia hacia 'destinoId' dentro de un
-     * NodoVert ya localizado.
-     */
-    private void eliminarReferenciaSimple(NodoVert nodoADesconectar, Object destinoId) {
-        NodoAdy act = nodoADesconectar.getPrimerAdyc();
-        NodoAdy ant = null;
-        boolean borrado = false;
+    private NodoVert eliminarArcoDireccional(NodoVert pivote, Object encontrar) {
 
-        while (act != null && !borrado) {
-            if (act.getVertice().getElemento().equals(destinoId)) {
-                if (ant == null) {
-                    nodoADesconectar.setPrimerAdyc(act.getSigRiel());
-                } else {
-                    ant.setSigAdyancete(act.getSigRiel());
-                }
-                borrado = true;
-            }
-            ant = act;
-            act = act.getSigRiel();
-        }
-    }
+        NodoVert verticeDestino = null;
 
-    private boolean eliminarDeListaMaestra(Object elemento) {
-        boolean exito = false;
-        if (this.inicio != null) {
-            if (this.inicio.getElemento().equals(elemento)) {
-                this.inicio = this.inicio.getSiguienteNodoVertice();
-                exito = true;
-            } else {
-                NodoVert aux = this.inicio;
-                while (aux.getSiguienteNodoVertice() != null && !exito) {
-                    if (aux.getSiguienteNodoVertice().getElemento().equals(elemento)) {
-                        aux.setNodoVertice(aux.getSiguienteNodoVertice().getSiguienteNodoVertice());
-                        exito = true;
+        if (pivote != null) {
+
+            boolean eliminado = false;
+            NodoAdy vecinoAdyc = pivote.getPrimerAdyc();
+            NodoAdy vecinoAnterior = null;
+
+            while (vecinoAdyc != null && !eliminado) {
+                // 2. ¿Es este el arco que conecta con el destino?
+                if (vecinoAdyc.getVertice().getElemento().equals(encontrar)) {
+
+                    if (vecinoAnterior != null) {
+                        vecinoAnterior.setSigAdyancete(vecinoAdyc.getSigAdyacente());
+                    } else {
+
+                        pivote.setPrimerAdyc(vecinoAdyc.getSigAdyacente());
+
                     }
-                    aux = aux.getSiguienteNodoVertice();
+                    eliminado = true;
+                    verticeDestino = vecinoAdyc.getVertice();
+
+                } else {
+                    vecinoAnterior = vecinoAdyc; //b
+                    vecinoAdyc = vecinoAdyc.getSigAdyacente();
                 }
             }
+
         }
-        return exito;
+
+        return verticeDestino;
+
     }
 
     public boolean modificarDistanciaRiel(Object origen, Object destino, int cantKm) {
@@ -190,7 +203,7 @@ public class Grafo {
                 exito = true;
             }
 
-            primerElementoAdycante = primerElementoAdycante.getSigRiel();
+            primerElementoAdycante = primerElementoAdycante.getSigAdyacente();
 
         }
 
@@ -198,120 +211,50 @@ public class Grafo {
 
     }
 
-    public Lista obtenerCaminoMasCortoEnNodos(Object origen, Object destino) {
-
-        Lista resultado = new Lista();
-
-        NodoVert inicio = this.ubicarVertice(origen);
-        NodoVert fin = this.ubicarVertice(destino);
-
-        if (inicio != null && fin != null) {
-
-            Cola colaNodos = new Cola();
-            Cola colaCaminos = new Cola();
-            Lista visitados = new Lista();
-
-            Lista caminoInicial = new Lista();
-            caminoInicial.insertar(origen, 1);
-
-            colaNodos.poner(inicio);
-            colaCaminos.poner(caminoInicial);
-
-            visitados.insertar(origen, 1);
-
-            while (!colaNodos.esVacia()) {
-
-                NodoVert nodoActual = (NodoVert) colaNodos.obtenerFrente();
-                colaNodos.sacar();
-
-                Lista caminoActual = (Lista) colaCaminos.obtenerFrente();
-                colaCaminos.sacar();
-
-                Estacion estActual = (Estacion) nodoActual.getElemento();
-
-                if (nodoActual.getElemento().equals(destino)) {
-                    resultado = caminoActual;
-                    break;
-                }
-
-                NodoAdy ady = nodoActual.getPrimerAdyc();
-
-                while (ady != null) {
-
-                    NodoVert vecino = ady.getVertice();
-                    Estacion estVecino = (Estacion) vecino.getElemento();
-
-                    if (visitados.localizar(estVecino.getNombre()) < 0) {
-
-                        visitados.insertar(estVecino.getNombre(), visitados.longitud() + 1);
-
-                        Lista nuevoCamino = caminoActual.clone();
-                        nuevoCamino.insertar(estVecino.getNombre(), nuevoCamino.longitud() + 1);
-
-                        colaNodos.poner(vecino);
-                        colaCaminos.poner(nuevoCamino);
-                    }
-
-                    ady = ady.getSigRiel();
-                }
-            }
-        }
-
-        return resultado;
+    public Lista obtenerCaminoConMenosEstaciones(Object origen, Object destino) {
+        Lista caminoEncontrado = new Lista();
+        //System.out.println("vertice " + this.ubicarVertice(origen).getElemento());
+        obtenerCaminoConMenosEstacionesAux(this.ubicarVertice(origen), destino, new Lista(), caminoEncontrado, new Lista());
+        return caminoEncontrado;
     }
 
-    public String caminoConMenosEstaciones(Object origen, Object destino) {
-        Lista caminoFinal = new Lista();
-        Cola cola = new Cola();
-        Lista visitados = new Lista();
-        Lista tablaPadres = new Lista();
+    private void obtenerCaminoConMenosEstacionesAux(NodoVert origen, Object destino, Lista visitados, Lista mejorCamino, Lista caminoActual) {
 
-        // 1. Normalizar las claves de entrada
-        NodoVert nodoOrigen = ubicarVertice(origen);
-        if (nodoOrigen == null) {
-            return "[]";
-        }
+        if (origen != null) {
+            //System.out.println("Estoy en: " + origen.getElemento());
+            visitados.insertar(origen.getElemento(), visitados.longitud() + 1);
+            caminoActual.insertar(origen.getElemento(), caminoActual.longitud() + 1);
 
-        cola.poner(nodoOrigen);
-        // Guardamos el ID, no el objeto origen completo
-        visitados.insertar(origen, 1);
-        boolean encontrado = false;
+            if (origen.getElemento().equals(destino)) {
+              //  System.out.println("LLEGUE AL DESTINO");
+                if (mejorCamino.esVacia() || mejorCamino.longitud() > caminoActual.longitud()) {
+                    mejorCamino.vaciar();
+                    for (int i = 1; i <= caminoActual.longitud(); i++) {
+                        mejorCamino.insertar(caminoActual.recuperar(i), i);
 
-        while (!cola.esVacia() && !encontrado) {
-            NodoVert vActual = (NodoVert) cola.obtenerFrente();
-            cola.sacar();
-            Object idActual = vActual.getElemento(); // Esta es la clave del nodo
-
-            if (idActual.equals(destino)) {
-                encontrado = true;
-            } else {
-                NodoAdy ady = vActual.getPrimerAdyc();
-                while (ady != null) {
-                    NodoVert vVecino = ady.getVertice();
-                    Object idVecino = vVecino.getElemento(); // OBTENEMOS LA CLAVE DEL VECINO
-
-                    // Buscamos la clave en visitados
-                    if (visitados.localizar(idVecino) < 0) {
-                        visitados.insertar(idVecino, visitados.longitud() + 1);
-                        // Guardamos el parentesco entre CLAVES
-                        tablaPadres.insertar(new Parentesco(idVecino, idActual), 1);
-                        cola.poner(vVecino);
                     }
-                    ady = ady.getSigRiel();
                 }
+
+            } else {
+
+                NodoAdy vecino = origen.getPrimerAdyc();
+
+                while (vecino != null) {
+
+                    if (visitados.localizar(vecino.getVertice().getElemento()) < 0) {
+                        this.obtenerCaminoConMenosEstacionesAux(vecino.getVertice(), destino, visitados, mejorCamino, caminoActual);
+
+                    }
+                    vecino = vecino.getSigAdyacente();
+
+                }
+
             }
+            visitados.eliminar(visitados.longitud());
+            caminoActual.eliminar(caminoActual.longitud());
+
         }
 
-        // 2. Reconstrucción del camino usando las claves
-        if (encontrado) {
-            Object idRecorrido = destino;
-            while (idRecorrido != null) {
-                caminoFinal.insertar(idRecorrido, 1);
-                idRecorrido = buscarPadreEnTabla(idRecorrido, tablaPadres);
-            }
-        }
-
-        return caminoFinal.toString();
     }
 
     private Object buscarPadreEnTabla(Object hijo, Lista tabla) {
@@ -346,59 +289,6 @@ public class Grafo {
         }
         return resultado;
 
-    }
-
-    public Lista obtenerCaminoMasCorto(Object origen, Object destino) {
-        NodoVert inicio = ubicarVertice(origen);
-
-        Lista caminoMasCorto = new Lista();
-
-        if (inicio != null) {
-            Lista visitados = new Lista();
-
-            caminoMasCorto = buscarCaminoMinimoAuxv(inicio, destino, 0, visitados, 100000000, caminoMasCorto);
-        }
-
-        return caminoMasCorto;
-    }
-
-    private Lista buscarCaminoMinimoAuxv(NodoVert partida, Object destino, double kmAcumulados, Lista visitados, double kmCaminoMasCorto, Lista caminoMasCorto) {
-
-        Object actual = partida.getElemento();
-        visitados.insertar(actual, visitados.longitud() + 1);
-
-        if (actual.equals(destino)) {
-
-            if (kmAcumulados < kmCaminoMasCorto) {
-                kmCaminoMasCorto = kmAcumulados;
-                caminoMasCorto = visitados.clone();
-            }
-
-        } else {
-
-            NodoAdy ady = partida.getPrimerAdyc();
-
-            while (ady != null) {
-
-                Riel riel = (Riel) ady.getEtiqueta();
-                NodoVert vecino = ady.getVertice();
-                Object estVecino = vecino.getElemento();
-
-                if (visitados.localizar(estVecino) < 0) {
-
-                    Lista candidato = buscarCaminoMinimoAuxv(vecino, destino, kmAcumulados + riel.getDistanciaKm(), visitados, kmCaminoMasCorto, caminoMasCorto);
-
-                    if (candidato.longitud() > 0) {
-                        caminoMasCorto = candidato;
-                    }
-                }
-                ady = ady.getSigRiel();
-            }
-        }
-
-        visitados.eliminar(visitados.longitud());
-
-        return caminoMasCorto;
     }
 
     public Lista obtenerTodosLosCaminosIgnorandoUnaEstacion(Object origen, Object destino, Object ignorarEstacion) {
@@ -438,7 +328,7 @@ public class Grafo {
                     NodoAdy ady = actual.getPrimerAdyc();
                     while (ady != null) {
                         obtenerTodosLosCaminosIgnorandoUnaEstacionAux(ady.getVertice(), destino, visitados, caminoActual, ignorarEstacion, todosLosCaminos);
-                        ady = ady.getSigRiel();
+                        ady = ady.getSigAdyacente();
                     }
                 }
 
@@ -448,7 +338,7 @@ public class Grafo {
             }
         }
     }
-
+    /*
     public boolean verificarCaminoConUnaCantidadMaximaDeKm(Object origen, Object destino, int km) {
 
         Lista visitados = new Lista();
@@ -522,4 +412,5 @@ public class Grafo {
             }
         }
     }
+     */
 }

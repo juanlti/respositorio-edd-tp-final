@@ -12,12 +12,12 @@ package eed.tp.Nodos;
 public class NodoAdy {
 
     private NodoVert nodoVertice; // el vertice al que apunta esta conexion
-    private NodoAdy sigRiel; //siguiente riel en la lista de adyacentes (vecino inmedianto de este)
+    private NodoAdy sigAdyc; //siguiente riel en la lista de adyacentes (vecino inmedianto de este)
     private double etiqueta;   // objecto Riel
 
     public NodoAdy(NodoVert vertice, NodoAdy sigAdyancete, double etiqueta) {
         this.nodoVertice = vertice;
-        this.sigRiel = sigAdyancete;
+        this.sigAdyc = sigAdyancete;
         this.etiqueta = etiqueta;
     }
 
@@ -33,8 +33,8 @@ public class NodoAdy {
         return nodoVertice;
     }
 
-    public NodoAdy getSigRiel() {
-        return sigRiel;
+    public NodoAdy getSigAdyacente() {
+        return sigAdyc;
     }
 
     public void setVertice(NodoVert vertice) {
@@ -42,7 +42,7 @@ public class NodoAdy {
     }
 
     public void setSigAdyancete(NodoAdy sigAdyancete) {
-        this.sigRiel = sigAdyancete;
+        this.sigAdyc = sigAdyancete;
     }
 
 }

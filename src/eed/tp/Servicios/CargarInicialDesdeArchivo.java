@@ -10,7 +10,7 @@ import eed.tp.Estacion.Estacion;
 import eed.tp.Grafo;
 import eed.tp.Linea.Linea;
 import eed.tp.Lista;
-import eed.tp.Riel.Riel;
+
 import eed.tp.Tren.Tren;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -149,7 +149,7 @@ public class CargarInicialDesdeArchivo {
         int codDes = Integer.parseInt(p[2]);
         int distancia = Integer.parseInt(p[3]);
 
-        red.insertarArco(codOri, codDes, new Riel(codOri, codDes, distancia));
+        red.insertarArco(codOri, codDes, distancia);
 
     }
 
