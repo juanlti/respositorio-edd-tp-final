@@ -213,7 +213,6 @@ public class Grafo {
 
     public Lista obtenerCaminoConMenosEstaciones(Object origen, Object destino) {
         Lista caminoEncontrado = new Lista();
-        //System.out.println("vertice " + this.ubicarVertice(origen).getElemento());
         obtenerCaminoConMenosEstacionesAux(this.ubicarVertice(origen), destino, new Lista(), caminoEncontrado, new Lista());
         return caminoEncontrado;
     }
@@ -221,18 +220,18 @@ public class Grafo {
     private void obtenerCaminoConMenosEstacionesAux(NodoVert origen, Object destino, Lista visitados, Lista mejorCamino, Lista caminoActual) {
 
         if (origen != null) {
-            //System.out.println("Estoy en: " + origen.getElemento());
             visitados.insertar(origen.getElemento(), visitados.longitud() + 1);
             caminoActual.insertar(origen.getElemento(), caminoActual.longitud() + 1);
 
             if (origen.getElemento().equals(destino)) {
-              //  System.out.println("LLEGUE AL DESTINO");
                 if (mejorCamino.esVacia() || mejorCamino.longitud() > caminoActual.longitud()) {
                     mejorCamino.vaciar();
+
                     for (int i = 1; i <= caminoActual.longitud(); i++) {
                         mejorCamino.insertar(caminoActual.recuperar(i), i);
 
                     }
+
                 }
 
             } else {
@@ -257,88 +256,99 @@ public class Grafo {
 
     }
 
-    private Object buscarPadreEnTabla(Object hijo, Lista tabla) {
-        Object respuesta = null;
-        for (int i = 1; i <= tabla.longitud(); i++) {
-            Parentesco p = (Parentesco) tabla.recuperar(i);
-            if (p.getHijo().equals(hijo)) {
-                respuesta = p.getPadre();
-            }
-        }
-        return respuesta;
+    public Lista obtenerCaminoConMenosKms(Object origen, Object destino) {
+        Lista caminoEncontrado = new Lista();
+        obtenerCaminoConMenosKmsAux(this.ubicarVertice(origen), destino, new Lista(), caminoEncontrado, 0, 1000000);
+        return caminoEncontrado;
     }
 
-    public String obtenerCaminosConMenosKm(Object origen, Object destino) {
-        String resultado = "";
-        NodoVert nodoOrigen = ubicarVertice(origen);
-        resultado = resultado + origen;
+    private double obtenerCaminoConMenosKmsAux(NodoVert origen, Object destino, Lista visitados, Lista mejorCamino, double cantidadKmAcumulados, double kmCaminObtenido) {
+        double km = 0;
+        if (origen != null) {
 
-        while (nodoOrigen != null) {
-            Object estacion = nodoOrigen.getElemento();
-            if (estacion.equals(destino)) {
-                resultado = resultado + destino;
+            visitados.insertar(origen.getElemento(), visitados.longitud() + 1);
+
+            if (origen.getElemento().equals(destino)) {
+
+                if (mejorCamino.esVacia() || cantidadKmAcumulados < kmCaminObtenido) {
+                    kmCaminObtenido = cantidadKmAcumulados;
+
+                    mejorCamino.vaciar();
+
+                    for (int i = 1; i <= visitados.longitud(); i++) {
+                        mejorCamino.insertar(visitados.recuperar(i), i);
+
+                    }
+
+                }
+
             } else {
-                NodoAdy primerAdy = nodoOrigen.getPrimerAdyc();
+                NodoAdy vecino = origen.getPrimerAdyc();
 
-                nodoOrigen = primerAdy.getVertice();
+                while (vecino != null) {
+
+                    if (visitados.localizar(vecino.getVertice().getElemento()) < 0) {
+                        if (cantidadKmAcumulados + vecino.getEtiqueta() < kmCaminObtenido) {
+                            kmCaminObtenido = this.obtenerCaminoConMenosKmsAux(vecino.getVertice(), destino, visitados, mejorCamino, cantidadKmAcumulados + vecino.getEtiqueta(), kmCaminObtenido);
+
+                        }
+
+                    }
+                    vecino = vecino.getSigAdyacente();
+
+                }
 
             }
-
-            resultado = resultado + estacion;
-
+            visitados.eliminar(visitados.longitud());
         }
-        return resultado;
+        return kmCaminObtenido;
 
     }
 
     public Lista obtenerTodosLosCaminosIgnorandoUnaEstacion(Object origen, Object destino, Object ignorarEstacion) {
         Lista todosLosCaminos = new Lista();
         Lista visitados = new Lista();
-        Lista caminoActual = new Lista();
 
         // Usamos tu ubicarVertice que ya es inteligente
         NodoVert nodoOrigen = ubicarVertice(origen);
 
         if (nodoOrigen != null) {
-            obtenerTodosLosCaminosIgnorandoUnaEstacionAux(nodoOrigen, destino, visitados, caminoActual, ignorarEstacion, todosLosCaminos);
+            obtenerTodosLosCaminosIgnorandoUnaEstacionAux(nodoOrigen, destino, visitados, ignorarEstacion, todosLosCaminos);
         }
 
         return todosLosCaminos;
     }
 
-    private void obtenerTodosLosCaminosIgnorandoUnaEstacionAux(NodoVert actual, Object destino, Lista visitados, Lista caminoActual, Object ignorarEstacion, Lista todosLosCaminos) {
+    private void obtenerTodosLosCaminosIgnorandoUnaEstacionAux(NodoVert actual, Object destino, Lista visitados, Object ignorarEstacion, Lista todosLosCaminos) {
         if (actual != null) {
             Object estacionActual = actual.getElemento();
 
-            // 1. Verificamos que no sea la que ignoramos Y que no esté visitada
-            if (!estacionActual.equals(ignorarEstacion) && visitados.localizar(estacionActual) < 0) {
+            if (!estacionActual.equals(ignorarEstacion)) {
 
-                // VISITAR
                 visitados.insertar(estacionActual, visitados.longitud() + 1);
-                caminoActual.insertar(estacionActual, caminoActual.longitud() + 1);
 
-                // 2. ¿Llegamos al destino?
                 if (estacionActual.equals(destino)) {
-                    // Clonamos el camino actual para guardarlo en la lista de resultados
-                    caminoActual.insertar(" | ", caminoActual.longitud() + 1);
 
-                    todosLosCaminos.insertar(caminoActual.clone(), todosLosCaminos.longitud() + 1);
+                    todosLosCaminos.insertar(visitados.clone(), todosLosCaminos.longitud() + 1);
+
                 } else {
-                    // 3. Si no es el destino, seguimos explorando vecinos
+
                     NodoAdy ady = actual.getPrimerAdyc();
                     while (ady != null) {
-                        obtenerTodosLosCaminosIgnorandoUnaEstacionAux(ady.getVertice(), destino, visitados, caminoActual, ignorarEstacion, todosLosCaminos);
+                        if (visitados.localizar(ady.getVertice().getElemento()) < 0 && !ady.getVertice().getElemento().equals(ignorarEstacion)) {
+                            obtenerTodosLosCaminosIgnorandoUnaEstacionAux(ady.getVertice(), destino, visitados, ignorarEstacion, todosLosCaminos);
+
+                        }
                         ady = ady.getSigAdyacente();
+
                     }
                 }
 
-                // Quitamos el último elemento de ambos para que la función padre pueda probar otras rutas
-                caminoActual.eliminar(caminoActual.longitud());
                 visitados.eliminar(visitados.longitud());
             }
         }
     }
-    /*
+
     public boolean verificarCaminoConUnaCantidadMaximaDeKm(Object origen, Object destino, int km) {
 
         Lista visitados = new Lista();
@@ -347,53 +357,46 @@ public class Grafo {
         NodoVert nodoOrigen = ubicarVertice(origen);
 
         boolean resultado = verificarCaminoConUnaCantidadMaximaDeKmAuxV(nodoOrigen, destino, visitados, caminoActual, km, 0);
+        System.out.println("camino encontrado " + visitados.toString());
 
         return resultado;
 
     }
 
-    private boolean verificarCaminoConUnaCantidadMaximaDeKmAuxV(NodoVert actual, Object destino, Lista visitados, Lista caminoActual, int distanciaMaximaEnKm, int distanciaAcumulada) {
-        if (actual == null) {
-            return false;
-        }
+    private boolean verificarCaminoConUnaCantidadMaximaDeKmAuxV(NodoVert actual, Object destino, Lista visitados, Lista caminoActual, int distanciaMaximaEnKm, double distanciaAcumulada) {
+        boolean existeCamino = false;
 
-        Object estacion = actual.getElemento();
+        if (actual != null) {
 
-        if (estacion.equals(destino)) {
-            if (distanciaAcumulada <= distanciaMaximaEnKm) {
-                caminoActual.insertar(estacion, caminoActual.longitud() + 1);
+            Object estacion = actual.getElemento();
 
-                return true;
+            visitados.insertar(estacion, visitados.longitud() + 1);
+
+            if (estacion.equals(destino) && distanciaAcumulada <= distanciaMaximaEnKm) {
+
+                existeCamino = true;
+
             }
-            return false;
+
+            NodoAdy vecino = actual.getPrimerAdyc();
+
+            while (vecino != null && !existeCamino) {
+                if (visitados.localizar(vecino.getVertice().getElemento()) < 0 && (distanciaAcumulada + vecino.getEtiqueta() <= distanciaMaximaEnKm)) {
+                    existeCamino = verificarCaminoConUnaCantidadMaximaDeKmAuxV(vecino.getVertice(), destino, visitados, caminoActual, distanciaMaximaEnKm, distanciaAcumulada + vecino.getEtiqueta());
+
+                }
+
+                vecino = vecino.getSigAdyacente();
+            }
+
+            if (!existeCamino) {
+                visitados.eliminar(visitados.localizar(estacion));
+            }
         }
 
-        if (distanciaAcumulada > distanciaMaximaEnKm || visitados.localizar(estacion) > 0) {
-            return false;
-        }
-
-        visitados.insertar(estacion, visitados.longitud() + 1);
-        caminoActual.insertar(estacion, caminoActual.longitud() + 1);
-
-        boolean encontrado = false;
-        NodoAdy ady = actual.getPrimerAdyc();
-
-        while (ady != null && !encontrado) {
-            Riel riel = (Riel) ady.getEtiqueta();
-
-            encontrado = verificarCaminoConUnaCantidadMaximaDeKmAuxV(ady.getVertice(), destino, visitados, caminoActual, distanciaMaximaEnKm, distanciaAcumulada + riel.getDistanciaKm());
-
-            ady = ady.getSigRiel();
-        }
-
-        if (!encontrado) {
-            visitados.eliminar(visitados.localizar(estacion));
-            caminoActual.eliminar(caminoActual.longitud());
-        }
-
-        return encontrado;
+        return existeCamino;
     }
-
+    /*
     public void mostrarEstructura() {
         NodoVert aux = this.inicio;
         if (aux == null) {
@@ -413,4 +416,5 @@ public class Grafo {
         }
     }
      */
+
 }
