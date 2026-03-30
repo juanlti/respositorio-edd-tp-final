@@ -6,8 +6,8 @@
 package eed.tp.Ejercicios_6_7_8;
 
 import eed.tp.AVL;
-import eed.tp.Estacion.Estacion;
 import eed.tp.Grafo;
+import eed.tp.Lista;
 import static eed.tp.Servicios.Input.leerInt;
 import java.util.Scanner;
 
@@ -72,8 +72,8 @@ public class Ejercicio_8_Viaje {
         } else {
             int km = leerInt(sc, "Ingrese el limite de km entre estaciones (entero positivo): ", 1);
 
-            boolean resultado = red.verificarCaminoConUnaCantidadMaximaDeKm(codigo1, codigo2, km);
-            System.out.println("Camino existente :" + resultado + " con una distancia maxima de " + km);
+              boolean resultado = red.verificarCaminoConUnaCantidadMaximaDeKm(codigo1, codigo2, km);
+              System.out.println("Camino existente :" + resultado + " con una distancia maxima de " + km);
         }
 
     }
@@ -84,11 +84,20 @@ public class Ejercicio_8_Viaje {
         Object codigo2 = leerInt(sc, "Ingrese el codigo de la segunda estacion: ", 1);
         Object codigo3 = leerInt(sc, "Ingrese el codigo de la estacion a excluir: ", 1);
 
-        // 1. Corregimos la comparación: Usar .equals() para Objects
+     
         if (codigo1.equals(codigo2) || codigo1.equals(codigo3) || codigo2.equals(codigo3)) {
             System.out.println("Las estaciones deben ser diferentes entre si.");
         } else {
-            System.out.println("Caminos encontrados: " + red.obtenerTodosLosCaminosIgnorandoUnaEstacion(codigo1, codigo2, codigo3).toString());
+            Lista ls = red.obtenerTodosLosCaminosIgnorandoUnaEstacion(codigo1, codigo2, codigo3);
+            System.out.println("total " + ls.longitud());
+
+            if (ls.longitud() > 0) {
+                for (int i = 1; i < ls.longitud(); i++) {
+                    System.out.println("camino [ " + i + " ] =>" + ls.recuperar(i).toString());
+                }
+            } else {
+                System.out.println("No se encontro camino");
+            }
 
         }
     }
@@ -98,7 +107,7 @@ public class Ejercicio_8_Viaje {
 
         Object codigo2 = leerInt(sc, "Ingrese el codigo (entero positivo) de la segunda estacion: ", 1);
 
-        System.out.println("Lista resultante " + red.obtenerCaminoMasCorto(codigo1, codigo2));
+        System.out.println("Lista resultante " + red.obtenerCaminoConMenosKms(codigo1, codigo2));
     }
 
     private void caminoConMenosEstaciones(Scanner sc) {
@@ -106,7 +115,7 @@ public class Ejercicio_8_Viaje {
 
         Object codigo2 = leerInt(sc, "Ingrese el codigo (entero positivo) de la segunda estacion: ", 1);
 
-        System.out.println(red.caminoConMenosEstaciones(codigo1, codigo2));
+        System.out.println(red.obtenerCaminoConMenosEstaciones(codigo1, codigo2));
     }
 
 }

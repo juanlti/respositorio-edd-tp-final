@@ -18,38 +18,60 @@ public class AVL {
     public void eliminar(Object x) {
 
         if (this.raiz != null) {
-            if (((Comparable) x).compareTo(this.raiz.getClave()) != 0) {
-                this.raiz = metodoEliminarCasos(this.raiz, x, false);
-            } else {
-                this.raiz = metodoEliminarCasos(this.raiz, x, true);
-            }
-
+            this.raiz = metodoEliminarCasos(this.raiz, x);
         }
-
     }
 
     //si eliminar > nodo.getClave() => mayor a 0.
     //si eliminar < nodo.getClave() => menor a 0.
     // si eliminar === nodo.getClave() => 0
-    private NodoAVL metodoEliminarCasos(NodoAVL nodo, Object eliminar, boolean casoEspecial) {
-        if (nodo == null) {
-            return null;
+    private NodoAVL metodoEliminarCasos(NodoAVL nodo, Object eliminar) {
+        // Caso base: si el árbol está vacío o no se encontró el elemento
+        if (nodo != null) {
+
+            int comparacion = ((Comparable) eliminar).compareTo(nodo.getClave());
+
+            // 1. Buscar el nodo a eliminar
+            if (comparacion < 0) {
+                // Buscamos por la izquierda y actualizamos el hijo izquierdo
+                nodo.setIzquierdo(metodoEliminarCasos(nodo.getIzquierdo(), eliminar));
+            } else if (comparacion > 0) {
+                // Buscamos por la derecha y actualizamos el hijo derecho
+                nodo.setDerecho(metodoEliminarCasos(nodo.getDerecho(), eliminar));
+            } else {
+                //Evaluamos los 3 casos de eliminación
+                int tipoCaso = catalogarTipoDeElimninacion(nodo);
+
+                switch (tipoCaso) {
+
+                    case 1: // hoja
+                        nodo = null;
+                        break;
+
+                    case 2: // solo hijo derecho
+                        nodo = nodo.getDerecho();
+                        break;
+
+                    case 3: // solo hijo izquierdo
+                        nodo = nodo.getIzquierdo();
+                        break;
+
+                    case 4: // dos hijos
+                        NodoAVL sucesor = this.maximoElem(nodo.getIzquierdo());
+
+                        // Reemplazamos los datos del nodo actual con los del sucesor
+                        nodo.setElemento(sucesor.getClave(), sucesor.getClave());
+
+                        // Eliminamos el sucesor original que quedó duplicado en el subárbol derecho
+                        nodo.setIzquierdo(metodoEliminarCasos(nodo.getIzquierdo(), sucesor.getClave()));
+
+                        break;
+
+                }
+
+            }
+
         }
-
-        int comparacion = ((Comparable) eliminar).compareTo(nodo.getClave());
-
-        if (comparacion < 0) {
-            nodo.setIzquierdo(
-                    metodoEliminarCasos(nodo.getIzquierdo(), eliminar, false)
-            );
-        } else if (comparacion > 0) {
-            nodo.setDerecho(
-                    metodoEliminarCasos(nodo.getDerecho(), eliminar, false)
-            );
-        } else {
-            nodo = procesarEliminacionPorTipo(nodo);
-        }
-
         return balancear(nodo);
     }
 
@@ -67,41 +89,15 @@ public class AVL {
         } // Caso 3: Tiene dos hijos
         else if (nodo.getDerecho() != null && nodo.getIzquierdo() != null) {
             // Buscamos el sucesor, cambiamos datos y borramos el duplicado abajo
+            NodoAVL sucesor = this.minimoElem(nodo.getDerecho());
+
+            nodo.setElemento(sucesor.getClave(), sucesor.getClave());
             tipoCaso = 4;
 
         }
 
         return tipoCaso;
 
-    }
-
-    private NodoAVL procesarEliminacionPorTipo(NodoAVL nodo) {
-
-        int tipoCaso = catalogarTipoDeElimninacion(nodo);
-
-        switch (tipoCaso) {
-
-            case 1: // hoja
-                return null;
-
-            case 2: // solo hijo derecho
-                return nodo.getDerecho();
-
-            case 3: // solo hijo izquierdo
-                return nodo.getIzquierdo();
-
-            case 4: // dos hijos
-                NodoAVL sucesor = this.minimoElem(nodo.getDerecho());
-
-                nodo.setElemento(sucesor.getClave(), sucesor.getClave());
-
-                nodo.setDerecho(metodoEliminarCasos(nodo.getDerecho(), sucesor.getClave(), false));
-
-                return nodo;
-
-            default:
-                return nodo;
-        }
     }
 
     public boolean insertar(Comparable clave, Object data) {
@@ -140,25 +136,25 @@ public class AVL {
     }
 
     private NodoAVL balancear(NodoAVL n) {
-        if (n == null) {
-            return null;
-        }
-        n.recalcularAltura();
-        int b = n.calcularBalance(); // izq - der
+        if (n != null) {
 
-        if (b > 1) {
-            if (n.getIzquierdo().calcularBalance() < 0) {
-                n.setIzquierdo(rotarIzquierda(n.getIzquierdo())); // LR
-            }
-            return rotarDerecha(n); // LL
-        }
-        if (b < -1) {
-            if (n.getDerecho().calcularBalance() > 0) {
-                n.setDerecho(rotarDerecha(n.getDerecho())); // RL
-            }
-            return rotarIzquierda(n); // RR
-        }
+            n.recalcularAltura();
+            int b = n.calcularBalance(); // izq - der
 
+            if (b > 1) {
+                if (n.getIzquierdo().calcularBalance() < 0) {
+                    n.setIzquierdo(rotarIzquierda(n.getIzquierdo())); // LR
+                }
+                n = rotarDerecha(n); // LL
+            }
+            if (b < -1) {
+                if (n.getDerecho().calcularBalance() > 0) {
+                    n.setDerecho(rotarDerecha(n.getDerecho())); // RL
+                }
+                n = rotarIzquierda(n); // RR
+            }
+
+        }
         return n;
     }
 

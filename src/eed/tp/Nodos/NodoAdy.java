@@ -11,44 +11,38 @@ package eed.tp.Nodos;
  */
 public class NodoAdy {
 
-    private NodoVert estacionDestino; // el vertice al que apunta esta conexion
-    private NodoAdy sigRiel; //siguiente riel en la lista de adyacentes (vecino inmedianto de este)
-    private Object riel;   // objecto Riel
+    private NodoVert nodoVertice; // el vertice al que apunta esta conexion
+    private NodoAdy sigAdyc; //siguiente riel en la lista de adyacentes (vecino inmedianto de este)
+    private double etiqueta;   // objecto Riel
 
-    public NodoAdy(NodoVert vertice, NodoAdy sigAdyancete) {
-        this.estacionDestino = vertice;
-        this.sigRiel = sigAdyancete;
-
+    public NodoAdy(NodoVert vertice, NodoAdy sigAdyancete, double etiqueta) {
+        this.nodoVertice = vertice;
+        this.sigAdyc = sigAdyancete;
+        this.etiqueta = etiqueta;
     }
 
-    public NodoAdy(NodoVert vertice, NodoAdy sigAdyancete, Object etiqueta) {
-        this.estacionDestino = vertice;
-        this.sigRiel = sigAdyancete;
-        this.riel = etiqueta;
+    public double getEtiqueta() {
+        return this.etiqueta;
     }
 
-    public Object getEtiqueta() {
-        return riel;
-    }
-
-    public void setEtiqueta(Object etiqueta) {
-        this.riel = etiqueta;
+    public void setEtiqueta(double etiqueta) {
+        this.etiqueta = etiqueta;
     }
 
     public NodoVert getVertice() {
-        return estacionDestino;
+        return nodoVertice;
     }
 
-    public NodoAdy getSigRiel() {
-        return sigRiel;
+    public NodoAdy getSigAdyacente() {
+        return sigAdyc;
     }
 
     public void setVertice(NodoVert vertice) {
-        this.estacionDestino = vertice;
+        this.nodoVertice = vertice;
     }
 
     public void setSigAdyancete(NodoAdy sigAdyancete) {
-        this.sigRiel = sigAdyancete;
+        this.sigAdyc = sigAdyancete;
     }
 
 }

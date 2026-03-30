@@ -78,6 +78,8 @@ public class Lista {
         return cadena;
     }
 
+    
+    
     public Lista clone() {
 
         Lista nuevaLista = new Lista();

@@ -1,24 +1,23 @@
 package eed.tp.Nodos;
 
 import eed.tp.Lista;
-import eed.tp.Nodos.NodoAdy;
 
 public class NodoVert {
 
-    private Object estacion;
-    private NodoVert sigEstacion;
-    private NodoAdy primerRiel;
+    private Object elemento;
+    private NodoVert SigNodoVertice;
+    private NodoAdy primerAdyc; 
     private Lista refAdy;
 
     public NodoVert(Object elem, NodoVert sigVertice, NodoAdy primerAdy) {
-        this.estacion = elem;
-        this.sigEstacion = sigVertice;
-        this.primerRiel = primerAdy;
+        this.elemento = elem;
+        this.SigNodoVertice = sigVertice;
+        this.primerAdyc = primerAdy;
         this.refAdy = null;
     }
 
     public String toString() {
-        return estacion.toString();
+        return elemento.toString();
     }
 
     public Lista getRefAdy() {
@@ -29,28 +28,28 @@ public class NodoVert {
         this.refAdy = refAdy;
     }
 
-    public Object getEstacion() {
-        return estacion;
+    public Object getElemento() {
+        return this.elemento;
     }
 
-    public NodoVert getSigEstacion() {
-        return sigEstacion;
+    public void setElemento(Object elem) {
+        this.elemento = elem;
     }
 
-    public NodoAdy getPrimerRiel() {
-        return primerRiel;
+    public NodoVert getSiguienteNodoVertice() {
+        return this.SigNodoVertice;
     }
 
-    public void setEstacion(Object elem) {
-        this.estacion = elem;
+    public void setNodoVertice(NodoVert sigEstacion) {
+        this.SigNodoVertice = sigEstacion;
     }
 
-    public void setSigEstacion(NodoVert sigEstacion) {
-        this.sigEstacion = sigEstacion;
+    public NodoAdy getPrimerAdyc() {
+        return primerAdyc;
     }
 
-    public void setPrimerRiel(NodoAdy primerRiel) {
-        this.primerRiel = primerRiel;
+    public void setPrimerAdyc(NodoAdy primerRiel) {
+        this.primerAdyc = primerRiel;
     }
 
 }

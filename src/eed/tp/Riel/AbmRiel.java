@@ -15,7 +15,7 @@ import java.util.Scanner;
  */
 public class AbmRiel {
 
-    private Grafo red;
+    private final Grafo red;
 
     public AbmRiel(Grafo red) {
         this.red = red;
@@ -61,8 +61,10 @@ public class AbmRiel {
 
         } else {
             int distancia = leerInt(sc, "Distancia (km): ", 1);
-            Riel riel = new Riel(codOri, codDes, distancia);
-            red.insertarArco(codOri, codDes, riel);
+
+            red.insertarArco(codOri, codDes, distancia);
+
+          //  LogHelper.registrar("ABM: Riel creado entre " + origen + " y " + destino);
         }
 
     }
@@ -74,6 +76,7 @@ public class AbmRiel {
 
         if (codOri == codDes) {
             System.out.println("No se puede eliminar  un riel de una estación consigo misma.");
+           //     LogHelper.registrar("Se eliminó el riel entre " + origen + " y " + destino);
         } else {
             System.out.println("✓ Riel eliminado: " + red.eliminarArco(codOri, codDes));
         }
