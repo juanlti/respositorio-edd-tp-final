@@ -165,7 +165,6 @@ public class Grafo {
             NodoAdy vecinoAnterior = null;
 
             while (vecinoAdyc != null && !eliminado) {
-                // 2. ¿Es este el arco que conecta con el destino?
                 if (vecinoAdyc.getVertice().getElemento().equals(encontrar)) {
 
                     if (vecinoAnterior != null) {
@@ -190,7 +189,7 @@ public class Grafo {
 
     }
 
-    public boolean modificarDistanciaRiel(Object origen, Object destino, int cantKm) {
+    public boolean modificarEtiqueta(Object origen, Object destino, int cantKm) {
 
         boolean exito = false;
         NodoVert verticeOrigen = ubicarVertice(origen);
@@ -309,7 +308,6 @@ public class Grafo {
         Lista todosLosCaminos = new Lista();
         Lista visitados = new Lista();
 
-        // Usamos tu ubicarVertice que ya es inteligente
         NodoVert nodoOrigen = ubicarVertice(origen);
 
         if (nodoOrigen != null) {
@@ -356,10 +354,7 @@ public class Grafo {
 
         NodoVert nodoOrigen = ubicarVertice(origen);
 
-        boolean resultado = verificarCaminoConUnaCantidadMaximaDeKmAuxV(nodoOrigen, destino, visitados, caminoActual, km, 0);
-        System.out.println("camino encontrado " + visitados.toString());
-
-        return resultado;
+        return verificarCaminoConUnaCantidadMaximaDeKmAuxV(nodoOrigen, destino, visitados, caminoActual, km, 0);
 
     }
 
@@ -396,25 +391,5 @@ public class Grafo {
 
         return existeCamino;
     }
-    /*
-    public void mostrarEstructura() {
-        NodoVert aux = this.inicio;
-        if (aux == null) {
-            System.out.println("El grafo está vacío.");
-        } else {
-            while (aux != null) {
-                System.out.print("Estación [" + aux.getElemento() + "] -> ");
-                NodoAdy ady = aux.getPrimerAdyc();
-                while (ady != null) {
-                    Riel r = (Riel) ady.getEtiqueta();
-                    System.out.print("[" + ady.getVertice().getElemento() + " (" + r.getDistanciaKm() + "km)] ");
-                    ady = ady.getSigRiel();
-                }
-                System.out.println();
-                aux = aux.getSiguienteNodoVertice();
-            }
-        }
-    }
-     */
 
 }

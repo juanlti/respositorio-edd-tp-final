@@ -103,7 +103,6 @@ public class AVL {
     public boolean insertar(Comparable clave, Object data) {
         this.raiz = insertarAux(this.raiz, clave, data);
 
-        LogHelper.registrar("ABM: Se agrego " + data);
         return true;
     }
 
@@ -184,16 +183,6 @@ public class AVL {
         return h;
     }
 
-    private NodoAVL rotarIzquierdaDerecha(NodoAVL nodo) {
-        nodo.setIzquierdo(rotarIzquierda(nodo.getIzquierdo()));
-        return rotarDerecha(nodo);
-    }
-
-    private NodoAVL rotarDerechaIzquierda(NodoAVL nodo) {
-        nodo.setDerecho(rotarDerecha(nodo.getDerecho()));
-        return rotarIzquierda(nodo);
-    }
-
     public Lista listar() {
         Lista lista = new Lista();
         listarAux(this.raiz, lista);
@@ -203,7 +192,7 @@ public class AVL {
     public void listarAux(NodoAVL nodo, Lista lista) {
         if (nodo != null) {
             listarAux(nodo.getDerecho(), lista);
-            String elemento = "[clave: " + nodo.getClave() + " informacion :" + nodo.getElemento() + " ]";
+            String elemento = "[clave: " + nodo.getClave() + " informacion :" + nodo.getElemento().toString() + " ]";
             lista.insertar(elemento, lista.longitud() + 1);
             listarAux(nodo.getIzquierdo(), lista);
         }
@@ -247,31 +236,6 @@ public class AVL {
                 listarRangoAux(nodo.getIzquierdo(), lista, minimo, maximo);
             }
         }
-    }
-
-    public String toString() {
-        String res = " ";
-        if (this.raiz != null) {
-            res = toStringAux(this.raiz, res);
-        }
-        return res;
-    }
-
-    private String toStringAux(NodoAVL nodo, String s) {
-        if (nodo != null) {
-            s += "\n" + nodo.getElemento() + "\t";
-            if (nodo.getIzquierdo() != null) {
-                System.out.println("actual " + nodo.getIzquierdo().getElemento());
-            }
-            NodoAVL izquierdo = nodo.getIzquierdo();
-            NodoAVL derecho = nodo.getDerecho();
-            s += "HI: " + ((izquierdo != null) ? izquierdo.getElemento() : "-") + "\t"
-                    + "HD: " + ((derecho != null) ? derecho.getElemento() : "-");
-
-            s = toStringAux(nodo.getIzquierdo(), s);
-            s = toStringAux(nodo.getDerecho(), s);
-        }
-        return s;
     }
 
     public Object buscar(Comparable codigo) {
@@ -336,5 +300,29 @@ public class AVL {
 
     public void vaciar() {
         this.raiz = null;
+    }
+
+    public String obtenerEstacionesConPrefijo(String prefijo) {
+        StringBuilder resultado = new StringBuilder();
+        prefijo = prefijo.toLowerCase().trim();
+        obtenerPrefijoRec(this.raiz, prefijo, resultado);
+        return resultado.toString();
+    }
+
+    private void obtenerPrefijoRec(NodoAVL nodo, String prefijo, StringBuilder resultado) {
+        if (nodo != null) {
+
+            String clave = nodo.getClave().toString().toLowerCase();
+
+            if (clave.startsWith(prefijo)) {
+                if (resultado.length() > 0) {
+                    resultado.append(", ");
+                }
+                resultado.append(nodo.getElemento());
+            }
+
+            obtenerPrefijoRec(nodo.getIzquierdo(), prefijo, resultado);
+            obtenerPrefijoRec(nodo.getDerecho(), prefijo, resultado);
+        }
     }
 }

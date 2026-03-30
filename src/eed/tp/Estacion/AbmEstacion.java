@@ -61,7 +61,7 @@ public class AbmEstacion {
 
     private void altaEstacion(Scanner sc) {
 
-        int codigo = leerInt(sc, "Código de estación (entero positivo): ", 1);
+        String codigo = leerNoVacio(sc, "Código de estación (entero positivo): ");
 
         if (estaciones.buscar(codigo) != null) {
 
@@ -78,25 +78,26 @@ public class AbmEstacion {
             estaciones.insertar(codigo, new Estacion(nombre, calle, numero, ciudad, cp, cantVias, cantPlataformas));
             red.insertarVertice(codigo);
             System.out.println("✓ Alta de estación OK");
+            LogHelper.registrar("Alta: Estación " + codigo);
         }
 
     }
 
-    private void bajaEstacion(Scanner in) {
-        int codigo = leerInt(in, "Código de la estación a eliminar: ", 1);
+    private void bajaEstacion(Scanner sc) {
+        String codigo = leerNoVacio(sc, "Código de la estación a eliminar: ");
 
         if (this.estaciones.buscar(codigo) != null) {
             this.red.eliminarVertice(codigo);
             this.estaciones.eliminar(codigo);
             System.out.println("✓ Baja OK");
-             // LogHelper.registrar("Baja: Estación " + elemento + " y sus rieles eliminados.");
+            LogHelper.registrar("Baja: Estación " + codigo + " y sus rieles eliminados.");
         } else {
             System.out.println("✗ No existe la estación " + codigo);
         }
     }
 
     private void modificarEstacion(Scanner sc) {
-        int codigo = leerInt(sc, "Código de la estación a modificar: ", 1);
+        String codigo = leerNoVacio(sc, "Código de la estación a modificar: ");
         Estacion estacion = (Estacion) estaciones.buscar(codigo);
 
         if (estacion == null) {
@@ -115,6 +116,7 @@ public class AbmEstacion {
                 estacion.setCodigoPostal(codigoPostal);
             }
             System.out.println("✓ Modificación OK");
+            LogHelper.registrar("Modificacion: Estación " + codigo + " y sus rieles eliminados.");
         }
     }
 

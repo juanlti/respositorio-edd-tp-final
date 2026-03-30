@@ -9,7 +9,6 @@ import eed.tp.AVL;
 import eed.tp.Estacion.Estacion;
 import static eed.tp.Servicios.Input.leerInt;
 import static eed.tp.Servicios.Input.leerNoVacio;
-import eed.tp.Lista;
 import java.util.Scanner;
 
 /**
@@ -60,25 +59,12 @@ public class Ejercicio_7_Estacion {
     private void mostrarTodasLasEstacionesConUnPreFijo(Scanner in) {
         String prefijo = leerNoVacio(in, "Nombre (prefijo) a buscar: ").trim().toLowerCase();
 
-        Lista ls = estaciones.listar(); // Lista de Estacion
-        StringBuilder out = new StringBuilder();
+        String coincidencias = estaciones.obtenerEstacionesConPrefijo(prefijo);
 
-        for (int i = 1; i <= ls.longitud(); i++) { 
-            Estacion est = (Estacion) ls.recuperar(i);
-            if (est == null) {
-                continue;
-            }
-
-            String nombre = est.getNombre();
-            if (nombre != null && nombre.trim().toLowerCase().startsWith(prefijo)) {
-                out.append("• ").append(nombre).append('\n');
-            }
-        }
-
-        if (out.length() == 0) {
+        if (coincidencias.length() == 0) {
             System.out.println("No hay estaciones que empiecen con '" + prefijo + "'.");
         } else {
-            System.out.println("Coincidencias:\n" + out);
+            System.out.println("Coincidencias:\n" + coincidencias);
         }
     }
 
