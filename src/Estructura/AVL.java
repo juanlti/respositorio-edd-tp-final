@@ -1,6 +1,5 @@
-package eed.tp;
+package Estructura;
 
-import eed.tp.Servicios.LogHelper;
 import eed.tp.Nodos.NodoAVL;
 
 public class AVL {
@@ -116,7 +115,6 @@ public class AVL {
             Comparable contenidoClave = nodo.getClave();
             int comparacion = clave.compareTo(contenidoClave);
 
-            // 2) Navegación recursiva
             if (comparacion < 0) {
                 nodo.setIzquierdo(insertarAux(nodo.getIzquierdo(), clave, data));
                 // Después de insertar, balanceamos el nodo actual
@@ -126,11 +124,9 @@ public class AVL {
                 // Después de insertar, balanceamos el nodo actual
                 resultado = balancear(nodo);
             }
-            // Si comparacion == 0, no hacemos nada (clave duplicada)
-            // y el "resultado" sigue siendo "nodo"
+
         }
 
-        // 3) Único punto de salida
         return resultado;
     }
 
@@ -257,27 +253,28 @@ public class AVL {
 
     }
 
-    public void mostrarEstructura() {
-        if (this.raiz == null) {
-            System.out.println("El árbol AVL está vacío.");
-        } else {
-            mostrarEstructuraAux(this.raiz, "");
-        }
+    public String mostrarEstructura() {
+        return mostrarEstructuraAux(this.raiz, "", new StringBuilder());
     }
 
-    private void mostrarEstructuraAux(NodoAVL nodo, String prefijo) {
+    private String mostrarEstructuraAux(NodoAVL nodo, String prefijo, StringBuilder sb) {
         if (nodo != null) {
             String valorIzq = (nodo.getIzquierdo() != null) ? nodo.getIzquierdo().getElemento().toString() : "-";
             String valorDer = (nodo.getDerecho() != null) ? nodo.getDerecho().getElemento().toString() : "-";
 
-            System.out.println(prefijo + "Nodo: [" + nodo.getElemento().toString() + "] "
-                    + "| Altura: " + nodo.getAltura()
-                    + " | Hijo Izq: " + valorIzq
-                    + " | Hijo Der: " + valorDer);
+            // Construimos la línea actual y la agregamos al StringBuilder
+            sb.append(prefijo)
+                    .append("Nodo: [").append(nodo.getElemento().toString()).append("] ")
+                    .append("| Altura: ").append(nodo.getAltura())
+                    .append(" | Hijo Izq: ").append(valorIzq)
+                    .append(" | Hijo Der: ").append(valorDer)
+                    .append("\n"); // Salto de línea
 
-            mostrarEstructuraAux(nodo.getIzquierdo(), prefijo + "    ");
-            mostrarEstructuraAux(nodo.getDerecho(), prefijo + "    ");
+            // Llamadas recursivas pasando el mismo StringBuilder
+            mostrarEstructuraAux(nodo.getIzquierdo(), prefijo + "    ", sb);
+            mostrarEstructuraAux(nodo.getDerecho(), prefijo + "    ", sb);
         }
+        return sb.toString();
     }
 
     public Lista listarPreorden() {

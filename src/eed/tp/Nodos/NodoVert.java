@@ -1,6 +1,6 @@
 package eed.tp.Nodos;
 
-import eed.tp.Lista;
+import Estructura.Lista;
 
 public class NodoVert {
 

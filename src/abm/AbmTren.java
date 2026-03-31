@@ -3,13 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eed.tp.Tren;
+package abm;
 
-import eed.tp.AVL;
+import Estructura.AVL;
+import Modelos.Tren;
 import static eed.tp.Servicios.Input.leerInt;
 import static eed.tp.Servicios.Input.leerIntOpcional;
 import static eed.tp.Servicios.Input.leerNoVacio;
 import static eed.tp.Servicios.Input.leerOpcional;
+import eed.tp.Servicios.LogHelper;
 import java.util.Scanner;
 
 /**
@@ -72,6 +74,7 @@ public class AbmTren {
                 linea = "no-asignado";
             }
             trenes.insertar(codigo, new Tren(propulsion, vagPas, vagCar, linea));
+            LogHelper.registrar("ABM: Tren  creado con " + codigo);
 
         }
 
@@ -80,10 +83,13 @@ public class AbmTren {
     private void bajaTren(Scanner sc) {
         int codigo = leerInt(sc, "Código del tren a eliminar: ", 1);
         trenes.eliminar(codigo);
-        if (trenes.buscar(codigo)==null) {
+        if (trenes.buscar(codigo) == null) {
             System.out.println("✓ Baja OK");
+            LogHelper.registrar("ABM: Tren  baja exitosa con " + codigo);
+
         } else {
             System.out.println("✗ No existe el tren " + codigo);
+            LogHelper.registrar("ABM: Tren  baja fallida con " + codigo);
         }
     }
 
@@ -92,20 +98,29 @@ public class AbmTren {
         Tren t = (Tren) trenes.buscar(codigo);
         if (t == null) {
             System.out.println("✗ No existe el tren " + codigo);
+            LogHelper.registrar("ABM: Tren  modificacion fallida con " + codigo);
         } else {
             System.out.println("Actual: " + t);
             String propulsion = leerOpcional(sc, "Nueva propulsión (Enter mantiene): ");
             Integer vagPas = leerIntOpcional(sc, "Nuevos vagones pasajeros (Enter mantiene): ", 0);
             Integer vagCar = leerIntOpcional(sc, "Nuevos vagones carga (Enter mantiene): ", 0);
             String linea = leerOpcional(sc, "Nueva línea (Enter mantiene): ");
-            if (!propulsion.isEmpty() || vagPas != null || vagCar != null || !linea.isEmpty()) {
+            if (!propulsion.isEmpty()) {
                 t.setPropulsion(propulsion);
+            }
+            if (vagPas != null) {
                 t.setCantidadVagonesPasajeros(vagPas);
+
+            }
+            if (vagCar != null) {
                 t.setCantidadVagonesCarga(vagCar);
+            }
+            if (!linea.isEmpty()) {
                 t.setLinea(linea);
             }
 
             System.out.println("✓ Modificación OK");
+            LogHelper.registrar("ABM: Tren  modificacion exitosa con " + codigo);
         }
 
     }

@@ -1,5 +1,7 @@
 package eed.tp;
 
+import Estructura.AVL;
+
 public class Testing {
 
     static String sOk = "\u001B[32m OK! \u001B[0m";

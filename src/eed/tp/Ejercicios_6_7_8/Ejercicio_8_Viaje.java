@@ -5,9 +5,9 @@
  */
 package eed.tp.Ejercicios_6_7_8;
 
-import eed.tp.AVL;
-import eed.tp.Grafo;
-import eed.tp.Lista;
+import Estructura.AVL;
+import Estructura.Grafo;
+import Estructura.Lista;
 import static eed.tp.Servicios.Input.leerInt;
 import java.util.Scanner;
 

@@ -1,14 +1,8 @@
-package eed.tp;
+package Estructura;
 
 import eed.tp.Nodos.NodoAdy;
 import eed.tp.Nodos.NodoVert;
 
-/**
- * ↑: Alt+24 para flecha arriba. ↓: Alt+25 para flecha abajo. →: Alt+26 para
- * flecha derecha. ←: Alt+27 para flecha izquierda
- *
- * @author juanc
- */
 public class Grafo {
 
     private NodoVert inicio;
@@ -234,20 +228,23 @@ public class Grafo {
                 }
 
             } else {
+                if (mejorCamino.esVacia() || mejorCamino.longitud() > caminoActual.longitud()) {
 
-                NodoAdy vecino = origen.getPrimerAdyc();
+                    NodoAdy vecino = origen.getPrimerAdyc();
 
-                while (vecino != null) {
+                    while (vecino != null) {
 
-                    if (visitados.localizar(vecino.getVertice().getElemento()) < 0) {
-                        this.obtenerCaminoConMenosEstacionesAux(vecino.getVertice(), destino, visitados, mejorCamino, caminoActual);
+                        if (visitados.localizar(vecino.getVertice().getElemento()) < 0) {
+                            this.obtenerCaminoConMenosEstacionesAux(vecino.getVertice(), destino, visitados, mejorCamino, caminoActual);
+
+                        }
+                        vecino = vecino.getSigAdyacente();
 
                     }
-                    vecino = vecino.getSigAdyacente();
-
                 }
 
             }
+
             visitados.eliminar(visitados.longitud());
             caminoActual.eliminar(caminoActual.longitud());
 

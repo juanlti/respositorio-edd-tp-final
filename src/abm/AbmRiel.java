@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eed.tp.Riel;
+package abm;
 
-import eed.tp.Grafo;
+import Estructura.Grafo;
 import static eed.tp.Servicios.Input.leerInt;
 import eed.tp.Servicios.LogHelper;
 import java.util.Scanner;

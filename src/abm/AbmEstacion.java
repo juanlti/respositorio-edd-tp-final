@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eed.tp.Estacion;
+package abm;
 
-import eed.tp.AVL;
-import eed.tp.Grafo;
+import Estructura.AVL;
+import Modelos.Estacion;
+import Estructura.Grafo;
 import static eed.tp.Servicios.Input.leerInt;
 import static eed.tp.Servicios.Input.leerNoVacio;
 import static eed.tp.Servicios.Input.leerOpcional;

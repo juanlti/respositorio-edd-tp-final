@@ -3,11 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eed.tp;
+package Estructura;
 
 import eed.tp.Nodos.Nodo;
-
-
 
 public class Cola {
 
@@ -67,23 +65,6 @@ public class Cola {
         this.fin = nuevo;
 
         return exito;
-
-    }
-
-    public String toString() {
-        String cadena = "";
-        Nodo aux;
-        aux = this.frente;
-        if (this.esVacia()) {
-            cadena = "Cola vacia";
-        } else {
-            while (aux != null) {
-                cadena += aux.getElem();
-                aux.getElem();
-
-            }
-        }
-        return cadena;
 
     }
 

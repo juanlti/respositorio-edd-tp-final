@@ -5,11 +5,11 @@
  */
 package eed.tp.Ejercicios_6_7_8;
 
-import eed.tp.AVL;
-import eed.tp.Tren.Tren;
+import Estructura.AVL;
+import Modelos.Tren;
 import static eed.tp.Servicios.Input.leerInt;
-import eed.tp.Linea.Linea;
-import eed.tp.Lista;
+import Modelos.Linea;
+import Estructura.Lista;
 import java.util.HashMap;
 import java.util.Scanner;
 

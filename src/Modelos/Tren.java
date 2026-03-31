@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eed.tp.Tren;
+package Modelos;
 
 /**
  *
@@ -30,12 +30,6 @@ public class Tren {
 
     public void setLinea(String linea) {
         this.linea = linea;
-    }
-
-    @Override
-    public String toString() {
-        return "Tren " + " [" + propulsion + "] pas:" + vagPasajeros
-                + " carga:" + vagCarga + " linea:" + linea;
     }
 
     public void setPropulsion(String propulsion) {

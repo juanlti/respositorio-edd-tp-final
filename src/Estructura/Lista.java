@@ -1,4 +1,4 @@
-package eed.tp;
+package Estructura;
 
 import eed.tp.Nodos.Nodo;
 
@@ -59,27 +59,6 @@ public class Lista {
         return fueInsertado;
     }
 
-    public String toString() {
-        String cadena;
-
-        Nodo aux;
-        cadena = "";
-        if (!this.esVacia()) {
-            aux = this.cabecera;
-
-            while (aux != null) {
-                cadena += aux.getElem() + ",";
-                aux = aux.getEnlace();
-            }
-        } else {
-            cadena = "Lista vacia";
-        }
-
-        return cadena;
-    }
-
-    
-    
     public Lista clone() {
 
         Lista nuevaLista = new Lista();

@@ -5,13 +5,13 @@
  */
 package eed.tp.Servicios;
 
-import eed.tp.AVL;
-import eed.tp.Estacion.Estacion;
-import eed.tp.Grafo;
-import eed.tp.Linea.Linea;
-import eed.tp.Lista;
+import Estructura.AVL;
+import Modelos.Estacion;
+import Estructura.Grafo;
+import Modelos.Linea;
+import Estructura.Lista;
 
-import eed.tp.Tren.Tren;
+import Modelos.Tren;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;

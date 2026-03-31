@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eed.tp.Linea;
+package abm;
 
-import eed.tp.AVL;
-import eed.tp.Estacion.Estacion;
-import eed.tp.Linea.Linea;
-import eed.tp.Lista;
+import Estructura.AVL;
+import Modelos.Estacion;
+import Modelos.Linea;
+import Estructura.Lista;
 import static eed.tp.Servicios.Input.leerInt;
 import static eed.tp.Servicios.Input.leerNoVacio;
 import java.util.HashMap;
@@ -100,20 +100,9 @@ public class AbmLinea {
             System.out.println("✗ No existe la línea " + nombreLinea);
 
         } else {
-            // opción simple: re-cargar recorrido completo
             lineas.remove(nombreLinea);
             System.out.println("(Se re-carga el recorrido completo)");
             altaLinea(sc);
-        }
-
-    }
-
-    private void listarLineas() {
-        if (lineas.isEmpty()) {
-            System.out.println("No hay líneas cargadas.");
-        } else {
-            System.out.println("=== LÍNEAS ===");
-            lineas.forEach((key, linea) -> System.out.println(key + " = " + linea));
         }
 
     }
