@@ -5,10 +5,10 @@
  */
 package abm;
 
-import Estructura.AVL;
+import Conjuntista.AVL;
 import Modelos.Estacion;
 import Modelos.Linea;
-import Estructura.Lista;
+import Lineal.Lista;
 import static eed.tp.Servicios.Input.leerInt;
 import static eed.tp.Servicios.Input.leerNoVacio;
 import java.util.HashMap;

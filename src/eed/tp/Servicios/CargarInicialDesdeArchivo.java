@@ -5,11 +5,11 @@
  */
 package eed.tp.Servicios;
 
-import Estructura.AVL;
+import Conjuntista.AVL;
 import Modelos.Estacion;
-import Estructura.Grafo;
+import Grafo.Grafo;
 import Modelos.Linea;
-import Estructura.Lista;
+import Lineal.Lista;
 
 import Modelos.Tren;
 import java.io.BufferedReader;

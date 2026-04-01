@@ -22,8 +22,10 @@ public class TrenesSA {
         LogHelper.registrar(app.toString());
         LogHelper.registrar("==============================================\n");
 
+        
         app.comenzar();
 
     }
 
 }
+

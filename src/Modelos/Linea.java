@@ -5,7 +5,7 @@
  */
 package Modelos;
 
-import Estructura.Lista;
+import Lineal.Lista;
 
 /**
  *
@@ -35,6 +35,17 @@ public class Linea {
 
     public void setEstaciones(Lista estaciones) {
         this.estaciones = estaciones;
+    }
+    
+        @Override
+    public String toString() {
+        String estaciones = "";
+        for (int i = 1; i < this.estaciones.longitud(); i++) {
+            estaciones = this.estaciones.recuperar(i) + estaciones;
+        }
+
+        return "Linea : " + nombre + "estaciones [ " + estaciones + " ]";
+
     }
 
 }

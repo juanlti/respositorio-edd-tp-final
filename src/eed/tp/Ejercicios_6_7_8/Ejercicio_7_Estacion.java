@@ -5,7 +5,8 @@
  */
 package eed.tp.Ejercicios_6_7_8;
 
-import Estructura.AVL;
+import Conjuntista.AVL;
+import Lineal.Lista;
 import Modelos.Estacion;
 import static eed.tp.Servicios.Input.leerInt;
 import static eed.tp.Servicios.Input.leerNoVacio;
@@ -69,7 +70,7 @@ public class Ejercicio_7_Estacion {
     }
 
     private void mostrarEstacionDada(Scanner in) {
-        int codigo = leerInt(in, "Código a buscar: ", 1);
+        int codigo = leerInt(in, "Ingrese el nombre a buscar: ", 1);
         Estacion estacion = (Estacion) estaciones.buscar(codigo);
         if (estacion == null) {
             System.out.println("✗ No existe la estación " + codigo);
@@ -83,7 +84,11 @@ public class Ejercicio_7_Estacion {
             System.out.println("No hay estaciones cargadas");
         } else {
             System.out.println("== Estaciones ==");
-            System.out.println(estaciones.listar());
+            System.out.println("== Trenes ==");
+            Lista rta = estaciones.listar();
+            for (int i = 0; i < rta.longitud(); i++) {
+                System.out.println(rta.recuperar(i));
+            }
         }
 
     }

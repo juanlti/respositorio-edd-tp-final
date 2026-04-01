@@ -5,7 +5,7 @@
  */
 package abm;
 
-import Estructura.Grafo;
+import Grafo.Grafo;
 import static eed.tp.Servicios.Input.leerInt;
 import eed.tp.Servicios.LogHelper;
 import java.util.Scanner;

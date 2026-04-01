@@ -55,4 +55,10 @@ public class Estacion {
         this.numero = data;
     }
 
+    @Override
+    public String toString() {
+        return nombre + " (" + ciudad + ") - " + calle + " " + numero + " CP:" + cp
+                + " | vías: " + vias + ", plataformas: " + plataformas;
+    }
+
 }

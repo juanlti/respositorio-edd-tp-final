@@ -5,11 +5,11 @@
  */
 package eed.tp.Ejercicios_6_7_8;
 
-import Estructura.AVL;
+import Conjuntista.AVL;
 import Modelos.Tren;
 import static eed.tp.Servicios.Input.leerInt;
 import Modelos.Linea;
-import Estructura.Lista;
+import Lineal.Lista;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -108,7 +108,11 @@ public class Ejercicio_6_Tren {
         } else {
 
             System.out.println("== Trenes ==");
-            System.out.println(trenes.listar());
+            Lista rta= trenes.listar();
+            for (int i = 0; i < rta.longitud(); i++) {
+                  System.out.println(rta.recuperar(i));
+            }
+          
         }
 
     }

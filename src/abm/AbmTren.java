@@ -5,7 +5,7 @@
  */
 package abm;
 
-import Estructura.AVL;
+import Conjuntista.AVL;
 import Modelos.Tren;
 import static eed.tp.Servicios.Input.leerInt;
 import static eed.tp.Servicios.Input.leerIntOpcional;

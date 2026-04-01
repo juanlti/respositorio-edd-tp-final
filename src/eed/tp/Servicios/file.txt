@@ -33,7 +33,6 @@ R;Constitucion;Canuelas;65
 R;Canuelas;Las Flores;122
 R;Las Flores;Tandil;163
 R;Las Flores;Neuquen;200
-R;Las Flores;Bariloche;500
 R;Las Flores;Tierra del fuego;700
 R;Constitucion;Tierra del fuego;350
 R;Canuelas;Retiro;40

@@ -1,5 +1,6 @@
-package Estructura;
+package Grafo;
 
+import Lineal.Lista;
 import eed.tp.Nodos.NodoAdy;
 import eed.tp.Nodos.NodoVert;
 
@@ -220,15 +221,12 @@ public class Grafo {
                 if (mejorCamino.esVacia() || mejorCamino.longitud() > caminoActual.longitud()) {
                     mejorCamino.vaciar();
 
-                    for (int i = 1; i <= caminoActual.longitud(); i++) {
-                        mejorCamino.insertar(caminoActual.recuperar(i), i);
-
-                    }
+                    mejorCamino.copiar(caminoActual.clone());
 
                 }
 
             } else {
-                if (mejorCamino.esVacia() || mejorCamino.longitud() > caminoActual.longitud()) {
+                if (mejorCamino.esVacia() || mejorCamino.longitud() > caminoActual.longitud() + 1) {
 
                     NodoAdy vecino = origen.getPrimerAdyc();
 
@@ -259,7 +257,7 @@ public class Grafo {
     }
 
     private double obtenerCaminoConMenosKmsAux(NodoVert origen, Object destino, Lista visitados, Lista mejorCamino, double cantidadKmAcumulados, double kmCaminObtenido) {
-        double km = 0;
+
         if (origen != null) {
 
             visitados.insertar(origen.getElemento(), visitados.longitud() + 1);
@@ -268,13 +266,8 @@ public class Grafo {
 
                 if (mejorCamino.esVacia() || cantidadKmAcumulados < kmCaminObtenido) {
                     kmCaminObtenido = cantidadKmAcumulados;
-
                     mejorCamino.vaciar();
-
-                    for (int i = 1; i <= visitados.longitud(); i++) {
-                        mejorCamino.insertar(visitados.recuperar(i), i);
-
-                    }
+                    mejorCamino.copiar(visitados.clone());
 
                 }
 
@@ -387,6 +380,25 @@ public class Grafo {
         }
 
         return existeCamino;
+    }
+
+    public void mostrarEstructura() {
+        NodoVert aux = this.inicio;
+        if (aux == null) {
+            System.out.println("El grafo está vacío.");
+        } else {
+            while (aux != null) {
+                System.out.print("Estación [" + aux.getElemento() + "] -> ");
+                NodoAdy vecino = aux.getPrimerAdyc();
+                while (vecino != null) {
+
+                    System.out.print("[" + vecino.getVertice().getElemento() + " (" + vecino.getEtiqueta() + "km)] ");
+                    vecino = vecino.getSigAdyacente();
+                }
+                System.out.println();
+                aux = aux.getSiguienteNodoVertice();
+            }
+        }
     }
 
 }

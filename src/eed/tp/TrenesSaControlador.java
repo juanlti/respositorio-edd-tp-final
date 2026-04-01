@@ -1,7 +1,7 @@
 package eed.tp;
 
-import Estructura.Grafo;
-import Estructura.AVL;
+import Grafo.Grafo;
+import Conjuntista.AVL;
 import abm.AbmEstacion;
 import abm.AbmLinea;
 import Modelos.Linea;
@@ -105,7 +105,7 @@ public class TrenesSaControlador {
         }
 
         System.out.println("\n--- 4. ESTRUCTURA DE LA RED (GRAFO) ---");
-   
+
         System.out.println("\n=================================================");
     }
 

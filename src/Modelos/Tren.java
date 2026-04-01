@@ -46,5 +46,11 @@ public class Tren {
         this.vagCarga = cantVagonesCarga;
 
     }
+    
+       @Override
+    public String toString() {
+        return "Tren " + " [" + propulsion + "] pas:" + vagPasajeros
+                + " carga:" + vagCarga + " linea:" + linea;
+    }
 
 }

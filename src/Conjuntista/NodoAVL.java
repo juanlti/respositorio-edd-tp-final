@@ -1,4 +1,4 @@
-package eed.tp.Nodos;
+package Conjuntista;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

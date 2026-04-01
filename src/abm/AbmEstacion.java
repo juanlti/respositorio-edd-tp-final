@@ -5,9 +5,9 @@
  */
 package abm;
 
-import Estructura.AVL;
+import Conjuntista.AVL;
 import Modelos.Estacion;
-import Estructura.Grafo;
+import Grafo.Grafo;
 import static eed.tp.Servicios.Input.leerInt;
 import static eed.tp.Servicios.Input.leerNoVacio;
 import static eed.tp.Servicios.Input.leerOpcional;

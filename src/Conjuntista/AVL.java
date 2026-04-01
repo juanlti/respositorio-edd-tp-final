@@ -1,6 +1,6 @@
-package Estructura;
+package Conjuntista;
 
-import eed.tp.Nodos.NodoAVL;
+import Lineal.Lista;
 
 public class AVL {
 
@@ -182,6 +182,7 @@ public class AVL {
     public Lista listar() {
         Lista lista = new Lista();
         listarAux(this.raiz, lista);
+
         return lista;
     }
 
@@ -253,28 +254,27 @@ public class AVL {
 
     }
 
-    public String mostrarEstructura() {
-        return mostrarEstructuraAux(this.raiz, "", new StringBuilder());
+    public void mostrarEstructura() {
+        if (this.raiz == null) {
+            System.out.println("El árbol AVL está vacío.");
+        } else {
+            mostrarEstructuraAux(this.raiz, "");
+        }
     }
 
-    private String mostrarEstructuraAux(NodoAVL nodo, String prefijo, StringBuilder sb) {
+    private void mostrarEstructuraAux(NodoAVL nodo, String prefijo) {
         if (nodo != null) {
             String valorIzq = (nodo.getIzquierdo() != null) ? nodo.getIzquierdo().getElemento().toString() : "-";
             String valorDer = (nodo.getDerecho() != null) ? nodo.getDerecho().getElemento().toString() : "-";
 
-            // Construimos la línea actual y la agregamos al StringBuilder
-            sb.append(prefijo)
-                    .append("Nodo: [").append(nodo.getElemento().toString()).append("] ")
-                    .append("| Altura: ").append(nodo.getAltura())
-                    .append(" | Hijo Izq: ").append(valorIzq)
-                    .append(" | Hijo Der: ").append(valorDer)
-                    .append("\n"); // Salto de línea
+            System.out.println(prefijo + "Nodo: [" + nodo.getElemento().toString() + "] "
+                    + "| Altura: " + nodo.getAltura()
+                    + " | Hijo Izq: " + valorIzq
+                    + " | Hijo Der: " + valorDer);
 
-            // Llamadas recursivas pasando el mismo StringBuilder
-            mostrarEstructuraAux(nodo.getIzquierdo(), prefijo + "    ", sb);
-            mostrarEstructuraAux(nodo.getDerecho(), prefijo + "    ", sb);
+            mostrarEstructuraAux(nodo.getIzquierdo(), prefijo + "    ");
+            mostrarEstructuraAux(nodo.getDerecho(), prefijo + "    ");
         }
-        return sb.toString();
     }
 
     public Lista listarPreorden() {
