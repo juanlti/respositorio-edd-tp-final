@@ -62,21 +62,21 @@ public class AbmEstacion {
 
     private void altaEstacion(Scanner sc) {
 
-        String codigo = leerNoVacio(sc, "Código de estación (entero positivo): ");
+        String codigo = leerNoVacio(sc, "el nombre de la estacion: ");
 
         if (estaciones.buscar(codigo) != null) {
 
             System.out.println("✗ Ya existe una estacion con código " + codigo);
 
         } else {
-            String nombre = leerNoVacio(sc, "Nombre de la estación: ");
+
             String numero = leerOpcional(sc, "Número calle : ");
             String ciudad = leerNoVacio(sc, "Ciudad: ");
             String calle = leerNoVacio(sc, "Calle de la estación: ");
             String cp = leerNoVacio(sc, "Código Postal: ");
             int cantVias = leerInt(sc, "Cantidad de vías: ", 0);
             int cantPlataformas = leerInt(sc, "Cantidad de plataformas: ", 0);
-            estaciones.insertar(codigo, new Estacion(nombre, calle, numero, ciudad, cp, cantVias, cantPlataformas));
+            estaciones.insertar(codigo, new Estacion(codigo, calle, numero, ciudad, cp, cantVias, cantPlataformas));
             red.insertarVertice(codigo);
             System.out.println("✓ Alta de estación OK");
             LogHelper.registrar("Alta: Estación " + codigo);
@@ -85,7 +85,7 @@ public class AbmEstacion {
     }
 
     private void bajaEstacion(Scanner sc) {
-        String codigo = leerNoVacio(sc, "Código de la estación a eliminar: ");
+        String codigo = leerNoVacio(sc, "Ingrese el nombre de la estación a eliminar: ");
 
         if (this.estaciones.buscar(codigo) != null) {
             this.red.eliminarVertice(codigo);
@@ -98,7 +98,7 @@ public class AbmEstacion {
     }
 
     private void modificarEstacion(Scanner sc) {
-        String codigo = leerNoVacio(sc, "Código de la estación a modificar: ");
+        String codigo = leerNoVacio(sc, "Ingrese el nombre de la estación a modificar: ");
         Estacion estacion = (Estacion) estaciones.buscar(codigo);
 
         if (estacion == null) {
