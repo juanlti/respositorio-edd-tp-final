@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eed.tp.Linea;
+package Modelos;
 
-import eed.tp.Lista;
+import Lineal.Lista;
 
 /**
  *
@@ -36,9 +36,8 @@ public class Linea {
     public void setEstaciones(Lista estaciones) {
         this.estaciones = estaciones;
     }
-   
-
-    @Override
+    
+        @Override
     public String toString() {
         String estaciones = "";
         for (int i = 1; i < this.estaciones.longitud(); i++) {

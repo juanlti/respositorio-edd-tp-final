@@ -3,11 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eed.tp;
+package Lineal;
 
 import eed.tp.Nodos.Nodo;
-
-
 
 public class Cola {
 
@@ -70,23 +68,6 @@ public class Cola {
 
     }
 
-    public String toString() {
-        String cadena = "";
-        Nodo aux;
-        aux = this.frente;
-        if (this.esVacia()) {
-            cadena = "Cola vacia";
-        } else {
-            while (aux != null) {
-                cadena += aux.getElem();
-                aux.getElem();
-
-            }
-        }
-        return cadena;
-
-    }
-
     public Cola clone() {
         Cola copia = new Cola();
         if (!this.esVacia()) {
@@ -104,6 +85,23 @@ public class Cola {
             }
         }
         return copia;
+
+    }
+
+    public String toString() {
+        String cadena = "";
+        Nodo aux;
+        aux = this.frente;
+        if (this.esVacia()) {
+            cadena = "Cola vacia";
+        } else {
+            while (aux != null) {
+                cadena += aux.getElem();
+                aux.getElem();
+
+            }
+        }
+        return cadena;
 
     }
 

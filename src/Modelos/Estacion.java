@@ -3,16 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eed.tp.Estacion;
-
-import eed.tp.Servicios.LogHelper;
+package Modelos;
 
 /**
  *
  * @author juanc
  */
 public class Estacion {
-
 
     private String nombre;
     private String calle;
@@ -22,8 +19,8 @@ public class Estacion {
     private int vias;
     private int plataformas;
 
-    public Estacion( String nombre, String calle, String numero, String ciudad, String cp, int vias, int plataformas) {
- 
+    public Estacion(String nombre, String calle, String numero, String ciudad, String cp, int vias, int plataformas) {
+
         this.nombre = nombre;
         this.calle = calle;
         this.numero = numero;
@@ -31,7 +28,7 @@ public class Estacion {
         this.cp = cp;
         this.vias = vias;
         this.plataformas = plataformas;
-        LogHelper.registrar("ABM: Se creó la estación " + nombre);
+
     }
 
     public String getNombre() {
@@ -40,12 +37,6 @@ public class Estacion {
 
     public String getCiudad() {
         return ciudad;
-    }
-
-    @Override
-    public String toString() {
-        return nombre + " (" + ciudad + ") - " + calle + " " + numero + " CP:" + cp
-                + " | vías: " + vias + ", plataformas: " + plataformas;
     }
 
     public void setCiudad(String data) {
@@ -62,6 +53,12 @@ public class Estacion {
 
     public void setNumero(String data) {
         this.numero = data;
+    }
+
+    @Override
+    public String toString() {
+        return nombre + " (" + ciudad + ") - " + calle + " " + numero + " CP:" + cp
+                + " | vías: " + vias + ", plataformas: " + plataformas;
     }
 
 }

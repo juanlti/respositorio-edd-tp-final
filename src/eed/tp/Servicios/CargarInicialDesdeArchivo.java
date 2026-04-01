@@ -5,13 +5,13 @@
  */
 package eed.tp.Servicios;
 
-import eed.tp.AVL;
-import eed.tp.Estacion.Estacion;
-import eed.tp.Grafo;
-import eed.tp.Linea.Linea;
-import eed.tp.Lista;
+import Conjuntista.AVL;
+import Modelos.Estacion;
+import Grafo.Grafo;
+import Modelos.Linea;
+import Lineal.Lista;
 
-import eed.tp.Tren.Tren;
+import Modelos.Tren;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -25,15 +25,13 @@ import java.util.List;
  * @author juanc
  */
 public class CargarInicialDesdeArchivo {
-// 1. Declaramos las estructuras que la clase necesita manipular
 
     private AVL trenes;
     private AVL estaciones;
     private Grafo red;
-    private HashMap<String, Linea> lineas; // O la estructura que uses para líneas
+    private HashMap<String, Linea> lineas;
     private String fileName;
 
-    // 2. El Constructor recibe las instancias reales desde el Main/Controlador
     public CargarInicialDesdeArchivo(AVL trenes, AVL estaciones, Grafo red, HashMap<String, Linea> lineas, String url) {
         this.trenes = trenes;
         this.estaciones = estaciones;
@@ -97,24 +95,34 @@ public class CargarInicialDesdeArchivo {
     }
 
     private void cargarEstacionDesdeArchivo(String[] p) {
-        if (p.length < 9) {
-            System.out.println("Advertencia: Línea de estación incompleta omitida -> " + Arrays.toString(p));
-            return;
+
+        if (p.length == 8) {
+
+            String nombre = p[1];
+            String ciudad = p[2];
+            String calle = p[3];
+            String numero = p[4];
+            String cp = p[5];
+            int vias = Integer.parseInt(p[6]);
+            int plataformas = Integer.parseInt(p[7]);
+
+            Estacion nuevaEstacion = new Estacion(
+                    nombre, calle, numero, ciudad, cp, vias, plataformas
+            );
+
+            estaciones.insertar(nombre, nuevaEstacion);
+            red.insertarVertice(nombre);
+
+        } else {
+            System.out.println("⚠️ Línea inválida: " + String.join(";", p));
         }
-
-        int codEstacion = Integer.parseInt(p[1]);
-        Estacion nuevaEstacion = new Estacion(
-                p[2], p[4], p[5], p[3], p[6], Integer.parseInt(p[7]), Integer.parseInt(p[8])
-        );
-
-        estaciones.insertar(codEstacion, nuevaEstacion);
-        red.insertarVertice(codEstacion);
     }
 
     private void cargarLineaDesdeArchivo(String[] p) {
         if (p.length < 2) {
             return;
         }
+
         String nombreLinea = p[1];
 
         if (lineas.containsKey(nombreLinea)) {
@@ -122,14 +130,16 @@ public class CargarInicialDesdeArchivo {
         }
 
         Lista recorrido = new Lista();
+
         for (int i = 2; i < p.length; i++) {
-            int codEst = Integer.parseInt(p[i]);
-            Estacion estacion = buscarEstacionPorCodigo(codEst);
+
+            String nombreEstacion = p[i];
+            Object estacion = estaciones.buscar(nombreEstacion); // o método equivalente
 
             if (estacion != null) {
-                recorrido.insertar(codEst, recorrido.longitud() + 1);
+                recorrido.insertar(nombreEstacion, recorrido.longitud() + 1);
             } else {
-                System.out.println("Advertencia: Estación " + codEst + " no encontrada para la línea " + nombreLinea);
+                System.out.println("⚠️ Estación no encontrada: " + nombreEstacion);
             }
         }
 
@@ -141,16 +151,16 @@ public class CargarInicialDesdeArchivo {
             return;
         }
 
-        if (p[1] == null || p[2] == null) {
-            System.out.println("Advertencia: Riel omite estación inexistente: " + p[1] + " / " + p[2]);
-            return;
-        }
-        int codOri = Integer.parseInt(p[1]);
-        int codDes = Integer.parseInt(p[2]);
+        String origen = p[1];
+        String destino = p[2];
         int distancia = Integer.parseInt(p[3]);
 
-        red.insertarArco(codOri, codDes, distancia);
+        if (estaciones.buscar(origen) == null || estaciones.buscar(destino) == null) {
+            System.out.println("⚠️ Riel con estaciones inexistentes: " + origen + " / " + destino);
+            return;
+        }
 
+        red.insertarArco(origen, destino, distancia);
     }
 
     private void cargarTrenDesdeArchivo(String[] p) {
@@ -164,33 +174,24 @@ public class CargarInicialDesdeArchivo {
         int vagPasajeros = Integer.parseInt(p[3]);
         int vagCarga = 0;
 
-        int codEstacionActual = Integer.parseInt(p[4]);
+        String nombreEstacionActual = p[4];
         String nombreLinea = p[5];
 
-        // 2. Creamos el objeto usando TU constructor exacto
         Tren nuevoTren = new Tren(propulsion, vagPasajeros, vagCarga, nombreLinea);
 
-        // 3. Verificamos que la estación actual exista
-        Estacion estacionActual = buscarEstacionPorCodigo(codEstacionActual);
-        if (estacionActual != null) {
-            // Opcional: Si tu clase Estacion guarda qué trenes están allí, iría aquí
-        } else {
-            System.out.println("Advertencia: Estación " + codEstacionActual + " no encontrada para el tren " + idTren);
+        Estacion estacionActual = (Estacion) estaciones.buscar(nombreEstacionActual);
+
+        if (estacionActual == null) {
+            System.out.println("Advertencia: Estación " + nombreEstacionActual + " no encontrada para el tren " + idTren);
         }
 
-        // 4. Verificamos que la línea exista (solo como control, ya que el tren guarda el String)
         if (!nombreLinea.equalsIgnoreCase("no-asignado")) {
             if (!lineas.containsKey(nombreLinea)) {
                 System.out.println("Advertencia: Línea '" + nombreLinea + "' no encontrada para el tren " + idTren);
             }
         }
 
-        // 5. Insertamos el tren en tu árbol AVL de trenes (Clave = ID, Valor = Objeto)
         trenes.insertar(idTren, nuevoTren);
-    }
-
-    private Estacion buscarEstacionPorCodigo(int codigo) {
-        return (Estacion) estaciones.buscar(codigo);
     }
 
 }

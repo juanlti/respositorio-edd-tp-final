@@ -1,10 +1,12 @@
 package eed.tp;
 
-import eed.tp.Estacion.AbmEstacion;
-import eed.tp.Linea.AbmLinea;
-import eed.tp.Linea.Linea;
-import eed.tp.Riel.AbmRiel;
-import eed.tp.Tren.AbmTren;
+import Grafo.Grafo;
+import Conjuntista.AVL;
+import abm.AbmEstacion;
+import abm.AbmLinea;
+import Modelos.Linea;
+import abm.AbmRiel;
+import abm.AbmTren;
 import eed.tp.Ejercicios_6_7_8.Ejercicio_6_Tren;
 import eed.tp.Ejercicios_6_7_8.Ejercicio_7_Estacion;
 import eed.tp.Ejercicios_6_7_8.Ejercicio_8_Viaje;
@@ -103,7 +105,6 @@ public class TrenesSaControlador {
         }
 
         System.out.println("\n--- 4. ESTRUCTURA DE LA RED (GRAFO) ---");
-      //  this.red.mostrarEstructura();
 
         System.out.println("\n=================================================");
     }

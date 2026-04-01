@@ -1,82 +1,82 @@
-# ESTACIONES
-E;1;Tandil;Tandil;Av. España;745;7000;4;2
-E;2;Retiro;CABA;Av. Dr. Jose Maria Ramos Mejia;1430;C1104;9;6
-E;3;Constitucion;CABA;Av. Brasil;1128;C1154;14;8
-E;4;Canuelas;Canuelas;Libertad;150;1814;3;2
-E;5;Las Flores;Las Flores;Av. Rivadavia;400;7200;2;2
-E;6;Neuquen;capital;Av. Brasil;1128;C1154;14;8
-E;7;Bariloche;Rio negro;Libertad;150;1814;3;2
-E;8;Tierra del fuego;tierra;Av. Rivadavia;400;7200;2;2
-E;9;La Plata;Buenos Aires;Calle 1;100;1900;5;4
-E;10;Mar del Plata;Buenos Aires;Av. Luro;200;7600;4;3
-E;11;Rosario;Santa Fe;Aristobulo;300;2000;6;4
-E;12;Cordoba;Cordoba;Peron;400;5000;5;3
-E;13;Mendoza;Mendoza;Las Heras;500;5500;3;2
-E;14;Tucuman;Tucuman;Corrientes;600;4000;3;2
-E;15;Salta;Salta;Balcarce;700;4400;2;2
-E;16;San Juan;San Juan;España;800;5400;2;2
-E;17;San Luis;San Luis;Illia;900;5700;2;2
-E;18;Santa Rosa;La Pampa;Luro;1000;6300;2;2
-E;19;Viedma;Rio Negro;Roca;1100;8500;2;2
-E;20;Rawson;Chubut;Fontana;1200;9103;2;2
+# ESTACIONES 
+E;Tandil;Tandil;Av. España;745;7000;4;2
+E;Retiro;CABA;Av. Dr. Jose Maria Ramos Mejia;1430;C1104;9;6
+E;Constitucion;CABA;Av. Brasil;1128;C1154;14;8
+E;Canuelas;Canuelas;Libertad;150;1814;3;2
+E;Las Flores;Las Flores;Av. Rivadavia;400;7200;2;2
+E;Neuquen;capital;Av. Brasil;1128;C1154;14;8
+E;Bariloche;Rio negro;Libertad;150;1814;3;2
+E;Tierra del fuego;tierra;Av. Rivadavia;400;7200;2;2
+E;La Plata;Buenos Aires;Calle 1;100;1900;5;4
+E;Mar del Plata;Buenos Aires;Av. Luro;200;7600;4;3
+E;Rosario;Santa Fe;Aristobulo;300;2000;6;4
+E;Cordoba;Cordoba;Peron;400;5000;5;3
+E;Mendoza;Mendoza;Las Heras;500;5500;3;2
+E;Tucuman;Tucuman;Corrientes;600;4000;3;2
+E;Salta;Salta;Balcarce;700;4400;2;2
+E;San Juan;San Juan;España;800;5400;2;2
+E;San Luis;San Luis;Illia;900;5700;2;2
+E;Santa Rosa;La Pampa;Luro;1000;6300;2;2
+E;Viedma;Rio Negro;Roca;1100;8500;2;2
+E;Rawson;Chubut;Fontana;1200;9103;2;2
 
 # LINEAS
-L;Mitre;2;1
-L;Roca-Tandil;3;4;5;1;6;7;8
-L;San Martin;2;11;12;13;16;17
-L;Belgrano Norte;2;9;10
+L;Mitre;Retiro;Tandil
+L;Roca-Tandil;Constitucion;Canuelas;Las Flores;Tandil;Neuquen;Bariloche;Tierra del fuego
+L;San Martin;Retiro;Rosario;Cordoba;Mendoza;San Juan;San Luis
+L;Belgrano Norte;Retiro;La Plata;Mar del Plata
 
 # RIELES (Origen;Destino;Distancia_km)
-R;2;1;350
-R;3;4;65
-R;4;5;122
-R;5;1;163
-R;5;6;200
-R;5;7;500
-R;5;8;700
-R;3;8;350
-R;4;2;40
-R;3;2;32
-R;2;9;50
-R;9;10;350
-R;3;10;400
-R;2;11;300
-R;11;12;400
-R;12;13;600
-R;13;16;150
-R;16;17;300
-R;17;12;400
-R;12;14;550
-R;14;15;300
-R;6;18;500
-R;18;4;450
-R;7;19;800
-R;19;20;500
-R;20;8;1200
-R;11;14;800
-R;13;6;800
-R;9;5;150
-R;1;10;170
-R;3;9;250
+
+R;Retiro;Tandil;350
+R;Constitucion;Canuelas;65
+R;Canuelas;Las Flores;122
+R;Las Flores;Tandil;163
+R;Las Flores;Neuquen;200
+R;Las Flores;Tierra del fuego;700
+R;Constitucion;Tierra del fuego;350
+R;Canuelas;Retiro;40
+R;Constitucion;Retiro;32
+R;Retiro;La Plata;50
+R;La Plata;Mar del Plata;350
+R;Constitucion;Mar del Plata;400
+R;Retiro;Rosario;300
+R;Rosario;Cordoba;400
+R;Cordoba;Mendoza;600
+R;Mendoza;San Juan;150
+R;San Juan;San Luis;300
+R;San Luis;Cordoba;400
+R;Cordoba;Tucuman;550
+R;Tucuman;Salta;300
+R;Neuquen;Santa Rosa;500
+R;Santa Rosa;Canuelas;450
+R;Bariloche;Viedma;800
+R;Viedma;Rawson;500
+R;Rawson;Tierra del fuego;1200
+R;Rosario;Tucuman;800
+R;Mendoza;Neuquen;800
+R;La Plata;Las Flores;150
+R;Tandil;Mar del Plata;170
+R;Constitucion;La Plata;250
 
 # TRENES
-T;9012;diesel;6;2;Mitre
-T;893;gasolina;0;11;no-asignado
-T;4402;diesel;8;4;Roca-Tandil
-T;1001;electrico;8;1;San Martin
-T;1002;diesel;5;3;Belgrano Norte
-T;1003;gasolina;4;5;Mitre
-T;1004;electrico;7;2;Roca-Tandil
-T;1005;diesel;6;4;San Martin
-T;1006;electrico;9;1;Belgrano Norte
-T;1007;diesel;5;6;Mitre
-T;1008;gasolina;3;8;no-asignado
-T;1009;electrico;10;2;San Martin
-T;1010;diesel;7;3;Roca-Tandil
-T;1011;diesel;6;4;Belgrano Norte
-T;1012;electrico;8;1;Mitre
-T;1013;gasolina;4;7;no-asignado
-T;1014;diesel;5;5;San Martin
-T;1015;electrico;9;2;Roca-Tandil
-T;1016;diesel;6;3;Belgrano Norte
-T;1017;electrico;7;1;San Martin
+T;9012;diesel;6;Retiro;Mitre
+T;893;gasolina;0;Rosario;no-asignado
+T;4402;diesel;8;Canuelas;Roca-Tandil
+T;1001;electrico;8;Tandil;San Martin
+T;1002;diesel;5;Constitucion;Belgrano Norte
+T;1003;gasolina;4;Las Flores;Mitre
+T;1004;electrico;7;Retiro;Roca-Tandil
+T;1005;diesel;6;Canuelas;San Martin
+T;1006;electrico;9;Tandil;Belgrano Norte
+T;1007;diesel;5;Neuquen;Mitre
+T;1008;gasolina;3;Tierra del fuego;no-asignado
+T;1009;electrico;10;Retiro;San Martin
+T;1010;diesel;7;Constitucion;Roca-Tandil
+T;1011;diesel;6;Canuelas;Belgrano Norte
+T;1012;electrico;8;Tandil;Mitre
+T;1013;gasolina;4;Bariloche;no-asignado
+T;1014;diesel;5;Las Flores;San Martin
+T;1015;electrico;9;Retiro;Roca-Tandil
+T;1016;diesel;6;Constitucion;Belgrano Norte
+T;1017;electrico;7;Tandil;San Martin

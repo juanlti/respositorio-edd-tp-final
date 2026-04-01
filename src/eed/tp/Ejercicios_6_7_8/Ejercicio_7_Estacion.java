@@ -5,11 +5,11 @@
  */
 package eed.tp.Ejercicios_6_7_8;
 
-import eed.tp.AVL;
-import eed.tp.Estacion.Estacion;
+import Conjuntista.AVL;
+import Lineal.Lista;
+import Modelos.Estacion;
 import static eed.tp.Servicios.Input.leerInt;
 import static eed.tp.Servicios.Input.leerNoVacio;
-import eed.tp.Lista;
 import java.util.Scanner;
 
 /**
@@ -60,30 +60,17 @@ public class Ejercicio_7_Estacion {
     private void mostrarTodasLasEstacionesConUnPreFijo(Scanner in) {
         String prefijo = leerNoVacio(in, "Nombre (prefijo) a buscar: ").trim().toLowerCase();
 
-        Lista ls = estaciones.listar(); // Lista de Estacion
-        StringBuilder out = new StringBuilder();
+        String coincidencias = estaciones.obtenerEstacionesConPrefijo(prefijo);
 
-        for (int i = 1; i <= ls.longitud(); i++) { 
-            Estacion est = (Estacion) ls.recuperar(i);
-            if (est == null) {
-                continue;
-            }
-
-            String nombre = est.getNombre();
-            if (nombre != null && nombre.trim().toLowerCase().startsWith(prefijo)) {
-                out.append("• ").append(nombre).append('\n');
-            }
-        }
-
-        if (out.length() == 0) {
+        if (coincidencias.length() == 0) {
             System.out.println("No hay estaciones que empiecen con '" + prefijo + "'.");
         } else {
-            System.out.println("Coincidencias:\n" + out);
+            System.out.println("Coincidencias:\n" + coincidencias);
         }
     }
 
     private void mostrarEstacionDada(Scanner in) {
-        int codigo = leerInt(in, "Código a buscar: ", 1);
+        int codigo = leerInt(in, "Ingrese el nombre a buscar: ", 1);
         Estacion estacion = (Estacion) estaciones.buscar(codigo);
         if (estacion == null) {
             System.out.println("✗ No existe la estación " + codigo);
@@ -97,7 +84,11 @@ public class Ejercicio_7_Estacion {
             System.out.println("No hay estaciones cargadas");
         } else {
             System.out.println("== Estaciones ==");
-            System.out.println(estaciones.listar());
+            System.out.println("== Trenes ==");
+            Lista rta = estaciones.listar();
+            for (int i = 0; i < rta.longitud(); i++) {
+                System.out.println(rta.recuperar(i));
+            }
         }
 
     }

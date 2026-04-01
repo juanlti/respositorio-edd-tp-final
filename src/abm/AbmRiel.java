@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eed.tp.Riel;
+package abm;
 
-import eed.tp.Grafo;
+import Grafo.Grafo;
 import static eed.tp.Servicios.Input.leerInt;
+import eed.tp.Servicios.LogHelper;
 import java.util.Scanner;
 
 /**
@@ -64,7 +65,7 @@ public class AbmRiel {
 
             red.insertarArco(codOri, codDes, distancia);
 
-          //  LogHelper.registrar("ABM: Riel creado entre " + origen + " y " + destino);
+            LogHelper.registrar("ABM: Riel creado entre " + codOri + " y " + codDes);
         }
 
     }
@@ -76,9 +77,10 @@ public class AbmRiel {
 
         if (codOri == codDes) {
             System.out.println("No se puede eliminar  un riel de una estación consigo misma.");
-           //     LogHelper.registrar("Se eliminó el riel entre " + origen + " y " + destino);
+
         } else {
             System.out.println("✓ Riel eliminado: " + red.eliminarArco(codOri, codDes));
+            LogHelper.registrar("Se eliminó el riel entre " + codOri + " y " + codDes);
         }
 
     }
@@ -90,7 +92,8 @@ public class AbmRiel {
             System.out.println("No se puede modificar un riel de una estación consigo misma.");
         } else {
             int nuevaDist = leerInt(sc, "Nueva distancia (km): ", 1);
-            System.out.println("El resultado de la actualizacion es : " + red.modificarDistanciaRiel(codOri, codDes, nuevaDist));
+            System.out.println("El resultado de la actualizacion es : " + red.modificarEtiqueta(codOri, codDes, nuevaDist));
+            LogHelper.registrar("Se modifico el riel entre " + codOri + " y " + codDes);
         }
     }
 

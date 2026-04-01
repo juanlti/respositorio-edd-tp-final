@@ -5,12 +5,11 @@
  */
 package eed.tp.Ejercicios_6_7_8;
 
-import eed.tp.AVL;
-import eed.tp.Estacion.Estacion;
-import eed.tp.Tren.Tren;
+import Conjuntista.AVL;
+import Modelos.Tren;
 import static eed.tp.Servicios.Input.leerInt;
-import eed.tp.Linea.Linea;
-import eed.tp.Lista;
+import Modelos.Linea;
+import Lineal.Lista;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -63,18 +62,31 @@ public class Ejercicio_6_Tren {
     private void mostrarEstacionesDeUnTrenDado(Scanner in) {
         int codigo = leerInt(in, "Código a buscar: ", 1);
         Tren tren = (Tren) trenes.buscar(codigo);
+
         if (tren == null) {
             System.out.println("✗ No existe el tren");
         } else {
             String lineaDelTren = tren.getLinea();
             Linea lineaEncontrada = (Linea) this.linea.get(lineaDelTren);
-            Lista estaciones = lineaEncontrada.getEstaciones();
-            System.out.println("La linea del tren ingresado es: " + lineaDelTren);
-            for (int i = 0; i < estaciones.longitud(); i++) {
-                Estacion estacion = (Estacion) estaciones.recuperar(i);
-                System.out.println("Las ciudades por donde pasa [ " + estacion.getCiudad() + " ]");
+
+            if (lineaEncontrada == null) {
+                System.out.println("✗ Línea no encontrada");
+
+            } else {
+                Lista estaciones = lineaEncontrada.getEstaciones();
+
+                System.out.println("La línea del tren es: " + lineaDelTren);
+
+                for (int i = 0; i <= estaciones.longitud(); i++) {
+                    String nombreEstacion = (String) estaciones.recuperar(i);
+
+                    if (nombreEstacion != null) {
+                        System.out.println("Pasa por: [ " + nombreEstacion + " ]");
+                    }
+                }
 
             }
+
         }
     }
 
@@ -96,7 +108,11 @@ public class Ejercicio_6_Tren {
         } else {
 
             System.out.println("== Trenes ==");
-            System.out.println(trenes.listar());
+            Lista rta= trenes.listar();
+            for (int i = 0; i < rta.longitud(); i++) {
+                  System.out.println(rta.recuperar(i));
+            }
+          
         }
 
     }

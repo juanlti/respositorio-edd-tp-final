@@ -1,4 +1,4 @@
-package eed.tp;
+package Lineal;
 
 import eed.tp.Nodos.Nodo;
 
@@ -12,6 +12,8 @@ public class Lista {
         this.longitud = 0;
 
     }
+    
+    
 
     public boolean insertar(Object nuevoElem, int pos) {
         boolean fueInsertado = false;
@@ -59,55 +61,32 @@ public class Lista {
         return fueInsertado;
     }
 
-    public String toString() {
-        String cadena;
-
-        Nodo aux;
-        cadena = "";
-        if (!this.esVacia()) {
-            aux = this.cabecera;
-
-            while (aux != null) {
-                cadena += aux.getElem() + ",";
-                aux = aux.getEnlace();
-            }
-        } else {
-            cadena = "Lista vacia";
-        }
-
-        return cadena;
-    }
-
-    
-    
     public Lista clone() {
-
         Lista nuevaLista = new Lista();
 
-        if (this.longitud > 0) {
-            Nodo NodoInicialNuevo = new Nodo(this.cabecera.getElem(), null);
-            nuevaLista.cabecera = NodoInicialNuevo;
+        if (this.cabecera != null) {
+            // 1. Creamos la nueva cabecera con el dato de la original
+            nuevaLista.cabecera = new Nodo(this.cabecera.getElem(), null);
             nuevaLista.longitud = this.longitud;
-            int posAuxOriginal = this.longitud;
-            int index = 1;
 
-            Nodo auxIndexClone = nuevaLista.cabecera;
-            Nodo auxIndexOriginal = this.cabecera;
-            while (index < posAuxOriginal) {
+            // 2. Punteros para recorrer: uno en la original y otro en la copia
+            Nodo auxOriginal = this.cabecera.getEnlace();
+            Nodo auxClone = nuevaLista.cabecera;
 
-                auxIndexOriginal = auxIndexOriginal.getEnlace();
-                Object tempRefObject = auxIndexOriginal.getElem();
-                Nodo nuevoNodo = new Nodo(tempRefObject, null);
-                auxIndexClone.setEnlace(nuevoNodo);
-                index++;
+            // 3. Recorremos hasta que no haya más nodos en la original
+            while (auxOriginal != null) {
+                // Creamos un NODO NUEVO (esto rompe la referencia con la lista original)
+                Nodo nuevoNodo = new Nodo(auxOriginal.getElem(), null);
 
-                auxIndexClone = auxIndexClone.getEnlace();
+                // Lo enganchamos a nuestra nueva lista
+                auxClone.setEnlace(nuevoNodo);
 
+                // Avanzamos ambos "dedos" para la siguiente vuelta
+                auxClone = auxClone.getEnlace();
+                auxOriginal = auxOriginal.getEnlace();
             }
-
         }
         return nuevaLista;
-
     }
 
     public boolean eliminar(int pos) {
@@ -277,4 +256,29 @@ public class Lista {
         return res;
 
     }
+    
+    public void copiar(Lista otraLista){
+        this.cabecera=otraLista.cabecera;
+        this.longitud=otraLista.longitud;
+    }
+
+    public String toString() {
+        String cadena;
+
+        Nodo aux;
+        cadena = "";
+        if (!this.esVacia()) {
+            aux = this.cabecera;
+
+            while (aux != null) {
+                cadena += aux.getElem() + ",";
+                aux = aux.getEnlace();
+            }
+        } else {
+            cadena = "Lista vacia";
+        }
+
+        return cadena;
+    }
+
 }
